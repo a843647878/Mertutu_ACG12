@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res/com.moetutu.acg12"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/activity_wendang"
+    android:background="@color/acg_fen"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/main_title"
+        layout="@layout/view_title" />
+    <com.moetutu.acg12.view.CardSlidePanel
+        android:id="@+id/image_slide_panel"
+        android:layout_width="fill_parent"
+        card:bottomMarginTop="90dp"
+        card:yOffsetStep="22dp"
+        android:layout_height="fill_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/card_bottom_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/card_left_btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/ignore_button" />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_button" />
+
+            <Button
+                android:id="@+id/card_right_btn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/like_button" />
+        </LinearLayout>
+
+        <com.moetutu.acg12.view.CardItemView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <com.moetutu.acg12.view.CardItemView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <com.moetutu.acg12.view.CardItemView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <com.moetutu.acg12.view.CardItemView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+    </com.moetutu.acg12.view.CardSlidePanel>
+
+</LinearLayout>

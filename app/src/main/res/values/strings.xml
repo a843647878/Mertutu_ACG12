@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ACG调查小队</string>
+    <string name="hello_world">-0- 个推界面</string>
+    <string name="action_settings">Settings</string>
+    
+    
+    <!-- 下拉刷新 -->
+  
+    <string name="pull_to_refresh_tap_label">Tap to refresh…</string>
+    <string name="common_loading">-0- 加载中...</string>
+    
+    <!-- AppException错误提示信息   网络连接失败，请检查网络设置 -->
+    <string name="network_not_connected">网络连接失败</string>
+    <string name="xml_parser_failed">数据解析异常</string>
+    <string name="io_exception_error">文件流异常</string>
+    <string name="http_status_code_error">网络异常，错误码：%d</string>
+    <string name="http_exception_error">网络异常，请求超时</string>
+    <string name="socket_exception_error">网络异常，读取数据超时</string>
+    <string name="app_run_code_error">应用程序运行时异常</string>
+    
+     <!-- 输入框的提示 -->
+    <string name="edit_string_none">输入框不能为空！</string>
+    <string name="edit_string_mobile">请正确输入手机号！</string>
+    <string name="mobile_string_regist">此手机号已注册！</string>
+    <string name="mobile_string_meiyou">此手机号没有注册！</string>
+    
+    <!-- Umeng -->
+    <string name="umeng_appkey">5683a6e9e0f55a29ae00290e</string>
+    
+</resources>

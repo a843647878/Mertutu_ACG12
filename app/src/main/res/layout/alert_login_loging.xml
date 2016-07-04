@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自定义title列表框 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/zong_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        
+
+        <LinearLayout
+            android:id="@+id/popup_bg"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/text_light_gray" >
+
+            <RelativeLayout
+                android:id="@+id/title_ll_jia"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="                        请登录                        "
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <LinearLayout
+                    android:id="@+id/llno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible" >
+
+                    <EditText
+                        android:id="@+id/popup_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shixiantianchong"
+                        android:hint="手机号/邮箱"
+                        android:imeOptions="actionNext"
+                        android:padding="14dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/popup_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shixiantianchong"
+                        android:hint="密码"
+                        android:password="true"
+                        android:padding="14dp"
+                        android:imeOptions="actionDone"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <Button
+                    android:id="@+id/popup_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shixiantianchongfen"
+                    android:padding="4dp"
+                    android:text="登录"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+                <Button
+                    android:id="@+id/popup_regist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shixiantianchongfen"
+                    android:padding="4dp"
+                    android:text="立即注册"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView 
+            android:id="@+id/popup_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/home_icon_back"/>
+    </RelativeLayout>
+
+</LinearLayout>

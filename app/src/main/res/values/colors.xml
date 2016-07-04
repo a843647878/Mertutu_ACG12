@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FEFEFE</color>
+    <color name="titlebg">#f8f8f8</color>
+    <color name="titlebg2">#f9f9f9</color>
+	<color name="black">#000000</color>
+	<color name="gray">#808080</color>
+	<color name="red">#FF0000</color>
+	<color name="red_new">#F90000</color>
+	<color name="gold">#FFD700</color>
+	<color name="yellow">#FFFF00</color>
+	<color name="green">#a5c677</color>
+	<color name="green_two">#477a00</color>
+	<color name="green_one">#404257</color>
+	<color name="blue">#0000FF</color>
+	<color name="purple">#800080</color>
+	<color name="pink">#FFC0CB</color>
+	<color name="orange">#FFA500</color>
+	<color name="lemonyellow">#FFFACD</color>
+	<color name="graywhite">#F5F5F5</color>
+	<color name="grayslate">#708090</color>
+	<color name="graysl">#CCCCCC</color>
+	<color name="graybai">#C0C0C0</color>
+	<color name="grayqian">#A8A8A8</color>
+	<color name="grayquxian">#a9a9a9</color>
+	<color name="lightblue">#0083FF</color>
+	<color name="rzrqjg">#116297</color>
+    <color name="shenhuang">#fab760</color>
+    <color name="qingse">#A4D3EE</color>
+    <color name="zhonghuang">#faa165</color>
+    <color name="hongse_bg">#f9716c</color>
+    
+    <color name="acg_fen">#FF4081</color>
+    <color name="acg_fen2">#FF4590</color>
+
+	<color name="shenlanseone">#0060d5</color>
+	<color name="conglvse">#39ca74</color>
+	
+	<color name="dianji">#ebedf1</color>
+	
+	<color name="conglvsetwo">#36cd79</color>
+	
+	<color name="shenhuisesan">#697684</color>
+	<color name="shenhuisesan2">#595757</color>
+	<color name="qianhuiseer">#dde0e7</color>
+	<color name="lvsetwohei">#000000</color>
+	<color name="lvsetwo2">#3084bb</color>
+	
+	<color name="lansexian">#0079ff</color>
+	<color name="lansesan">#192ffb</color>
+	
+	<color name="text_light_gray">#929292</color>
+	<color name="text_light_graywhite">#c5c5c5</color>
+	<color name="text_light_black1">#404257</color>
+	<color name="text_light_black">#000000</color>
+	<color name="text_red">#ff5e3a</color>
+	<color name="text_redprice">#fc0d1b</color>
+	<color name="text_lvprice">#67971a</color>
+	<color name="text_red2">#eb5c57</color>
+	<color name="text_red_deep">#bd1500</color>
+	<color name="text_green">#02bc84</color>
+	<color name="background">#e5e5e5</color>
+	<color name="background_fdb">#efefef</color>
+	<color name="background_two">#eef0f4</color>
+	<color name="background_two2">#d2d3d3</color>
+	<color name="line_title_bottom">#c1c3cc</color>
+	<color name="line_listview">#d3d6dd</color>
+	<color name="background_red">#e46252</color>
+	<color name="background_green">#a7d0d2</color>
+	<color name="background_blue">#63b0e4</color>
+	<color name="background_yellow">#f3f1e5</color>
+	<color name="background_lanse">#3ca9e7</color>
+	
+	<color name="background_redtwo">#fc3e39</color>
+	<color name="background_redtwo2">#db5e4d</color>
+	<color name="background_lv">#4ddbb8</color>
+	
+	<color name="red_qian">#db4d4d</color>
+	<color name="shenlansetwo">#5bb0ec</color>
+	
+	<color name="shenhuise">#9c9eaa</color>
+	<color name="shenhuangse">#EB9657</color>
+	
+	<color name="banquan">#aeb0bb</color>
+	<color name="lanse">#007aff</color>
+
+	<color name="quation_red">#e84f47</color>
+	<color name="quation_green">#04aa4a</color>
+	<color name="quation_gray_deep">#404257</color>
+	<color name="quation_gray_light">#b0b0b0</color>
+
+	<color name="qianlanse">#5cd6ff</color>
+	<color name="shenlanse">#3bcdff</color>
+
+	<color name="quation_gray">#636576</color>
+	
+	<color name="qianzise">#eee7f9</color>
+	
+	<color name="qianlvse">#2ca75f</color>
+	
+	<color name="shenhuisehei">#2c3e50</color>
+	<color name="hongsesan">#e75040</color>
+	
+	<color name="lvsesan">#44cd7c</color>
+	<color name="redzx">#eb5c57</color>
+	
+	
+	<color name="lesebg">#27ae60</color>
+	<color name="hongsebg">#e74c3c</color>
+	
+	
+	<color name="lansewu2">#2980b9</color>
+	<color name="lansewu">#929292</color>
+	<color name="lanseliu">#2e81b7</color>
+	
+	
+	
+	<color name="text_hui">#404257</color>
+	<color name="text_lan">#157dfb</color>
+
+	<color name="huang">#fbad7a</color>
+	
+	<color name="transparent">#00000000</color>
+	<color name="transparent_gray">#7f808080</color>
+	<!-- 指示器背景色 -->
+	<color name="background_tab_pressed">#f8f8f8</color>
+	<color name="background_tab_pressed2">#f9f9f9</color>
+	<!-- 财务健康指数 -->
+	<color name="caiwu90">#009966</color>
+	<color name="caiwu80">#79d279</color>
+	<color name="caiwu70">#ffcc00</color>
+	<color name="caiwu60">#ff6600</color>
+	<color name="caiwu50">#ff0000</color>
+	<color name="qianhuise">#d5d5d5</color>
+	<color name="qianse">#f6f6f6</color>
+	<!-- 新交易 -->
+	<color name="jiaoyi_black">#303030</color>
+	<color name="jiaoyi_gray">#929292</color>
+	<color name="jiaoyi_gray_qian">#dedede</color>
+	<color name="jiaoyi_qq_celue_red">#eb5c57</color>
+	<color name="jiaoyi_qq_celue_green">#91dd68</color>
+	<color name="jiaoyi_qq_celue_yellow">#fcde35</color>
+    <color name="zuhehui">#767675</color>
+    
+    
+    <color name="common_white">#ffffff</color>
+    <color name="common_white_shadow">#414141</color>
+    <color name="common_white_disabled">#e7e7e7</color>
+    <!-- For main texts -->
+    <color name="common_dark">#3d5562</color>
+    <color name="common_dark_shadow">#dedede</color>
+    <color name="common_dark_disabled">#9aa7af</color>
+    <!-- For secondary texts -->
+    <color name="common_grey">#8496a0</color>
+    <color name="common_grey_disabled">#aabbc4</color>
+    <!-- For danger cases, such as virus, file delete... -->
+    <color name="common_red">#e62f2f</color>
+    <!-- For warning cases, such as trashes... -->
+    <color name="common_yellow">#f1930d</color>
+    <!-- For safe cases -->
+    <color name="common_green">#60990c</color>
+    <!-- For suggestions -->
+    <color name="common_blue">#4b8bbd</color>
+    <color name="tab_indicator_text_selected">#ffffff</color>
+    <color name="tab_indicator_text_unselected">#aac5d7</color>
+    <color name="page_viewer_margin_color">#007800</color>
+
+	<color name="black_20">#33000000</color>
+</resources>

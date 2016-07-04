@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pull_to_refresh_pull_label">-0-</string>
+    <string name="pull_to_refresh_release_label">(╭￣3￣)╭♡啦啦啦~</string>
+    <string name="pull_to_refresh_refreshing_label">嘿咻~嘿咻~(≡ω≡．)</string>
+
+    <!-- Just use standard Pull Down String when pulling up. These can be set for languages which require it -->
+    <string name="pull_to_refresh_from_bottom_pull_label">努力加载更多中···</string>
+    <string name="pull_to_refresh_from_bottom_release_label">嘿咻~嘿咻~</string>
+    <string name="pull_to_refresh_from_bottom_refreshing_label">@string/pull_to_refresh_refreshing_label</string>
+
+</resources>

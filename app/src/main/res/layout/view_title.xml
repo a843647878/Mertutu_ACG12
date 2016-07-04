@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_title_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="53dp"
+    android:background="@drawable/shadow_title" >
+
+    <ImageView 
+        android:id="@+id/acg_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:background="@mipmap/logofw"
+        android:visibility="gone"/>
+    <TextView 
+        android:id="@+id/acg_name"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACG调查小队"
+        android:textSize="18sp"
+        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:visibility="gone"/>
+    
+    <TextView
+        android:id="@+id/stock_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="登录"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+    
+    <ImageView
+        android:id="@+id/view_title_right_image_btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="8.0dp"
+        android:paddingRight="8dp"
+        android:src="@mipmap/fangdajing"
+        android:visibility="gone" />
+    <TextView
+        android:id="@+id/view_title_left_image_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/background_touming_lan"
+        android:paddingLeft="8dp"
+        android:paddingRight="8.0dp"
+        android:text="返回"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:drawableLeft="@mipmap/back"
+        android:visibility="gone" />
+    
+    
+
+</RelativeLayout>

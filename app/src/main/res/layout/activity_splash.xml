@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <!-- 启动页画面 -->
+    <ImageView
+        android:id="@+id/welcome"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/loading_text_view"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    
+
+
+</RelativeLayout>

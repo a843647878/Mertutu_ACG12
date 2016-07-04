@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_wendang"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/acg_fen"
+    android:orientation="vertical">
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <!-- 文章页 -->
+
+    <include
+        android:id="@+id/main_title"
+        layout="@layout/view_title" />
+
+    <LinearLayout
+        android:layout_below="@+id/main_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_two"
+        android:padding="8dp"
+        android:orientation="vertical"
+        >
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:background="@drawable/shixiantianchongbai">
+
+       <com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView
+               android:layout_width="match_parent"
+               android:id="@+id/wendang_refresh"
+               android:layout_height="match_parent"
+               app:game_type="battle_city">
+           <android.support.v7.widget.RecyclerView
+               android:id="@+id/wendang_list"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+       </com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView>
+
+    </LinearLayout>
+
+   </LinearLayout>
+
+   <RelativeLayout
+       android:id="@+id/xiazai"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+         >
+
+        <com.moetutu.acg12.util.CircleImageView
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_file_download_white_18dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
+</LinearLayout>
