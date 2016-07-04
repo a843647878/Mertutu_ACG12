@@ -24,7 +24,7 @@ import retrofit2.Response;
 /**
  * Created by chengwanying on 16/6/7.
  */
-public class TestMain extends BaseActivity{
+public class TestMain extends BaseActivity {
 
     public static void launch(Context context) {
         if (context == null) return;
@@ -33,7 +33,7 @@ public class TestMain extends BaseActivity{
     }
 
     private CardSwitchListener cardSwitchListener;
-    private int PageIndex = 0;
+    private int PageIndex = 1;
 
     CardSlidePanel slidePanel;
 
@@ -45,7 +45,7 @@ public class TestMain extends BaseActivity{
 
         setContentView(R.layout.activity_madie);
         setImmerseLayout(findViewById(R.id.activity_wendang));
-        initData(PageIndex,false);
+        initData(false);
         initView(this);
     }
 
@@ -59,52 +59,55 @@ public class TestMain extends BaseActivity{
 
             @Override
             public void onShow(int index) {
-                LogUtils.d("----------正在显示-" +index+"------" +dataList.get(index).getPost_title());
-                if (index == 3){
-                    initData(PageIndex,true);
-                }
+                LogUtils.d("---------->正在显示-" + index);
+
             }
 
             @Override
             public void onCardVanish(int index, int type) {
-                LogUtils.d("----------正在消失-" + dataList.get(index).getPost_title());
-
+                LogUtils.d("---------->正在消失-" +index);
+                if (index == slidePanel.dataList.size()-3) {
+                    initData(true);
+                }
             }
 
             @Override
             public void onItemClick(View cardView, int index) {
-                LogUtils.d("----------卡片点击-" + dataList.get(index).getPost_title());
+                LogUtils.d("---------->卡片点击-" + index);
             }
         };
         slidePanel.setCardSwitchListener(cardSwitchListener);
 
     }
 
-    public void initData(final int bookpage,final boolean newdata) {
+    public synchronized void initData(final boolean newdata) {
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getList(appContext.getTuJiList(Const.TUZHANJINGXUANRANDOM, bookpage))
+                .getList(appContext.getTuJiList(Const.TUZHANJINGXUANRANDOM, PageIndex))
                 .enqueue(new SimpleCallBack<TestMode>() {
                     @Override
                     public void onSuccess(Call<TestMode> call, Response<TestMode> response) {
-                        if (response.body() != null) {
-                            List<TestMode.PostsBean> dataList2 = new ArrayList<TestMode.PostsBean>();
-                            dataList2 = response.body().getPosts();
-                            dataList.addAll(dataList2);
-                            PageIndex++;
-                            if (newdata){
-                                slidePanel.appendData(dataList);
-                            }else {
-                                slidePanel.fillData(dataList);
-                            }
-
+                        if (response.body().getPosts() == null) return;
+//                            List<TestMode.PostsBean> dataList2 = new ArrayList<TestMode.PostsBean>();
+//                            dataList2 = response.body().getPosts();
+//                            dataList.addAll(dataList2);
+                        PageIndex++;
+                        if (newdata) {
+                            slidePanel.appendData(response.body().getPosts());
+                            LogUtils.d("---------->填充追加数据");
+                        } else {
+                            slidePanel.fillData(response.body().getPosts());
+                            LogUtils.d("---------->加载");
                         }
+
+
                     }
+
                     @Override
                     public void onFailure(Call<TestMode> call, Throwable t) {
                         super.onFailure(call, t);
-                        LogUtils.d("----------call"+t.toString());
+                        LogUtils.d("---------->call" + t.toString());
                     }
                 });
     }
