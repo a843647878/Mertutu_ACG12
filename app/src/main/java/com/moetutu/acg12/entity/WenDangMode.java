@@ -1,4 +1,4 @@
-package com.moetutu.acg12.asynctask.type;
+package com.moetutu.acg12.entity;
 
 import java.util.List;
 

@@ -60,7 +60,8 @@ public class CardSlidePanel extends ViewGroup {
     private View leftBtn, rightBtn;
     private boolean btnLock = false;
     private GestureDetectorCompat moveDetector;
-    private OnClickListener btnListener;
+    private OnClickListener delListener;
+    private OnClickListener collectionListener;
 
     public CardSlidePanel(Context context) {
         this(context, null);
@@ -82,7 +83,29 @@ public class CardSlidePanel extends ViewGroup {
         mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
         a.recycle();
 
-        btnListener = new View.OnClickListener() {
+        delListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view instanceof ImageView) {
+                    // 点击的是卡片
+                    if (null != cardSwitchListener && view.getScaleX() > 1 - SCALE_STEP) {
+                        cardSwitchListener.onItemClick(view, isShowing);
+                    }
+                } else {
+                    // 点击的是bottomLayout里面的一些按钮
+                    btnLock = true;
+                    int type = -1;
+                    if (view == leftBtn) {
+                        type = VANISH_TYPE_LEFT;
+                    } else if (view == rightBtn) {
+                        type = VANISH_TYPE_RIGHT;
+                    }
+                    vanishOnBtnClick(type);
+                }
+            }
+        };
+
+        collectionListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (view instanceof ImageView) {
@@ -123,7 +146,7 @@ public class CardSlidePanel extends ViewGroup {
             } else {
                 CardItemView viewItem = (CardItemView) childView;
                 viewItem.setTag(i + 1);
-                viewItem.imageView.setOnClickListener(btnListener);
+                viewItem.imageView.setOnClickListener(delListener);
                 viewList.add(viewItem);
             }
         }
@@ -133,8 +156,8 @@ public class CardSlidePanel extends ViewGroup {
         leftBtn = bottomLayout.findViewById(R.id.card_left_btn);
         rightBtn = bottomLayout.findViewById(R.id.card_right_btn);
 
-        leftBtn.setOnClickListener(btnListener);
-        rightBtn.setOnClickListener(btnListener);
+        leftBtn.setOnClickListener(delListener);
+        rightBtn.setOnClickListener(collectionListener);
     }
 
     class MoveDetector extends SimpleOnGestureListener {

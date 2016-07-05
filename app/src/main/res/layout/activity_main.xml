@@ -1,11 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/main_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.moetutu.acg12.activity.MoeTuMainActivity"
-    tools:ignore="MergeRootFrame" >
+    android:background="@color/acg_fen"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
+    <com.moetutu.acg12.view.NoScrollViewPager
+        android:id="@+id/viewpager_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/background_two" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_title_bottom" />
+
+    <include layout="@layout/view_main_bottom_tab" />
+
+</LinearLayout>
 

@@ -15,9 +15,6 @@ import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.CardSlidePanel;
 import com.moetutu.acg12.view.CardSlidePanel.CardSwitchListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -36,8 +33,6 @@ public class TestMain extends BaseActivity {
     private int PageIndex = 1;
 
     CardSlidePanel slidePanel;
-
-    private List<TestMode.PostsBean> dataList = new ArrayList<TestMode.PostsBean>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

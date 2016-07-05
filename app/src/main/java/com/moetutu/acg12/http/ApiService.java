@@ -1,7 +1,7 @@
 package com.moetutu.acg12.http;
 
 import com.moetutu.acg12.asynctask.type.Acg12Obj;
-import com.moetutu.acg12.asynctask.type.WenDangMode;
+import com.moetutu.acg12.entity.WenDangMode;
 import com.moetutu.acg12.entity.TestMode;
 
 import retrofit2.Call;

@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_wendang"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/acg_fen"
-    android:orientation="vertical">
+    android:background="@color/acg_fen">
 
-
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    >
     <!-- 文章页 -->
 
     <include
@@ -25,6 +17,7 @@
         android:layout_below="@+id/main_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="43.5dp"
         android:background="@color/background_two"
         android:padding="8dp"
         android:orientation="vertical"
@@ -55,6 +48,7 @@
        android:id="@+id/xiazai"
         android:layout_width="65dp"
         android:layout_height="65dp"
+       android:layout_gravity="bottom|right"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
          >
@@ -68,5 +62,4 @@
             android:src="@mipmap/ic_file_download_white_18dp" />
     </RelativeLayout>
 
-</RelativeLayout>
-</LinearLayout>
+</FrameLayout>

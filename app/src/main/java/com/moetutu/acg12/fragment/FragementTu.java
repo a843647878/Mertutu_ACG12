@@ -72,14 +72,6 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
         return rootView;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onViewCreated(view, savedInstanceState);
-        LogUtils.d("------------->: onViewCreated()" + this);
-
-    }
-
     public void initViews(View view) {
 
         recyclerView = (XRecyclerView) view.findViewById(R.id.list);
@@ -162,7 +154,7 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
         XRecyclerView.WrapAdapter wpAdapter = (XRecyclerView.WrapAdapter) recyclerView.getAdapter();
         TestMode.PostsBean obj = tuadapter.getItem(position - wpAdapter.getHeadersCount());
-        WenDangActivity.launch(getActivity(),obj.getID() + "");
+        WenDangActivity.launch(getActivity(),obj.getID()+"");
     }
 
 }

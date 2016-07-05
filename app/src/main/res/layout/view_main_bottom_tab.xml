@@ -11,60 +11,60 @@
     android:paddingTop="5dp">
 
     <RadioButton
-        android:id="@+id/rb_study"
+        android:id="@+id/rb_mertu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:button="@null"
         android:checked="true"
-        android:drawablePadding="5dp"
+        android:drawablePadding="3dp"
         android:drawableTop="@drawable/sl_tab_moetu"
         android:gravity="center"
         android:lines="1"
         android:text="图站"
         android:textColor="@color/sl_color_tab_botton"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <RadioButton
-        android:id="@+id/rb_category"
+        android:id="@+id/rb_figure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:button="@null"
-        android:drawablePadding="5dp"
-        android:drawableTop="@drawable/sl_tab_moetu"
+        android:drawablePadding="4dp"
+        android:drawableTop="@drawable/sl_tab_gadgets"
         android:gravity="center"
         android:lines="1"
         android:text="杂货"
         android:textColor="@color/sl_color_tab_botton"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <RadioButton
-        android:id="@+id/rb_find"
+        android:id="@+id/rb_comic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:button="@null"
-        android:drawablePadding="5dp"
-        android:drawableTop="@drawable/sl_tab_moetu"
+        android:drawablePadding="4dp"
+        android:drawableTop="@drawable/sl_tab_comic"
         android:gravity="center"
         android:lines="1"
         android:text="漫画"
         android:textColor="@color/sl_color_tab_botton"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <RadioButton
-        android:id="@+id/rb_mine"
+        android:id="@+id/rb_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:button="@null"
-        android:drawablePadding="5dp"
-        android:drawableTop="@drawable/sl_tab_moetu"
+        android:drawablePadding="4dp"
+        android:drawableTop="@drawable/sl_tab_user"
         android:gravity="center"
         android:lines="1"
         android:text="我的"
         android:textColor="@color/sl_color_tab_botton"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
 </RadioGroup>

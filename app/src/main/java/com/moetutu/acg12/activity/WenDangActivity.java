@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.WenDangAdapter;
 import com.moetutu.acg12.app.AppContext;
-import com.moetutu.acg12.asynctask.type.WenDangMode;
+import com.moetutu.acg12.entity.WenDangMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.util.Const;

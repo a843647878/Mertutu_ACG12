@@ -21,13 +21,11 @@ import com.moetutu.acg12.asynctask.type.AcgUserObj;
 import com.moetutu.acg12.fragment.FragementTu;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
-import com.moetutu.acg12.util.CircleImageView;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.ExampleUtil;
 import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.view.LogingPopupWindow;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.squareup.picasso.Picasso;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Arrays;
@@ -57,8 +55,6 @@ public class MoeTuMainActivity extends BaseActivity {
     SmartTabLayout viewpagertab;
     @InjectView(R.id.viewpager)
     ViewPager viewpager;
-    @InjectView(R.id.portrait_icon)
-    CircleImageView portraitIcon;
 
     private MessageReceiver mMessageReceiver;
 
@@ -76,10 +72,9 @@ public class MoeTuMainActivity extends BaseActivity {
         setContentView(R.layout.fragment_main);
         ButterKnife.inject(this);
         JPushInterface.resumePush(getApplicationContext());
-        setImmerseLayout(findViewById(R.id.main_activity));
+        setImmerseLayout(findViewById(R.id.main_content));
         mMessageReceiver = new MessageReceiver();
         initView(this);
-        initData();
         //m_vp.setOffscreenPageLimit(2);
     }
 
@@ -113,32 +108,6 @@ public class MoeTuMainActivity extends BaseActivity {
         viewpagertab.setViewPager(viewpager);
     }
 
-    @Override
-    public void initData() {
-        super.initData();
-        registerMessageReceiver();
-        isForeground = true;
-        ACache aCache = ACache.get(appContext);
-        AcgUserObj data = (AcgUserObj) aCache.getAsObject("LOGIN");
-        if (data != null) {
-            userid = data.getId() + "";
-            touxiang = data.getAvatar_url();
-            name = data.getDisplay_name();
-            setTitleRight(name);
-            if (!TextUtils.isEmpty(userid) && !TextUtils.isEmpty(touxiang)) {
-                portraitIcon.setVisibility(View.VISIBLE);
-                Picasso.with(portraitIcon.getContext())
-                        .load(touxiang)
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher)
-                        .into(portraitIcon);
-            }
-        } else {
-            setDengluIcon();
-
-            portraitIcon.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -242,7 +211,7 @@ public class MoeTuMainActivity extends BaseActivity {
         // 显示窗口
         menuWindow3
                 .showAtLocation(MoeTuMainActivity.this
-                                .findViewById(R.id.main_activity), Gravity.CENTER,
+                                .findViewById(R.id.main_content), Gravity.CENTER,
                         0, 0); // 设置layout在PopupWindow中显示的位置
 
     }

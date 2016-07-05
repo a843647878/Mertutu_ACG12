@@ -78,11 +78,11 @@ public class SplashActivity extends BaseActivity {
 				if (kaishi) {
 					if (isFirstRun) {
 //						MoeTuMainActivity.launch(SplashActivity.this);
-						TestMain.launch(SplashActivity.this);
+						MainActivity.launch(SplashActivity.this);
 						editor.putBoolean("isFirstRun7", false);
 						editor.commit();
 					} else {
-						TestMain.launch(SplashActivity.this);
+						MainActivity.launch(SplashActivity.this);
 //						MoeTuMainActivity.launch(SplashActivity.this);
 					}
 				}

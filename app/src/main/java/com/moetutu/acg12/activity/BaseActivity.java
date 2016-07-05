@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +30,7 @@ import com.umeng.analytics.MobclickAgent;
  * 所有activity的基类
  * 
  */
-public class BaseActivity extends FragmentActivity implements OnClickListener{
+public class BaseActivity extends PermisionActivity implements OnClickListener{
 
 	private Activity activity;// 子类
 	public AppContext appContext;
