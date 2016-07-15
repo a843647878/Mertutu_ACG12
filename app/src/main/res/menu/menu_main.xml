@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ArticleActivity">
+
+    <item android:id="@+id/menu_share"
+        android:icon="@mipmap/ic_file_download_white_18dp"
+        app:showAsAction="always"
+        android:title="Favorite" />
+</menu>

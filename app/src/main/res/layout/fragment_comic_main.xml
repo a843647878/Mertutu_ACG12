@@ -3,106 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background">
+            android:clipChildren="false"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
-                app:layout_scrollFlags="scroll|enterAlways">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/header_viewPager"
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                app:layout_collapseMode="pin" />
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/header_viewPager"
-                    android:layout_width="250dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.6" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                card_view:cardCornerRadius="2dp"
-                card_view:cardElevation="2dp"
-                card_view:cardPreventCornerOverlap="true"
-                card_view:cardUseCompatPadding="true">
+    </android.support.design.widget.AppBarLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
 
-                    <CheckedTextView
-                        android:id="@+id/ctv_newest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="最新发布" />
+    <com.moetutu.acg12.view.refresh.MaterialRefreshLayout
+        android:id="@+id/myRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:progress_colors="@array/material_colors"
+        app:wave_show="false">
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <CheckedTextView
-                        android:id="@+id/ctv_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="全部类型" />
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <CheckedTextView
-                        android:id="@+id/ctv_statu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="全部状态" />
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <com.moetutu.acg12.view.refresh.MaterialRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/myRefreshLayout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:paddingLeft="2.5dp"
+            android:paddingRight="2.5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:overlay="true"
-            app:progress_colors="@array/material_colors"
-            app:wave_show="false">
+            android:layout_height="match_parent" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp" />
-
-        </com.moetutu.acg12.view.refresh.MaterialRefreshLayout>
+    </com.moetutu.acg12.view.refresh.MaterialRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -108,6 +108,11 @@
             android:name=".activity.WenDangActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ArticleActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ImageReadingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

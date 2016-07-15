@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.moetutu.acg12.R;
-import com.moetutu.acg12.activity.WenDangActivity;
+import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.adapter.TuJiAdapter;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.util.ItemDecorationUtils;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView;
 import com.moetutu.acg12.view.refreshview.ProgressStyle;
@@ -76,6 +77,7 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
 
         recyclerView = (XRecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.addItemDecoration(ItemDecorationUtils.getCommTrans5Divider(getActivity(), true));
         beautifulRefreshLayout = (FunGameRefreshView) view.findViewById(R.id.refresh);
         beautifulRefreshLayout.setOnRefreshListener(new FunGameRefreshView.FunGameRefreshListener() {
             @Override
@@ -154,7 +156,7 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
         XRecyclerView.WrapAdapter wpAdapter = (XRecyclerView.WrapAdapter) recyclerView.getAdapter();
         TestMode.PostsBean obj = tuadapter.getItem(position - wpAdapter.getHeadersCount());
-        WenDangActivity.launch(getActivity(),obj.getID()+"");
+        ArticleActivity.launch(getActivity(),obj.getID()+"");
     }
 
 }

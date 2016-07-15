@@ -14,5 +14,7 @@
     <com.moetutu.acg12.view.refreshview.XRecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingLeft="2.5dp"
+        android:paddingRight="2.5dp"/>
 </com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView>

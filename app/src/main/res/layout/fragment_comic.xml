@@ -1,42 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@+id/viewpagertab"
+    <!-- android:showDividers="end" -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/shadow_title"
-        android:clipToPadding="false"
-        android:paddingBottom="4dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        app:stl_clickable="false"
-        app:stl_defaultTabTextColor="@color/sl_color_tab_mertu"
-        app:stl_dividerColor="@color/acg_fen"
-        app:stl_dividerThickness="0dp"
-        app:stl_indicatorAlwaysInCenter="false"
-        app:stl_indicatorColor="#4D000000"
-        app:stl_indicatorCornerRadius="20dp"
-        app:stl_indicatorGravity="center"
-        app:stl_indicatorInFront="false"
-        app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorThickness="30dp"
-        app:stl_overlineColor="@color/acg_fen"
-        app:stl_overlineThickness="0dp"
-        app:stl_underlineColor="@color/white"
-        app:stl_underlineThickness="0dp" />
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:divider="?android:attr/listDivider"
+        android:showDividers="end">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/acg_fen"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <ImageView
+                android:id="@+id/acg_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:background="@mipmap/logofw"
+                android:visibility="visible"/>
+            <TextView
+                android:id="@+id/acg_name"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="漫画屋"
+                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+
+
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/viewpagertab"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/acg_fen"
+            android:clipToPadding="false"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:stl_clickable="false"
+            app:stl_defaultTabTextColor="@color/sl_color_tab_mertu"
+            app:stl_dividerColor="@color/acg_fen"
+            app:stl_dividerThickness="0dp"
+            app:stl_indicatorAlwaysInCenter="false"
+            app:stl_indicatorColor="#4D000000"
+            app:stl_indicatorCornerRadius="20dp"
+            app:stl_indicatorGravity="center"
+            app:stl_indicatorInFront="false"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="30dp"
+            app:stl_overlineColor="@color/acg_fen"
+            app:stl_overlineThickness="0dp"
+            app:stl_underlineColor="@color/white"
+            app:stl_underlineThickness="0dp" />
+
+    </android.support.design.widget.AppBarLayout>
 
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="43.5dp">
+        android:layout_below="@+id/viewpagertab"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </android.support.v4.view.ViewPager>
 
-</FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

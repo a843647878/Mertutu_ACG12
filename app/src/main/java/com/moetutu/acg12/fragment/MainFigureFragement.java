@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.moetutu.acg12.R;
-import com.moetutu.acg12.activity.WenDangActivity;
+import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
@@ -81,7 +81,7 @@ public class MainFigureFragement extends LazyBaseFragment {
             @Override
             public void onItemClick(View cardView, int index) {
                 LogUtils.d("---------->卡片点击-" + index);
-                WenDangActivity.launch(getContext(),slidePanel.dataList.get(index).getID()+"");
+                ArticleActivity.launch(getContext(),slidePanel.dataList.get(index).getID()+"");
             }
         };
 

@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 
 import com.moetutu.acg12.R;
 
@@ -16,7 +16,7 @@ import com.moetutu.acg12.R;
  * @email xuanyouwu@163.com
  * @time 2016-04-18 17:13
  */
-public class PermisionActivity extends FragmentActivity {
+public class PermisionActivity extends AppCompatActivity {
 
     protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
     protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;

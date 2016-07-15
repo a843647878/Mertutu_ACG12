@@ -3,17 +3,15 @@ package com.moetutu.acg12.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
 
 import com.moetutu.acg12.R;
-import com.moetutu.acg12.activity.WenDangActivity;
+import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.adapter.ComicShufflingAdapter;
 import com.moetutu.acg12.adapter.TuJiAdapter;
 import com.moetutu.acg12.app.AppContext;
@@ -23,7 +21,6 @@ import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.LogUtils;
-import com.moetutu.acg12.util.SwipyAppBarScrollListener;
 import com.moetutu.acg12.view.ZoomOutPageTransformer;
 import com.moetutu.acg12.view.refresh.MaterialRefreshLayout;
 import com.moetutu.acg12.view.refresh.MaterialRefreshListener;
@@ -37,24 +34,20 @@ import butterknife.InjectView;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class FeagementComicOne extends LazyBaseFragment implements View.OnClickListener, BaseRecyclerAdapter.OnItemClickListener {
+public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerAdapter.OnItemClickListener {
     View rootView;
-    @InjectView(R.id.header_viewPager)
-    ViewPager headerViewPager;
-    @InjectView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @InjectView(R.id.appbar)
-    AppBarLayout appbar;
+
+
     @InjectView(R.id.recyclerView)
     RecyclerView recyclerView;
     @InjectView(R.id.myRefreshLayout)
     MaterialRefreshLayout myRefreshLayout;
-    @InjectView(R.id.ctv_newest)
-    CheckedTextView ctvNewest;
-    @InjectView(R.id.ctv_type)
-    CheckedTextView ctvType;
-    @InjectView(R.id.ctv_statu)
-    CheckedTextView ctvStatu;
+    @InjectView(R.id.header_viewPager)
+    ViewPager headerViewPager;
+
+    @InjectView(R.id.appbar)
+    AppBarLayout appbar;
+
 
     private ComicShufflingAdapter chMedCircImgAdapter;
     public AppContext appContext;
@@ -75,7 +68,6 @@ public class FeagementComicOne extends LazyBaseFragment implements View.OnClickL
             ButterKnife.inject(this, rootView);
             appContext = AppContext.getApplication();
             initView();
-            initData(false);
         }
         if (rootView.getParent() != null) {
             ((ViewGroup) rootView.getParent()).removeView(rootView);
@@ -84,23 +76,28 @@ public class FeagementComicOne extends LazyBaseFragment implements View.OnClickL
     }
 
     private void initView() {
+
+
+//        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
         chMedCircImgAdapter = new ComicShufflingAdapter(getActivity());
         headerViewPager.setOffscreenPageLimit(5);
         headerViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         headerViewPager.setAdapter(chMedCircImgAdapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        recyclerView.setAdapter(tuadapter = new TuJiAdapter());
-        ctvNewest.setOnClickListener(this);
-        ctvType.setOnClickListener(this);
-        ctvStatu.setOnClickListener(this);
+
         myRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                initData(true);
+                initData(PageIndex, true);
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                initData(PageIndex, false);
             }
         });
-        recyclerView.addOnScrollListener(new SwipyAppBarScrollListener(appbar, myRefreshLayout, recyclerView));
+        recyclerView.setAdapter(tuadapter = new TuJiAdapter());
     }
 
     @Override
@@ -110,22 +107,25 @@ public class FeagementComicOne extends LazyBaseFragment implements View.OnClickL
     }
 
 
-    private synchronized void initData(final boolean isRefresh) {
-        endLastRefresh(true);
+    private synchronized void initData(final int bookpage, final boolean isRefresh) {
         if (isRefresh) {
             PageIndex = 0;
+            LogUtils.d("-------------->" + isRefresh);
         }
+        LogUtils.d("-------------->" + PageIndex);
+        endLastRefresh(isRefresh);
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getList(appContext.getTuJiList(Const.DongManTuJi, PageIndex))
+                .getList(appContext.getTuJiList(Const.DongManTuJi, bookpage))
                 .enqueue(new SimpleCallBack<TestMode>() {
                     @Override
                     public void onSuccess(Call<TestMode> call, Response<TestMode> response) {
-                        endCurrentRefresh(isRefresh);
                         if (response.body().getPosts() == null) return;
-                        PageIndex++;
+                        endCurrentRefresh(isRefresh);
                         tuadapter.bindData(isRefresh, response.body().getPosts());
+                        PageIndex++;
+                        myRefreshLayout.setLoadMore(true);
                     }
 
                     @Override
@@ -194,6 +194,7 @@ public class FeagementComicOne extends LazyBaseFragment implements View.OnClickL
     }
 
     public void endLastRefresh(boolean isRefresh) {
+        if (myRefreshLayout == null) return;
         if (isRefresh)
             myRefreshLayout.finishRefreshLoadMore();
         else
@@ -201,32 +202,19 @@ public class FeagementComicOne extends LazyBaseFragment implements View.OnClickL
     }
 
     public void endCurrentRefresh(boolean isRefresh) {
+        if (myRefreshLayout == null) return;
         if (isRefresh)
             myRefreshLayout.finishRefresh();
         else
             myRefreshLayout.finishRefreshLoadMore();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ctv_newest:
-
-                break;
-            case R.id.ctv_type:
-
-                break;
-            case R.id.ctv_statu:
-
-                break;
-        }
-    }
 
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
         if (adapter == tuadapter) {
             TestMode.PostsBean obj = tuadapter.getItem(position);
-            WenDangActivity.launch(getActivity(),obj.getID()+"");
+            ArticleActivity.launch(getActivity(), obj.getID() + "");
         }
 
     }

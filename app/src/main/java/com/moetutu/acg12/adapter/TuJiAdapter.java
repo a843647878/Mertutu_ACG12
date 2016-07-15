@@ -27,14 +27,14 @@ public class TuJiAdapter extends BaseArrayRecyclerAdapter<TestMode.PostsBean> {
 
     }
 
-//    @Override
-//    public void onViewRecycled(ViewHolder holder) {
-//        super.onViewRecycled(holder);
-//        if(holder!=null){
-//            SimpleDraweeView phone = holder.obtainView(R.id.phone);
-//            phone.shutDown();
-//        }
-//    }
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
+        if (holder == null) return;
+        SimpleDraweeView phone = holder.obtainView(R.id.phone);
+        if (phone == null) return;
+        phone.shutDown();
+    }
 
     @Override
     public int bindView(int viewtype) {
