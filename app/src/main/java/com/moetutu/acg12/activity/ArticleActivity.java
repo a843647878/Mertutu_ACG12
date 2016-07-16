@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,7 +50,7 @@ import retrofit2.Response;
  * Created by chengwanying on 16/7/5.
  * version
  */
-public class ArticleActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,BaseRecyclerAdapter.OnItemClickListener{
+public class ArticleActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener, BaseRecyclerAdapter.OnItemClickListener {
 
     public static String KEY_ARTICLEID;
 
@@ -72,6 +73,10 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
     Toolbar mainToolbar;
     @InjectView(R.id.head_portrait)
     CircleImageView headPortrait;
+    @InjectView(R.id.framelayout_details)
+    TextView framelayoutDetails;
+    @InjectView(R.id.activity_wendang)
+    CoordinatorLayout activityWendang;
 
     private boolean mIsTheTitleVisible = false;
     private boolean mIsTheTitleContainerVisible = true;
@@ -82,12 +87,11 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
     private String url;
     public AppContext appContext;
 
-    public static void launch(Context context,String wendangid){
-        Intent in =new Intent(context,ArticleActivity.class);
+    public static void launch(Context context, String wendangid) {
+        Intent in = new Intent(context, ArticleActivity.class);
         in.putExtra(KEY_ARTICLEID, wendangid);
         context.startActivity(in);
     }
-
 
 
     @Override
@@ -102,7 +106,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
         initData();
     }
 
-//    @Override
+    //    @Override
     public void initView(Activity activity) {
 //        super.initView(activity);
         pictureRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -118,7 +122,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
         mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.menu_share:
                         if (!TextUtils.isEmpty(url)) {
                             T.showShort("正在跳入异次元请求下载~~~");
@@ -134,7 +138,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
         startAlphaAnimation(toolbarTitle, 0, View.INVISIBLE);
     }
 
-//    @Override
+    //    @Override
     public void initData() {
 //        super.initData();
         RetrofitService.getInstance()
@@ -155,10 +159,10 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
                                 .config(Bitmap.Config.RGB_565)
                                 .error(R.mipmap.home_pressed)
                                 .into(headPortrait);
-                        GlideUtils.loadCourse(backgroundImageview.getContext(),data.getPost().getThumbnail().getMedium(),backgroundImageview);
+                        GlideUtils.loadCourse(backgroundImageview.getContext(), data.getPost().getThumbnail().getMedium(), backgroundImageview);
 
                         String s = data.getPost().getPost_excerpt();
-//                        excerpt_text.setText(s.replaceAll("[&hellip;]", ""));
+                        framelayoutDetails.setText(s.replaceAll("[&hellip;]", ""));
 //                        wendang_text.setText(stripHtml(data.getPost().getPost_content()));
                         url = data.getPost().getDownload_page();
                         list.clear();
@@ -183,7 +187,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
     private void handleToolbarTitleVisibility(float percentage) {
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
 
-            if(!mIsTheTitleVisible) {
+            if (!mIsTheTitleVisible) {
                 startAlphaAnimation(toolbarTitle, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
                 mIsTheTitleVisible = true;
             }
@@ -199,7 +203,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
 
     private void handleAlphaOnTitle(float percentage) {
         if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
-            if(mIsTheTitleContainerVisible) {
+            if (mIsTheTitleContainerVisible) {
                 startAlphaAnimation(mTitlelinearlayout, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
                 mIsTheTitleContainerVisible = false;
             }
@@ -213,7 +217,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
         }
     }
 
-    public static void startAlphaAnimation (View v, long duration, int visibility) {
+    public static void startAlphaAnimation(View v, long duration, int visibility) {
         AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
                 ? new AlphaAnimation(0f, 1f)
                 : new AlphaAnimation(1f, 0f);

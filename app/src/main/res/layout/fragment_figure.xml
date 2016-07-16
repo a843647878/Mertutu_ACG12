@@ -10,10 +10,10 @@
         android:id="@+id/main_title"
         layout="@layout/view_title" />
     <com.moetutu.acg12.view.CardSlidePanel
-        android:layout_marginTop="43.5dp"
+        android:layout_marginTop="33.5dp"
         android:id="@+id/image_slide_panel"
         android:layout_width="fill_parent"
-        card:bottomMarginTop="90dp"
+        card:bottomMarginTop="80dp"
         card:yOffsetStep="22dp"
         android:layout_height="fill_parent"
         android:background="@color/white">
