@@ -16,9 +16,12 @@ import android.widget.TextView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.WenDangAdapter;
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.entity.ArticleEntity;
+import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.WenDangMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.ItemDecorationUtils;
 import com.moetutu.acg12.util.T;
@@ -44,13 +47,13 @@ import retrofit2.Response;
  */
 public class WenDangActivity extends BaseActivity implements BaseRecyclerAdapter.OnItemClickListener {
 
-    public static void launch(Context context, String wendangid) {
+    public static void launch(Context context, int wendangid) {
         Intent intent = new Intent(context, WenDangActivity.class);
         intent.putExtra("id", wendangid);
         context.startActivity(intent);
     }
 
-    private String wendangid;
+    private int wendangid;
     private TextView title_text;
     private TextView excerpt_text;
     private TextView wendang_text;
@@ -75,7 +78,7 @@ public class WenDangActivity extends BaseActivity implements BaseRecyclerAdapter
         appContext = (AppContext) WenDangActivity.this.getApplication();
         setImmerseLayout(findViewById(R.id.activity_wendang));
 
-        wendangid = getIntent().getStringExtra("id");
+        wendangid = getIntent().getIntExtra("id",0);
 
         initView(this);
     }
@@ -134,20 +137,20 @@ public class WenDangActivity extends BaseActivity implements BaseRecyclerAdapter
 
         RetrofitService.getInstance()
                 .getApiCacheRetryService()
-                .getDetail(appContext.getWenDang(Const.Detail, wendangid))
-                .enqueue(new SimpleCallBack<WenDangMode>() {
+                .getPost(RetrofitService.getInstance().getToken(), wendangid,null)
+                .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
-                    public void onSuccess(Call<WenDangMode> call, Response<WenDangMode> response) {
-                        if (response.body() == null) return;
-                        WenDangMode data = response.body();
-                        title_text.setText(data.getPost().getPost_title());
-                        String s = data.getPost().getPost_excerpt();
+                    public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
+                        if (response.body().data.post == null) return;
+                        ArticleEntity data = response.body().data.post;
+                        title_text.setText(data.title);
+                        String s = "坐等KM返回简介";
                         excerpt_text.setText(s.replaceAll("[&hellip;]", ""));
-                        wendang_text.setText(stripHtml(data.getPost().getPost_content()));
-                        url = data.getPost().getDownload_page();
+                        wendang_text.setText(stripHtml(data.content));
+                        url = data.url;
                         list.clear();
 
-                        list = quChu(getImgStr(data.getPost().getPost_content()));
+                        list = quChu(getImgStr(data.content));
 
                         adapter.bindData(true, list);
 //						recyclerView.notifyMoreFinish(true);

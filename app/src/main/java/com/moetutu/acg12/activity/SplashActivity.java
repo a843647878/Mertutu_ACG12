@@ -9,15 +9,26 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 
+import com.dao.userinfo.User;
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.asynctask.type.Acg12Obj;
+import com.moetutu.acg12.entity.UserEntity;
+import com.moetutu.acg12.http.RetrofitService;
+import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
+import com.moetutu.acg12.presenter.UserDbPresenter;
+import com.moetutu.acg12.util.LogUtils;
 
 import cn.jpush.android.api.JPushInterface;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * 启动页
@@ -35,7 +46,7 @@ public class SplashActivity extends BaseActivity {
 			case 101:
 				welcomeImageView.setBackgroundDrawable(getResources()
 						.getDrawable(R.mipmap.splash));
-				animation.setDuration(3000);
+				animation.setDuration(2000);
 				welcomeImageView.startAnimation(animation);
 				break;
 			}
@@ -45,6 +56,7 @@ public class SplashActivity extends BaseActivity {
 
 	Bitmap bm;
 	AlphaAnimation animation;
+	private UserDbPresenter presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +64,7 @@ public class SplashActivity extends BaseActivity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_splash);
+		presenter = new UserDbPresenter(this);
 		JPushInterface.stopPush(getApplicationContext());
 		initView(this);
 	}
@@ -62,6 +75,9 @@ public class SplashActivity extends BaseActivity {
 
 		welcomeImageView = (ImageView) findViewById(R.id.welcome);
 		animation = new AlphaAnimation(1.0f, 1.0f);
+
+
+		initData();// 调用token登录
 		
 		handler.sendEmptyMessage(101);
 		animation.setAnimationListener(new AnimationListener() {
@@ -132,5 +148,44 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	public void onBackPressed() {
 
+	}
+
+
+	@Override
+	public void initData() {
+		super.initData();
+		RetrofitService
+				.getInstance()
+				.getApiCacheRetryService()
+				.getToken("4q6wnmmdzd","3wk9khscjfk")
+				.enqueue(new SimpleCallBack<User>() {
+					@Override
+					public void onSuccess(Call<ResEntity<User>> call, Response<ResEntity<User>> response) {
+						final User user = response.body().data;
+						RetrofitService.getInstance().restLoginInfo(user.getToken());
+
+						if (presenter != null) {
+							try {
+								presenter.inertOrReplace(user);
+							} catch (Exception e) {
+								e.printStackTrace();
+								LogUtils.d("-------->exe:" + e);
+							}
+						}
+					}
+				});
+	}
+
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (presenter != null) {
+			try {
+				presenter.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

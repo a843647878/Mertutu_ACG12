@@ -30,7 +30,7 @@ import com.umeng.analytics.MobclickAgent;
  * 所有activity的基类
  * 
  */
-public class BaseActivity extends PermisionActivity implements OnClickListener{
+public class BaseActivity extends BaseAppUpdateActivity implements OnClickListener{
 
 	private Activity activity;// 子类
 	public AppContext appContext;

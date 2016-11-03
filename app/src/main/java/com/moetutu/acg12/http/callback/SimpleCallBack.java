@@ -1,12 +1,18 @@
 package com.moetutu.acg12.http.callback;
 
+import android.app.Activity;
 import android.widget.Toast;
 
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
+import com.moetutu.acg12.interf.OnUpdateDialogNoticeListener;
+import com.moetutu.acg12.util.AppManager;
 import com.moetutu.acg12.util.LogUtils;
 import com.google.gson.JsonParseException;
+import com.moetutu.acg12.util.ToastUtils;
 
 import java.net.SocketTimeoutException;
+import java.util.NoSuchElementException;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -17,40 +23,70 @@ import retrofit2.adapter.rxjava.HttpException;
  * @email xuanyouwu@163.com
  * @time 2016-04-20 18:38
  */
-public abstract class SimpleCallBack<T> extends BaseCallBack<T> {
+public abstract class SimpleCallBack<T> extends  BaseCallBack<ResEntity<T>> {
 
     public static class JSONResponseException extends RuntimeException {
         public final int code;
-        public final String message;
+        public final String msg;
 
 
         public JSONResponseException(int code, String message) {
             this.code = code;
-            this.message = message;
+            this.msg = message;
         }
     }
 
 
 
     @Override
-    protected void dispatchHttpSuccess(Call<T> call, Response<T> response) {
-        if (response.body() != null) {
+    protected void dispatchHttpSuccess(Call<ResEntity<T>> call, Response<ResEntity<T>> response) {
+        if (response.body() != null && response.body().code == ResEntity.CODE_SUCESS) {
             onSuccess(call, response);
         } else {
-            onFailure(call,new JSONResponseException(-1, "响应为null"));
+            onFailure(call,
+                    response.body() != null ?
+                            new JSONResponseException(response.body().code, response.body().msg)
+                            : new JSONResponseException(-1, "响应为null"));
         }
     }
 
     @Override
-    public void onFailure(Call<T> call, Throwable t) {
+    public void onFailure(Call<ResEntity<T>> call, Throwable t) {
         super.onFailure(call, t);
         if (t instanceof JSONResponseException) {
             JSONResponseException jsonResponseException = (JSONResponseException) t;
-            defNotify(String.format("%s:%s", jsonResponseException.code, jsonResponseException.message));
-            //验证失效 跳转到登录页
-//            if (jsonResponseException.code == ResEntity.CODE_TOKEN_INVALID) {
-//                LoginActivity.launchLogin(AppManager.getAppManager().currentActivity());
-//            }
+            defNotify(jsonResponseException.msg);
+            //defNotify(String.format("%s:%s", jsonResponseException.code, jsonResponseException.message));
+            switch (jsonResponseException.code) {
+                case ResEntity.CODE_TOKEN_INVALID:
+                    try {
+                        defNotify("token失效，请退出程序重新登录");
+                    } catch (NoSuchElementException e) {
+                    }
+                    break;
+                case ResEntity.CODE_INVALIDAPPID:// 无效的APPID
+                    try {
+                        defNotify("无效的App id码,请和平胸猫联系");
+                    } catch (NoSuchElementException e) {
+                    }
+//                    Activity topActivity = AppManager.getAppManager().currentActivity();
+//                    if (topActivity instanceof OnUpdateDialogNoticeListener) {
+//                        OnUpdateDialogNoticeListener updateDialogNoticeListener = (OnUpdateDialogNoticeListener) topActivity;
+//                        updateDialogNoticeListener.shouldShutDown(jsonResponseException.msg);
+//                    }
+                    break;
+                case ResEntity.CODE_INVALIDAPPSECURE://  无效的 App secure 码。
+                    try {
+                        defNotify("无效的App secure码,请和平胸猫联系");
+                    } catch (NoSuchElementException e) {
+                    }
+//                    Activity currActivity = AppManager.getAppManager().currentActivity();
+//                    if (currActivity instanceof OnUpdateDialogNoticeListener) {
+//                        OnUpdateDialogNoticeListener updateDialogNoticeListener = (OnUpdateDialogNoticeListener) currActivity;
+//                        updateDialogNoticeListener.shouldUpdate(true);
+//                    }
+                    break;
+            }
         } else if (t instanceof HttpException) {
             defNotify(String.format("%s:%s", ((HttpException) t).code(), ((HttpException) t).message()));
         } else if (t instanceof JsonParseException) {
@@ -67,7 +103,7 @@ public abstract class SimpleCallBack<T> extends BaseCallBack<T> {
 
 
     public void defNotify(String noticeStr) {
-        Toast.makeText(AppContext.getApplication(), noticeStr, Toast.LENGTH_SHORT).show();
+        ToastUtils.showRoundRectToast(noticeStr);
     }
 
 }

@@ -230,25 +230,7 @@ public class MoeTuMainActivity extends BaseActivity {
 
                     break;
                 case R.id.popup_login:
-                    RetrofitService.getInstance()
-                            .getApiCacheRetryService()
-                            .login(Const.Login, menuWindow3.popup_mobile.getText().toString(), menuWindow3.popup_password.getText().toString(), "1")
-                            .enqueue(new SimpleCallBack<Acg12Obj>() {
-                                @Override
-                                public void onSuccess(Call<Acg12Obj> call, Response<Acg12Obj> response) {
-                                    if (response.body() == null) return;
-                                    Acg12Obj data = response.body();
-                                    if (data.getStatus().equals("success")) {
-                                        T.showShort("登陆成功! name" + data.getUser().getDisplay_name() + " 猫爪：" + data.getUser().getPoints());
-                                        ACache aCache = ACache.get(MoeTuMainActivity.this);
-                                        aCache.put("LOGIN", data.getUser());
-                                        initData();
-                                    } else {
-                                        T.showShort("登录大失败，可能是你的账号密码错误了呢");
-                                    }
-                                }
-                            });
-
+                    //登录预留
                     break;
             }
 

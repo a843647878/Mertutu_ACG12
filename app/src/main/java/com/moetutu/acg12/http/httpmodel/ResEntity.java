@@ -13,28 +13,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResEntity<T> {
 
-    public static final String CODE_STATUS = "success";//完全成功
-    public static final int CODE_SUCESS = 2000;//完全成功
-    public static final int CODE_TOKEN_INVALID = 4000;//Token 失效
+    public static final int CODE_SUCESS = 0;//完全成功
+    public static final int CODE_TOKEN_INVALID = 20001;//Token 失效
+    public static final int CODE_INVALIDAPPID = 20002;//无效的 App id 码。
+    public static final int CODE_INVALIDAPPSECURE = 20003;//无效的 App secure 码。
 
-    private static final String FIELD_ERROR_STATUS = "status";
-    private static final String FIELD_ERROR_CODE = "error_code";
-    private static final String FIELD_ERROR_MESSAGE = "error_message";
+
+    private static final String FIELD_ERROR_CODE = "code";
+    private static final String FIELD_ERROR_MESSAGE = "msg";
     private static final String FIELD_DATA = "data";
-    private static final String FIELD_POSTS = "posts";
-
-    @SerializedName(FIELD_ERROR_STATUS)
-    public String status;
 
     @SerializedName(FIELD_ERROR_CODE)
-    public int error_code;
+    public int code;
 
     @SerializedName(FIELD_ERROR_MESSAGE)
-    public String error_message;
+    public String msg;
 
     @SerializedName(FIELD_DATA)
     public T data;
-
-    @SerializedName(FIELD_POSTS)
-    public T posts;
 }

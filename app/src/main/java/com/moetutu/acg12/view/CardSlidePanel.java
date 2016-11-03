@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.util.ViewDragHelper;
@@ -55,7 +56,7 @@ public class CardSlidePanel extends ViewGroup {
     private Object obj1 = new Object();
 
     private CardSwitchListener cardSwitchListener; // 回调接口
-    public List<TestMode.PostsBean> dataList; // 存储的数据链表
+    public List<ArticleEntity> dataList; // 存储的数据链表
     private int isShowing = 0; // 当前正在显示的小项
     private View leftBtn, rightBtn;
     private boolean btnLock = false;
@@ -267,7 +268,7 @@ public class CardSlidePanel extends ViewGroup {
             // 3. changedView填充新数据
             int newIndex = isShowing + 4;
             if (newIndex < dataList.size()) {
-                TestMode.PostsBean dataItem = dataList.get(newIndex);
+                ArticleEntity dataItem = dataList.get(newIndex);
                 changedView.fillData(dataItem);
             } else {
                 changedView.setVisibility(View.INVISIBLE);
@@ -542,7 +543,7 @@ public class CardSlidePanel extends ViewGroup {
      *
      * @param dataList 数据
      */
-    public void fillData(List<TestMode.PostsBean> dataList) {
+    public void fillData(List<ArticleEntity> dataList) {
         if (dataList.size() == 0) return;
         this.dataList = dataList;
 
@@ -564,7 +565,7 @@ public class CardSlidePanel extends ViewGroup {
      *
      * @param appendList 新数据列表
      */
-    public void appendData(List<TestMode.PostsBean> appendList) {
+    public void appendData(List<ArticleEntity> appendList) {
         dataList.addAll(appendList);
 
         int currentIndex = isShowing;

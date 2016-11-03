@@ -11,10 +11,10 @@ import com.moetutu.acg12.BuildConfig;
 public class HConst {
 
     //测试服务器
-    public static final String BASE_DEBUG_URL = "http://acg12.com/wp-admin/";
+    public static final String BASE_DEBUG_URL = "https://acg12.com/wp-admin/";
 
     //正式服务器
-    public static final String BASE_RELEASE_URL = "http://acg12.com/wp-admin/";
+    public static final String BASE_RELEASE_URL = "https://acg12.com/wp-admin/";
 
 
     public static String BASE_HTTP = BASE_DEBUG_URL;

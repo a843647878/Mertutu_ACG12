@@ -42,19 +42,19 @@ public class Const {
 
     public static final String PUBLIC_URL = "http://acg12.com/wp-admin/admin-ajax.php?";
 
-    public static final String DongManTuJi = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=1270&category__in[]=1219&category__in[]=1241&posts_per_page=20&paged=%d";
+    public static final String DongManTuJi = "1270";
 
-    public static final String DongManGame = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=1242&category__in[]=1327&category__in[]=777&category__in[]=49&posts_per_page=20&paged=%d";
+    public static final String DongManGame = "1242";
 
-    public static final String AndroidMengHua = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=1272&category__in[]=1244&category__in[]=1275&category__in[]=432&posts_per_page=20&paged=%d";
+    public static final String AndroidMengHua = "1275";
 
-    public static final String PCMengHua = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=1266&category__in[]=6&category__in[]=490&category__in[]=32&posts_per_page=20&paged=%d";
+    public static final String PCMengHua = "1266";
 
-    public static final String TuZhanJingXuan = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=764&category__in[]=1372&category__in[]=1267&category__in[]=1268&category__in[]=1268&posts_per_page=20&paged=%d";
+    public static final String TuZhanJingXuan = "764";
 
-    public static final String QiTaFenLei = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=466&category__in[]=2176&category__in[]=1269&category__in[]=1273&posts_per_page=20&paged=%d";
+    public static final String QiTaFenLei = "466";
 
-    public static final String ShenShi = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=2492&category__in[]=2703&category__in[]=1372&posts_per_page=20&paged=%d";
+    public static final String ShenShi = "2329";
 
     public static final String Detail = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_post&post_id=%s";
 

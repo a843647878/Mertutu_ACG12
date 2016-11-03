@@ -23,6 +23,7 @@ import butterknife.InjectView;
  * Company guokeyuzhou
  * Created by chengwanying on 16/7/4.
  * version
+ * 主页面Fragement
  */
 public class MainMerTuFragement extends LazyBaseFragment {
 

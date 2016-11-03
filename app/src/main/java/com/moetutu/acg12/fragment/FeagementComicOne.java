@@ -15,10 +15,13 @@ import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.adapter.ComicShufflingAdapter;
 import com.moetutu.acg12.adapter.TuJiAdapter;
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.ChMedicCircleRecEntity;
+import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.ZoomOutPageTransformer;
@@ -34,6 +37,14 @@ import butterknife.InjectView;
 import retrofit2.Call;
 import retrofit2.Response;
 
+
+/**
+ * Description
+ * Company guokeyuzhou
+ * Created by chengwanying on 16/6/15.
+ * version
+ * 原本是漫画界面  可能会做成视频
+ */
 public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerAdapter.OnItemClickListener {
     View rootView;
 
@@ -109,7 +120,7 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
 
     private synchronized void initData(final int bookpage, final boolean isRefresh) {
         if (isRefresh) {
-            PageIndex = 0;
+            PageIndex = 1;
             LogUtils.d("-------------->" + isRefresh);
         }
         LogUtils.d("-------------->" + PageIndex);
@@ -117,21 +128,20 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getList(appContext.getTuJiList(Const.DongManTuJi, bookpage))
-                .enqueue(new SimpleCallBack<TestMode>() {
+                .getPostsByCategory(RetrofitService.getInstance().getToken(),"236",null,10,PageIndex)
+                .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
-                    public void onSuccess(Call<TestMode> call, Response<TestMode> response) {
-                        if (response.body().getPosts() == null) return;
+                    public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
+                        if (response.body().data.posts == null) return;
                         endCurrentRefresh(isRefresh);
-                        tuadapter.bindData(isRefresh, response.body().getPosts());
+                        tuadapter.bindData(isRefresh, response.body().data.posts);
                         PageIndex++;
-                        myRefreshLayout.setLoadMore(true);
+                        myRefreshLayout.setLoadMore(isRefresh);
                     }
 
                     @Override
-                    public void onFailure(Call<TestMode> call, Throwable t) {
+                    public void onFailure(Call<ResEntity<PostEntity>> call, Throwable t) {
                         super.onFailure(call, t);
-                        LogUtils.d("---------->call" + t.toString());
                         endCurrentRefresh(isRefresh);
                     }
                 });
@@ -213,8 +223,8 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
         if (adapter == tuadapter) {
-            TestMode.PostsBean obj = tuadapter.getItem(position);
-            ArticleActivity.launch(getActivity(), obj.getID() + "");
+            ArticleEntity obj = tuadapter.getItem(position);
+            ArticleActivity.launch(getActivity(), obj.id);
         }
 
     }

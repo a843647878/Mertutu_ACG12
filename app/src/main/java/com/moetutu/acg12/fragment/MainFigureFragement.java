@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.CardSlidePanel;
@@ -27,6 +29,7 @@ import retrofit2.Response;
  * Company guokeyuzhou
  * Created by chengwanying on 16/7/4.
  * version
+ * 仿探探卡片式UI
  */
 public class MainFigureFragement extends LazyBaseFragment {
 
@@ -81,7 +84,7 @@ public class MainFigureFragement extends LazyBaseFragment {
             @Override
             public void onItemClick(View cardView, int index) {
                 LogUtils.d("---------->卡片点击-" + index);
-                ArticleActivity.launch(getContext(),slidePanel.dataList.get(index).getID()+"");
+                ArticleActivity.launch(getContext(),slidePanel.dataList.get(index).id);
             }
         };
 
@@ -93,30 +96,22 @@ public class MainFigureFragement extends LazyBaseFragment {
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getList(appContext.getTuJiList(Const.TUZHANJINGXUANRANDOM, PageIndex))
-                .enqueue(new SimpleCallBack<TestMode>() {
+                .getRecommPosts(RetrofitService.getInstance().getToken(),null,10,PageIndex)
+                .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
-                    public void onSuccess(Call<TestMode> call, Response<TestMode> response) {
-                        if (response.body().getPosts() == null) return;
+                    public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
+                        if (response.body().data.posts == null) return;
 //                            List<TestMode.PostsBean> dataList2 = new ArrayList<TestMode.PostsBean>();
 //                            dataList2 = response.body().getPosts();
 //                            dataList.addAll(dataList2);
                         PageIndex++;
                         if (newdata) {
-                            slidePanel.appendData(response.body().getPosts());
+                            slidePanel.appendData(response.body().data.posts);
                             LogUtils.d("---------->填充追加数据");
                         } else {
-                            slidePanel.fillData(response.body().getPosts());
+                            slidePanel.fillData(response.body().data.posts);
                             LogUtils.d("---------->加载");
                         }
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<TestMode> call, Throwable t) {
-                        super.onFailure(call, t);
-                        LogUtils.d("---------->call" + t.toString());
                     }
                 });
     }

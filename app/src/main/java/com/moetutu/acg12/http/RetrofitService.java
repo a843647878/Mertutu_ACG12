@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.dao.userinfo.User;
 import com.moetutu.acg12.BuildConfig;
 import com.moetutu.acg12.app.ACache;
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.presenter.UserDbPresenter;
 import com.moetutu.acg12.util.JsonUtils;
 import com.moetutu.acg12.util.LogUtils;
 
@@ -41,21 +43,23 @@ public class RetrofitService {
     private ApiService apiCacheRetryService;//http协议缓存 重连 适合做数据获取
     public static Context context;
     private boolean isRefresh = false;
+    public String token;
+
+    public static UserDbPresenter presenter;
 
 
     public static RetrofitService getInstance() {
         if (retrofitService == null) {
             context = AppContext.getApplication();
+            presenter = new UserDbPresenter(context);
             retrofitService = new RetrofitService();
         }
         return retrofitService;
     }
 
-/*    public void restLoginInfo(String uid, String token, String decode) {
-        this.userId = uid;
+   public void restLoginInfo( String token) {
         this.token = token;
-        this.decodeKey = decode;
-    }*/
+    }
 
 
     public RetrofitService refresh(boolean isRefresh) {
@@ -66,20 +70,18 @@ public class RetrofitService {
 
     public RetrofitService() {
         initRetrofit();
-       /* restLoginInfo(
-                SPUtil.get(Constant.USER_ID, ""),
-                SPUtil.get(USER_TOKEN, ""),
-                SPUtil.get(DECODE_KEY, ""));*/
+        User user = null;
+        try {
+            user = presenter.getLoginUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LogUtils.d("------------------>运行RetrofitService"+user == null ? "null" : "不空");
+        restLoginInfo(user == null ? "" : user.getToken());
     }
 
     public String getToken() {
-        ACache aCache = ACache.get(context);
-        String token = aCache.getAsString("token");
-        if (TextUtils.isEmpty(token)) {
-            return "";
-        } else {
-            return token;
-        }
+        return token;
     }
 
     public ApiService getApiService() {
@@ -117,9 +119,9 @@ public class RetrofitService {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
                 Request requestBuilder = request.newBuilder()
-//                        .addHeader("token", getToken())
+                        .addHeader("token", getToken())
                         .addHeader("osVer", String.valueOf(Build.VERSION.SDK_INT))
-//                        .addHeader("osType", HConst.OS_TYPE)
+                        .addHeader("osType", HConst.OS_TYPE)
                         .addHeader("appVer", BuildConfig.VERSION_NAME)
                         .build();
                 return chain.proceed(requestBuilder);

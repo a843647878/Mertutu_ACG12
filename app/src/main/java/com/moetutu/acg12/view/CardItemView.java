@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.TestMode;
 
 import java.util.ArrayList;
@@ -47,13 +48,13 @@ public class CardItemView extends LinearLayout {
         commentTv = (TextView) findViewById(R.id.card_comment);
     }
 
-    public void fillData(TestMode.PostsBean itemData) {
-        Uri uri = Uri.parse(itemData.getThumbnail().getMedium());
+    public void fillData(ArticleEntity itemData) {
+        Uri uri = Uri.parse(itemData.thumbnail.url);
         imageView.setImageURI(uri);
 
-        userNameTv.setText(itemData.getPost_title());
-        imageNumTv.setText(quChu(getImgStr(itemData.getPost_content())).size() + "");
-        commentTv.setText(itemData.getComment_count());
+        userNameTv.setText(itemData.title);
+        imageNumTv.setText(quChu(getImgStr(itemData.content)).size() + "");
+        commentTv.setText(String.valueOf(itemData.comment));
     }
 
 

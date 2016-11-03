@@ -51,7 +51,7 @@ public class MyReceiver extends BroadcastReceiver {
         	//打开自定义的Activity
 			String content = bundle.getString(JPushInterface.EXTRA_ALERT);
 			String [] newsplitstr = content.split("#");
-			ArticleActivity.launch(context,newsplitstr[1]);
+			ArticleActivity.launch(context,Integer.parseInt(newsplitstr[1]));
 
 //        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 

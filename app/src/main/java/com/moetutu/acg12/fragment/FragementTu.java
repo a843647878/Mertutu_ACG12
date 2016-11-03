@@ -12,9 +12,12 @@ import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.adapter.TuJiAdapter;
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.entity.ArticleEntity;
+import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.ItemDecorationUtils;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView;
@@ -33,6 +36,7 @@ import retrofit2.Response;
  * Company guokeyuzhou
  * Created by chengwanying on 16/6/15.
  * version
+ * 单个分类列表
  */
 public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter.OnItemClickListener {
 
@@ -51,8 +55,8 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     //图站Fragement
     private Context mContext;
     private AppContext appContext;
-    private int PageIndex = 0;
-    private List<TestMode.PostsBean> matches = new ArrayList<TestMode.PostsBean>();
+    private int PageIndex = 1;
+    private List<ArticleEntity> matches = new ArrayList<ArticleEntity>();
 
     TuJiAdapter tuadapter;
 
@@ -88,7 +92,7 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                initData(PageIndex, true);
+                initData(true);
             }
         });
         recyclerView.setLoadingMoreProgressStyle(ProgressStyle.Pacman);
@@ -96,12 +100,12 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
             @Override
             public void onRefresh() {
                 //已经无效了
-                initData(PageIndex, true);
+                initData( true);
             }
 
             @Override
             public void onLoadMore() {
-                initData(PageIndex, false);
+                initData(false);
             }
         });
 
@@ -111,7 +115,7 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
         recyclerView.setAdapter(tuadapter);
         if (matches == null) {
             LogUtils.d("---------onViewCreated");
-            initData(PageIndex, true);
+            initData(true);
         }
 //        initData(PageIndex, true);
     }
@@ -119,24 +123,22 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     @Override
     public void onLazyLoad() {
         super.onLazyLoad();
-        initData(PageIndex, true);
+        initData(true);
     }
 
-    private synchronized void initData(final int bookpage, final boolean mm) {
+    private synchronized void initData(final boolean mm) {
         if (mm) {
-            PageIndex = 0;
+            PageIndex = 1;
         }
-        LogUtils.d("--------"+getArguments().getString(TYPE_API));
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getList(appContext.getTuJiList(getArguments().getString(TYPE_API), bookpage))
-                .enqueue(new SimpleCallBack<TestMode>() {
+                .getPostsByCategory(RetrofitService.getInstance().getToken(),getArguments().getString(TYPE_API),null,10,PageIndex)
+                .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
-                    public void onSuccess(Call<TestMode> call, Response<TestMode> response) {
-                        if (response.body() != null) {
-                            matches = response.body().getPosts();
-                            tuadapter.bindData(mm, matches);
+                    public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
+                        if (response.body().data.posts != null) {
+                            tuadapter.bindData(mm, response.body().data.posts);
                             PageIndex++;
                             recyclerView.loadMoreComplete();
                             beautifulRefreshLayout.finishRefreshing();
@@ -144,9 +146,8 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
                     }
 
                     @Override
-                    public void onFailure(Call<TestMode> call, Throwable t) {
+                    public void onFailure(Call<ResEntity<PostEntity>> call, Throwable t) {
                         super.onFailure(call, t);
-                        LogUtils.d("----------call"+t.toString());
                     }
                 });
 
@@ -155,8 +156,8 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
         XRecyclerView.WrapAdapter wpAdapter = (XRecyclerView.WrapAdapter) recyclerView.getAdapter();
-        TestMode.PostsBean obj = tuadapter.getItem(position - wpAdapter.getHeadersCount());
-        ArticleActivity.launch(getActivity(),obj.getID()+"");
+        ArticleEntity obj = tuadapter.getItem(position - wpAdapter.getHeadersCount());
+        ArticleActivity.launch(getActivity(),obj.id);
     }
 
 }

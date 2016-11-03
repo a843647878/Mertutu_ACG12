@@ -23,9 +23,12 @@ import android.widget.TextView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.WenDangAdapter;
 import com.moetutu.acg12.app.AppContext;
+import com.moetutu.acg12.entity.ArticleEntity;
+import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.WenDangMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
+import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.GlideUtils;
 import com.moetutu.acg12.util.ItemDecorationUtils;
@@ -83,11 +86,11 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
 
     private List<String> list = new ArrayList<String>();
     private WenDangAdapter adapter;
-    private String wendangid;
+    private int wendangid;
     private String url;
     public AppContext appContext;
 
-    public static void launch(Context context, String wendangid) {
+    public static void launch(Context context, int wendangid) {
         Intent in = new Intent(context, ArticleActivity.class);
         in.putExtra(KEY_ARTICLEID, wendangid);
         context.startActivity(in);
@@ -101,7 +104,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
 //        setImmerseLayout(findViewById(R.id.activity_wendang));
         ButterKnife.inject(this);
         appContext = AppContext.getApplication();
-        wendangid = getIntent().getStringExtra(KEY_ARTICLEID);
+        wendangid = getIntent().getIntExtra(KEY_ARTICLEID,0);
         initView(this);
         initData();
     }
@@ -143,34 +146,34 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
 //        super.initData();
         RetrofitService.getInstance()
                 .getApiCacheRetryService()
-                .getDetail(appContext.getWenDang(Const.Detail, wendangid))
-                .enqueue(new SimpleCallBack<WenDangMode>() {
+                .getPost(RetrofitService.getInstance().getToken(), wendangid,null)
+                .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
-                    public void onSuccess(Call<WenDangMode> call, Response<WenDangMode> response) {
+                    public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
                         if (response.body() == null) return;
-                        WenDangMode data = response.body();
-                        framelayoutTitle.setText(data.getPost().getPost_author().getName());
+                        ArticleEntity data = response.body().data.post;
+                        framelayoutTitle.setText(data.author.name);
 
-                        toolbarTitle.setText(data.getPost().getPost_title());
+                        toolbarTitle.setText(data.title);
                         Picasso.with(headPortrait.getContext())
-                                .load(data.getPost().getPost_author().getAvatar())
+                                .load(data.author.avatarURL)
                                 .fit()
                                 .placeholder(R.mipmap.home_pressed)
                                 .config(Bitmap.Config.RGB_565)
                                 .error(R.mipmap.home_pressed)
                                 .into(headPortrait);
-                        GlideUtils.loadCourse(backgroundImageview.getContext(), data.getPost().getThumbnail().getMedium(), backgroundImageview);
+                        GlideUtils.loadCourse(backgroundImageview.getContext(), data.thumbnail.url, backgroundImageview);
 
-                        String s = data.getPost().getPost_excerpt();
+//                        String s = data.excerpt();
+                        String s = "坐等KM返回简介";
                         framelayoutDetails.setText(s.replaceAll("[&hellip;]", ""));
 //                        wendang_text.setText(stripHtml(data.getPost().getPost_content()));
-                        url = data.getPost().getDownload_page();
+                        url = data.url;
                         list.clear();
 
-                        list = quChu(getImgStr(data.getPost().getPost_content()));
+                        list = quChu(getImgStr(data.content));
 
                         adapter.bindData(true, list);
-
                     }
                 });
     }

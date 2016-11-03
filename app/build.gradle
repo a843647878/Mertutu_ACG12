@@ -26,6 +26,13 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java-gen', 'libs']
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+
     //批量配置
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
@@ -120,23 +127,26 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'com.google.android.exoplayer:exoplayer:r1.4.1'
     compile 'com.jakewharton:butterknife:5.1.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.greenrobot:greendao:2.2.1'
     compile 'com.bm.photoview:library:1.4.0'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
+    compile 'com.liulishuo.filedownloader:library:1.0.2'
 
-    compile files('libs/jpush-android-2.0.5.jar')
+
+    compile files('libs/jpush-android-2.2.0.jar')
     compile files('libs/umeng-analytics-v5.2.4.jar')
     compile files('libs/umeng_social_sdk.jar')
 

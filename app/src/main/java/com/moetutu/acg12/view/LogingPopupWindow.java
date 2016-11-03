@@ -56,34 +56,7 @@ public class LogingPopupWindow extends PopupWindow {
         popup_password = (EditText) mMenuView.findViewById(R.id.popup_password);
         popup_bg = (LinearLayout) mMenuView.findViewById(R.id.popup_bg);
 
-        popup_password.setOnEditorActionListener(new OnEditorActionListener() {
 
-            @Override
-            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-                // TODO Auto-generated method stub
-
-                if (arg1 == EditorInfo.IME_ACTION_SEND) {
-                    // 在这里编写自己想要实现的功能
-                    RetrofitService.getInstance()
-                            .getApiCacheRetryService()
-                            .login(Const.Login, popup_mobile.getText().toString(), popup_password.getText().toString(), "1")
-                            .enqueue(new SimpleCallBack<Acg12Obj>() {
-                                @Override
-                                public void onSuccess(Call<Acg12Obj> call, Response<Acg12Obj> response) {
-                                    if (response.body() == null) return;
-                                    if (response.body().getStatus().equals("success")) {
-                                        com.moetutu.acg12.util.T.showShort("登陆成功! name" + response.body().getUser().getDisplay_name() + " 猫爪：" + response.body().getUser().getPoints());
-                                        com.moetutu.acg12.app.ACache aCache = com.moetutu.acg12.app.ACache.get(context);
-                                        aCache.put("LOGIN", response.body().getUser());
-                                    } else {
-                                        com.moetutu.acg12.util.T.showShort("登录大失败，可能是你的账号密码错误了呢");
-                                    }
-                                }
-                            });
-                }
-                return false;
-            }
-        });
 
 
         // 设置SelectPicPopupWindow的View
