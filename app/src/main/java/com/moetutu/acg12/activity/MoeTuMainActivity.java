@@ -32,8 +32,8 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import cn.jpush.android.api.JPushInterface;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -51,9 +51,9 @@ public class MoeTuMainActivity extends BaseActivity {
     public static boolean isForeground = false;
     BaseFragmentAdapter fragmentAdapter;
 
-    @InjectView(R.id.viewpagertab)
+    @BindView(R.id.viewpagertab)
     SmartTabLayout viewpagertab;
-    @InjectView(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewpager;
 
     private MessageReceiver mMessageReceiver;
@@ -70,7 +70,7 @@ public class MoeTuMainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         JPushInterface.resumePush(getApplicationContext());
         setImmerseLayout(findViewById(R.id.main_content));
         mMessageReceiver = new MessageReceiver();

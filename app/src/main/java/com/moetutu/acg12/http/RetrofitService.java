@@ -44,6 +44,7 @@ public class RetrofitService {
     public static Context context;
     private boolean isRefresh = false;
     public String token;
+    public String uid;
 
     public static UserDbPresenter presenter;
 
@@ -57,8 +58,9 @@ public class RetrofitService {
         return retrofitService;
     }
 
-   public void restLoginInfo( String token) {
+    public void restLoginInfo(String token, String uid) {
         this.token = token;
+        this.uid = uid;
     }
 
 
@@ -77,11 +79,15 @@ public class RetrofitService {
             e.printStackTrace();
         }
         LogUtils.d("------------------>运行RetrofitService"+user == null ? "null" : "不空");
-        restLoginInfo(user == null ? "" : user.getToken());
+        restLoginInfo(user == null ? "" : user.getToken(), user == null ? "" : user.getUid());
     }
 
     public String getToken() {
         return token;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public ApiService getApiService() {

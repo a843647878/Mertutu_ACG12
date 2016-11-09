@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card="http://schemas.android.com/apk/res/com.moetutu.acg12"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/activity_wendang"
@@ -10,6 +10,7 @@
     <include
         android:id="@+id/main_title"
         layout="@layout/view_title" />
+
     <com.moetutu.acg12.view.CardSlidePanel
         android:id="@+id/image_slide_panel"
         android:layout_width="fill_parent"

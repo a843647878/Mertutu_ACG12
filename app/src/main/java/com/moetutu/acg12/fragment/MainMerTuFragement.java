@@ -2,11 +2,15 @@ package com.moetutu.acg12.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.BaseFragmentAdapter;
@@ -15,8 +19,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.Arrays;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Description
@@ -28,10 +32,18 @@ import butterknife.InjectView;
 public class MainMerTuFragement extends LazyBaseFragment {
 
     View rootView;
-    @InjectView(R.id.viewpagertab)
+    @BindView(R.id.acg_icon)
+    ImageView acgIcon;
+    @BindView(R.id.acg_name)
+    TextView acgName;
+    @BindView(R.id.viewpagertab)
     SmartTabLayout viewpagertab;
-    @InjectView(R.id.viewpager)
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
+    @BindView(R.id.viewpager)
     ViewPager viewpager;
+    @BindView(R.id.main_content)
+    CoordinatorLayout mainContent;
 
 
     private String userid;
@@ -50,13 +62,12 @@ public class MainMerTuFragement extends LazyBaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            ButterKnife.inject(this, rootView);
+            ButterKnife.bind(this, rootView);
             initView();
         }
         if (rootView.getParent() != null) {
             ((ViewGroup) rootView.getParent()).removeView(rootView);
         }
-        ButterKnife.inject(this, rootView);
         return rootView;
     }
 
@@ -88,10 +99,4 @@ public class MainMerTuFragement extends LazyBaseFragment {
 
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
 }

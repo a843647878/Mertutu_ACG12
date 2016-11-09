@@ -41,8 +41,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -53,32 +53,32 @@ import retrofit2.Response;
  * Created by chengwanying on 16/7/5.
  * version
  */
-public class ArticleActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener, BaseRecyclerAdapter.OnItemClickListener {
+public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, BaseRecyclerAdapter.OnItemClickListener {
 
     public static String KEY_ARTICLEID;
 
     private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
     private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
     private static final int ALPHA_ANIMATIONS_DURATION = 200;
-    @InjectView(R.id.background_imageview)
+    @BindView(R.id.background_imageview)
     ImageView backgroundImageview;
-    @InjectView(R.id.framelayout_title)
+    @BindView(R.id.framelayout_title)
     TextView framelayoutTitle;
-    @InjectView(R.id.linearlayout_title)
+    @BindView(R.id.linearlayout_title)
     LinearLayout mTitlelinearlayout;
-    @InjectView(R.id.main_appbar)
+    @BindView(R.id.main_appbar)
     AppBarLayout appbar;
-    @InjectView(R.id.picture_recycler)
+    @BindView(R.id.picture_recycler)
     RecyclerView pictureRecycler;
-    @InjectView(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @InjectView(R.id.main_toolbar)
+    @BindView(R.id.main_toolbar)
     Toolbar mainToolbar;
-    @InjectView(R.id.head_portrait)
+    @BindView(R.id.head_portrait)
     CircleImageView headPortrait;
-    @InjectView(R.id.framelayout_details)
+    @BindView(R.id.framelayout_details)
     TextView framelayoutDetails;
-    @InjectView(R.id.activity_wendang)
+    @BindView(R.id.activity_wendang)
     CoordinatorLayout activityWendang;
 
     private boolean mIsTheTitleVisible = false;
@@ -91,6 +91,8 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
     public AppContext appContext;
 
     public static void launch(Context context, int wendangid) {
+        if (context == null) return;
+        if (wendangid == 0) return;
         Intent in = new Intent(context, ArticleActivity.class);
         in.putExtra(KEY_ARTICLEID, wendangid);
         context.startActivity(in);
@@ -102,16 +104,16 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 //        setImmerseLayout(findViewById(R.id.activity_wendang));
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         appContext = AppContext.getApplication();
         wendangid = getIntent().getIntExtra(KEY_ARTICLEID,0);
         initView(this);
         initData();
     }
 
-    //    @Override
+    @Override
     public void initView(Activity activity) {
-//        super.initView(activity);
+        super.initView(activity);
         pictureRecycler.setLayoutManager(new LinearLayoutManager(this));
         pictureRecycler.addItemDecoration(ItemDecorationUtils.getCommTrans5Divider(ArticleActivity.this, true));
 
@@ -141,9 +143,9 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
         startAlphaAnimation(toolbarTitle, 0, View.INVISIBLE);
     }
 
-    //    @Override
+    @Override
     public void initData() {
-//        super.initData();
+        super.initData();
         RetrofitService.getInstance()
                 .getApiCacheRetryService()
                 .getPost(RetrofitService.getInstance().getToken(), wendangid,null)
@@ -155,17 +157,12 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
                         framelayoutTitle.setText(data.author.name);
 
                         toolbarTitle.setText(data.title);
-                        Picasso.with(headPortrait.getContext())
-                                .load(data.author.avatarURL)
-                                .fit()
-                                .placeholder(R.mipmap.home_pressed)
-                                .config(Bitmap.Config.RGB_565)
-                                .error(R.mipmap.home_pressed)
-                                .into(headPortrait);
-                        GlideUtils.loadCourse(backgroundImageview.getContext(), data.thumbnail.url, backgroundImageview);
 
-//                        String s = data.excerpt();
-                        String s = "坐等KM返回简介";
+                        GlideUtils.loadUser(headPortrait.getContext(),data.author.avatarURL,headPortrait);
+
+                        GlideUtils.loadDetails(backgroundImageview.getContext(), data.thumbnail.url, backgroundImageview);
+
+                        String s = data.excerpt;
                         framelayoutDetails.setText(s.replaceAll("[&hellip;]", ""));
 //                        wendang_text.setText(stripHtml(data.getPost().getPost_content()));
                         url = data.url;
@@ -232,7 +229,7 @@ public class ArticleActivity extends AppCompatActivity implements AppBarLayout.O
 
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
-        ImageReadingActivity.launch(ArticleActivity.this, (ArrayList<String>) list);
+        ImagePagerActivity.launch(context, (ArrayList<String>) list,position);
     }
 
     public static String stripHtml(String content) {

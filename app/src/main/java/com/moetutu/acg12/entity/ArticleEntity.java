@@ -14,6 +14,7 @@ public class ArticleEntity {
     public ThumbnailEntity thumbnail;
     public int comment;
 
+    public String excerpt;
     public String content;
     public UserEntity author;
 

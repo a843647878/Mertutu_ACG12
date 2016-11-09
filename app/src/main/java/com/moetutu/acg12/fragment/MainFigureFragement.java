@@ -19,8 +19,8 @@ import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.CardSlidePanel;
 import com.moetutu.acg12.view.CardSlidePanel.CardSwitchListener;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -36,7 +36,7 @@ public class MainFigureFragement extends LazyBaseFragment {
     View rootView;
     private CardSwitchListener cardSwitchListener;
     private int PageIndex = 1;
-    @InjectView(R.id.image_slide_panel)
+    @BindView(R.id.image_slide_panel)
     CardSlidePanel slidePanel;
 
     public AppContext appContext;
@@ -52,7 +52,7 @@ public class MainFigureFragement extends LazyBaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_figure, container, false);
-            ButterKnife.inject(this, rootView);
+            ButterKnife.bind(this, rootView);
             appContext = AppContext.getApplication();
             initView();
             initData(false);
@@ -121,9 +121,4 @@ public class MainFigureFragement extends LazyBaseFragment {
         super.onLazyLoad();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
 }

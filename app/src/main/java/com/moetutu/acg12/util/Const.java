@@ -56,9 +56,6 @@ public class Const {
 
     public static final String ShenShi = "2329";
 
-    public static final String Detail = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_post&post_id=%s";
-
-    public static final String Login = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=login";
 
     public static final String TUZHANJINGXUANRANDOM = "http://acg12.com/wp-admin/admin-ajax.php?action=theme_api&type=get_posts&category__in[]=764&category__in[]=1372&category__in[]=1267&category__in[]=1268&category__in[]=1268&posts_per_page=10&paged=%d";
 

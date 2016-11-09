@@ -1,10 +1,16 @@
 package com.moetutu.acg12.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.util.transformations.BlurTransformation;
+import com.moetutu.acg12.util.transformations.GlideCircleTransform;
 
 /**
  * Description
@@ -17,11 +23,65 @@ import com.moetutu.acg12.R;
 
 public class GlideUtils {
 
+
+    /**
+     * fragment 中 glide是否可以加载图片
+     * 否则 glide会引发崩溃
+     *
+     * @param fragment
+     * @return
+     */
+    public static boolean canLoadImage(Fragment fragment) {
+        if (fragment == null) {
+            return false;
+        }
+        FragmentActivity parentActivity = fragment.getActivity();
+        return canLoadImage(parentActivity);
+    }
+
+    /**
+     * context 中 glide是否可以加载图片
+     * 否则 glide会引发崩溃
+     *
+     * @param context
+     * @return
+     */
+    public static boolean canLoadImage(Context context) {
+        if (context == null) {
+            return false;
+        }
+        if (!(context instanceof Activity)) {
+            return true;
+        }
+        Activity activity = (Activity) context;
+        return canLoadImage(activity);
+    }
+
+    /**
+     * activity 中 glide是否可以加载图片
+     * 否则 glide会引发崩溃
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean canLoadImage(Activity activity) {
+        if (activity == null) {
+            return false;
+        }
+        boolean destroyed = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
+                activity.isDestroyed();
+        if (destroyed || activity.isFinishing()) {
+            return false;
+        }
+        return true;
+    }
+
+
     private GlideUtils() {
     }
 
     /**
-     * 加载用户 头像 等
+     * 加载用户 头像 等 圆角
      *
      * @param context
      * @param path
@@ -30,31 +90,166 @@ public class GlideUtils {
     public static void loadUser(Context context, String path, ImageView imageView) {
         if (context == null) return;
         if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
         Glide.with(context)
                 .load(path)
-                .fitCenter()
+                .transform(new GlideCircleTransform(context))
                 .placeholder(R.mipmap.home_pressed)
                 .error(R.mipmap.home_pressed)
+                .crossFade()
                 .into(imageView);
     }
 
+
     /**
-     * 加载图片
+     * 加载用户 头像 等 圆角 有边框有 图标
      *
      * @param context
      * @param path
      * @param imageView
      */
-    public static void loadCourse(Context context, String path, ImageView imageView) {
+    public static void loadUser2(Context context, String path, ImageView imageView, int color, int width, int angle, int img ) {
         if (context == null) return;
         if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
         Glide.with(context)
                 .load(path)
-                .fitCenter()
+                .transform(new GlideHollowCircleTransform(context,color,width,angle,img))
+                .placeholder(R.mipmap.home_pressed)
+                .error(R.mipmap.home_pressed)
+                .crossFade()
+                .into(imageView);
+    }
+
+    /*
+    只有边框
+     */
+    public static void loadUser2(Context context, String path, ImageView imageView, int color, int width ) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
+                .transform(new GlideHollowCircleTransform(context,color,width))
+                .placeholder(R.mipmap.home_pressed)
+                .error(R.mipmap.home_pressed)
+                .crossFade()
+                .into(imageView);
+    }
+
+
+    /*
+   只有图标
+    */
+    public static void loadUser2(Context context, String path, ImageView imageView, int angle, int img , boolean isImg) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
+                .transform(new GlideHollowCircleTransform(context,angle,img,isImg))
+                .placeholder(R.mipmap.home_pressed)
+                .error(R.mipmap.home_pressed)
+                .crossFade()
+                .into(imageView);
+    }
+
+    /**
+     * 某处理
+     * @param context
+     * @param path
+     * @param imageView
+     */
+    public static void blurImg(Context context, String path, ImageView imageView, int blur){
+        Glide.with(context)
+                .load(path)
+                .bitmapTransform(new BlurTransformation(context,blur))
+                .placeholder(R.mipmap.home_pressed)
+                .error(R.mipmap.home_pressed)
+                .crossFade()
+                .into(imageView);
+    }
+
+
+    /**
+     * 加载单张图片
+     *
+     * @param context
+     * @param path
+     * @param imageView
+     */
+    public static void loadDetails(Context context, String path, ImageView imageView) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
                 .placeholder(R.mipmap.loginicon)
                 .error(R.mipmap.loginicon)
                 .into(imageView);
     }
+
+    /**
+     * 加载慕课图标
+     *
+     * @param context
+     * @param path
+     * @param imageView
+     */
+    public static void loadTcmIcom(Context context, String path, ImageView imageView) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
+                .transform(new GlideCircleTransform(context))
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(imageView);
+    }
+
+
+    /**
+     * 加载慕课图标
+     *
+     * @param context
+     * @param path
+     * @param imageView
+     */
+    public static void loadTcmSquareIcom(Context context, String path, ImageView imageView) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(imageView);
+    }
+
 
 }
 

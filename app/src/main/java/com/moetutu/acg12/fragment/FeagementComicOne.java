@@ -3,6 +3,7 @@ package com.moetutu.acg12.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -18,11 +19,9 @@ import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.ChMedicCircleRecEntity;
 import com.moetutu.acg12.entity.PostEntity;
-import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
-import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.ZoomOutPageTransformer;
 import com.moetutu.acg12.view.refresh.MaterialRefreshLayout;
@@ -32,8 +31,8 @@ import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -47,17 +46,16 @@ import retrofit2.Response;
  */
 public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerAdapter.OnItemClickListener {
     View rootView;
-
-
-    @InjectView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @InjectView(R.id.myRefreshLayout)
-    MaterialRefreshLayout myRefreshLayout;
-    @InjectView(R.id.header_viewPager)
+    @BindView(R.id.header_viewPager)
     ViewPager headerViewPager;
-
-    @InjectView(R.id.appbar)
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.appbar)
     AppBarLayout appbar;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.myRefreshLayout)
+    MaterialRefreshLayout myRefreshLayout;
 
 
     private ComicShufflingAdapter chMedCircImgAdapter;
@@ -76,19 +74,17 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_comic_main, container, false);
-            ButterKnife.inject(this, rootView);
+            ButterKnife.bind(this, rootView);
             appContext = AppContext.getApplication();
             initView();
         }
         if (rootView.getParent() != null) {
             ((ViewGroup) rootView.getParent()).removeView(rootView);
         }
+
         return rootView;
     }
-
     private void initView() {
-
-
 //        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
@@ -128,7 +124,7 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getPostsByCategory(RetrofitService.getInstance().getToken(),"236",null,10,PageIndex)
+                .getPostsByCategory(RetrofitService.getInstance().getToken(), "236", null, 10, PageIndex)
                 .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
@@ -200,7 +196,6 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.reset(this);
     }
 
     public void endLastRefresh(boolean isRefresh) {

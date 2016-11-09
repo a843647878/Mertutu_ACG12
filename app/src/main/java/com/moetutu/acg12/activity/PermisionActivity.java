@@ -16,6 +16,7 @@ import com.moetutu.acg12.R;
  * @author chengwanying
  * @email wanyingandroid@163.com
  * @time 2016-04-18 17:13
+ * 最底层的base 用来申请权限问题
  */
 public class PermisionActivity extends AppCompatActivity {
 

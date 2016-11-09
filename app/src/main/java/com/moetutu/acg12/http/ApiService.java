@@ -3,6 +3,7 @@ package com.moetutu.acg12.http;
 import com.dao.userinfo.User;
 import com.moetutu.acg12.asynctask.type.Acg12Obj;
 import com.moetutu.acg12.entity.ArticleEntity;
+import com.moetutu.acg12.entity.LoginInfo;
 import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.UserEntity;
 import com.moetutu.acg12.entity.WenDangMode;
@@ -33,7 +34,7 @@ public interface ApiService {
     //获取令牌
     @POST("admin-ajax.php?action=53c421&type=getToken")
     @FormUrlEncoded
-    Call<ResEntity<User>> getToken(@Field("appID") String appID, @Field("appSecure")String appSecure);
+    Call<ResEntity<LoginInfo>> getToken(@Field("appID") String appID, @Field("appSecure")String appSecure);
 
     // 按分类获取多篇文章
     @POST("admin-ajax.php?action=53c421&type=getPostsByCategory")

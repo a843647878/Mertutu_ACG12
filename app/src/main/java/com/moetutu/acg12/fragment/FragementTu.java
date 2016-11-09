@@ -1,6 +1,6 @@
 package com.moetutu.acg12.fragment;
 
-import android.content.Context;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.adapter.TuJiAdapter;
-import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.PostEntity;
-import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
@@ -53,8 +51,6 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     View rootView;
 
     //图站Fragement
-    private Context mContext;
-    private AppContext appContext;
     private int PageIndex = 1;
     private List<ArticleEntity> matches = new ArrayList<ArticleEntity>();
 
@@ -68,7 +64,6 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_one, container, false);
-            appContext = (AppContext) getActivity().getApplication();
             initViews(rootView);
         }
         if (rootView.getParent() != null) {

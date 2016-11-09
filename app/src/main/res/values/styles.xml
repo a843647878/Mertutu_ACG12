@@ -11,7 +11,7 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
-        <item name="colorPrimary">@color/acg_fen</item>
+        <item name="colorPrimary">@color/acg_fen2</item>
         <item name="colorPrimaryDark">@color/acg_fen2</item>
     </style>
 

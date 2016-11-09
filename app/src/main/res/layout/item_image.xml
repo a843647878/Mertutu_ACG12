@@ -11,9 +11,9 @@
         android:id="@+id/biaoqian_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gg"
-        fresco:failureImage="@mipmap/loginicon"
-        fresco:retryImage="@mipmap/loginicon"
+        android:background="@mipmap/cat_loging"
+        fresco:failureImage="@mipmap/cat_loging"
+        fresco:retryImage="@mipmap/cat_loging"
         fresco:actualImageScaleType="focusCrop"/>
 
 </LinearLayout>

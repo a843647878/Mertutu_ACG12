@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -41,25 +41,25 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MainActivity extends BaseActivity {
 
-    @InjectView(R.id.viewpager_main)
-    NoScrollViewPager viewpagerMain;
-    @InjectView(R.id.bottom_view)
-    View bottomView;
-    @InjectView(R.id.main_tab)
-    RadioGroup mainTab;
-    @InjectView(R.id.main_main)
-    LinearLayout mainMain;
-    @InjectView(R.id.rb_mertu)
-    RadioButton rbMertu;
-    @InjectView(R.id.rb_figure)
-    RadioButton rbFigure;
-    @InjectView(R.id.rb_comic)
-    RadioButton rbComic;
-    @InjectView(R.id.rb_user)
-    RadioButton rbUser;
 
     BaseFragmentAdapter fragmentAdapter;
     String KEY_TAB_INDEX = "tab_index";
+    @BindView(R.id.viewpager_main)
+    NoScrollViewPager viewpagerMain;
+    @BindView(R.id.bottom_view)
+    View bottomView;
+    @BindView(R.id.rb_mertu)
+    RadioButton rbMertu;
+    @BindView(R.id.rb_figure)
+    RadioButton rbFigure;
+    @BindView(R.id.rb_comic)
+    RadioButton rbComic;
+    @BindView(R.id.rb_user)
+    RadioButton rbUser;
+    @BindView(R.id.main_tab)
+    RadioGroup mainTab;
+    @BindView(R.id.main_main)
+    LinearLayout mainMain;
 
 
     private MessageReceiver mMessageReceiver;
@@ -74,7 +74,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
+
         mMessageReceiver = new MessageReceiver();
         JPushInterface.resumePush(this);
         setImmerseLayout(findViewById(R.id.main_main));

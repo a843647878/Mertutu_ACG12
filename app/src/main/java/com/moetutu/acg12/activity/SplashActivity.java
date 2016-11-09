@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.dao.userinfo.User;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.asynctask.type.Acg12Obj;
+import com.moetutu.acg12.entity.LoginInfo;
 import com.moetutu.acg12.entity.UserEntity;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
@@ -158,20 +159,29 @@ public class SplashActivity extends BaseActivity {
 				.getInstance()
 				.getApiCacheRetryService()
 				.getToken("4q6wnmmdzd","3wk9khscjfk")
-				.enqueue(new SimpleCallBack<User>() {
+				.enqueue(new SimpleCallBack<LoginInfo>() {
 					@Override
-					public void onSuccess(Call<ResEntity<User>> call, Response<ResEntity<User>> response) {
-						final User user = response.body().data;
-						RetrofitService.getInstance().restLoginInfo(user.getToken());
-
-						if (presenter != null) {
-							try {
-								presenter.inertOrReplace(user);
-							} catch (Exception e) {
-								e.printStackTrace();
-								LogUtils.d("-------->exe:" + e);
+					public void onSuccess(Call<ResEntity<LoginInfo>> call, Response<ResEntity<LoginInfo>> response) {
+						final LoginInfo data = response.body().data;
+						LogUtils.d("------------------>token="+data.token);
+						if (!TextUtils.isEmpty(data.token)){
+							if (presenter != null) {
+								try {
+									LogUtils.d("------------------>写入数据库");
+									RetrofitService.getInstance().restLoginInfo(response.body().data.token,"7788");
+									User user = new User();
+									user.setToken(data.token);
+									user.setUid("7788");
+									presenter.inertOrReplace(user);
+									LogUtils.d("------------------>RetrofitService.token="+RetrofitService.getInstance()
+									.getToken());
+								} catch (Exception e) {
+									e.printStackTrace();
+									LogUtils.d("-------->exe:" + e);
+								}
 							}
 						}
+
 					}
 				});
 	}

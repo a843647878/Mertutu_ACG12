@@ -14,8 +14,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.Arrays;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Description
@@ -26,9 +26,9 @@ import butterknife.InjectView;
 public class MainComicFragement extends LazyBaseFragment {
     View rootView;
 
-    @InjectView(R.id.viewpagertab)
+    @BindView(R.id.viewpagertab)
     SmartTabLayout viewpagertab;
-    @InjectView(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewpager;
 
     BaseFragmentAdapter fragmentAdapter;
@@ -43,13 +43,12 @@ public class MainComicFragement extends LazyBaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_comic, container, false);
-            ButterKnife.inject(this, rootView);
+            ButterKnife.bind(this, rootView);
             initView();
         }
         if (rootView.getParent() != null) {
             ((ViewGroup) rootView.getParent()).removeView(rootView);
         }
-        ButterKnife.inject(this, rootView);
         return rootView;
     }
 
@@ -80,9 +79,4 @@ public class MainComicFragement extends LazyBaseFragment {
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
 }
