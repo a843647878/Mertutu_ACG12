@@ -1,5 +1,7 @@
 package com.moetutu.acg12.entity;
 
+import java.util.Date;
+
 /**
  * Description
  * Created by chengwanying on 2016/10/26.
@@ -17,5 +19,7 @@ public class ArticleEntity {
     public String excerpt;
     public String content;
     public UserEntity author;
+
+    public DateEntity date;
 
 }
