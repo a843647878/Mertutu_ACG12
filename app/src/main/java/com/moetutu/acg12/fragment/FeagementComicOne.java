@@ -124,7 +124,7 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getPostsByCategory(RetrofitService.getInstance().getToken(), "236", null, 10, PageIndex)
+                .getPostsByCategory(RetrofitService.getInstance().getToken(), "1270", "content", 10, PageIndex)
                 .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {

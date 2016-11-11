@@ -128,7 +128,7 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getPostsByCategory(RetrofitService.getInstance().getToken(),getArguments().getString(TYPE_API),null,10,PageIndex)
+                .getPostsByCategory(RetrofitService.getInstance().getToken(),getArguments().getString(TYPE_API),"content",10,PageIndex)
                 .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {

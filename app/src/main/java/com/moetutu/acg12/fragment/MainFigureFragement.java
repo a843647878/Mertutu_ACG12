@@ -84,6 +84,7 @@ public class MainFigureFragement extends LazyBaseFragment {
             @Override
             public void onItemClick(View cardView, int index) {
                 LogUtils.d("---------->卡片点击-" + index);
+                if (slidePanel.dataList == null) return;
                 ArticleActivity.launch(getContext(),slidePanel.dataList.get(index).id);
             }
         };
@@ -96,7 +97,7 @@ public class MainFigureFragement extends LazyBaseFragment {
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
-                .getRecommPosts(RetrofitService.getInstance().getToken(),null,10,PageIndex)
+                .getRecommPosts(RetrofitService.getInstance().getToken(),"content",10,PageIndex)
                 .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
