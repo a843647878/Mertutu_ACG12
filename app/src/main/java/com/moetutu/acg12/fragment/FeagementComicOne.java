@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.ArticleActivity;
+import com.moetutu.acg12.activity.ArticleBActivity;
 import com.moetutu.acg12.adapter.ComicShufflingAdapter;
 import com.moetutu.acg12.adapter.TuJiAdapter;
 import com.moetutu.acg12.app.AppContext;
@@ -219,7 +220,7 @@ public class FeagementComicOne extends LazyBaseFragment implements BaseRecyclerA
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
         if (adapter == tuadapter) {
             ArticleEntity obj = tuadapter.getItem(position);
-            ArticleActivity.launch(getActivity(), obj.id);
+            ArticleBActivity.launch(getActivity(), obj.id);
         }
 
     }

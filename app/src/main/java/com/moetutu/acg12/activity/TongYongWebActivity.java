@@ -28,7 +28,6 @@ public class TongYongWebActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.webview_zx_activity);
-		setImmerseLayout(findViewById(R.id.main_activity_name));
 		Intent in = getIntent();
 		url = in.getStringExtra("url");
 		initView(this);

@@ -6,14 +6,37 @@
     android:id="@+id/activity_wendang"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/main_title"
-        layout="@layout/view_title" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="?attr/appbg">
+
+        <ImageView
+            android:id="@+id/acg_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:background="@mipmap/logofw"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/acg_name"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每日推荐"
+            android:textSize="16sp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
     <com.moetutu.acg12.view.CardSlidePanel
-        android:layout_marginTop="33.5dp"
+        android:layout_marginTop="45dp"
         android:id="@+id/image_slide_panel"
         android:layout_width="fill_parent"
-        card:bottomMarginTop="80dp"
+        card:bottomMarginTop="50dp"
         card:yOffsetStep="22dp"
         android:layout_height="fill_parent"
         android:background="@color/white">

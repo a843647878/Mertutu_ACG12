@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.util.HtmlAcgUtil;
 import com.moetutu.acg12.view.HackyViewPager;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -153,21 +154,40 @@ public class ImagePagerActivity extends BaseActivity {
 
             String url = imgs[position];
             if (!TextUtils.isEmpty(url)) {
-                Picasso.with(context)
-                        .load(url)
-                        .placeholder(R.mipmap.cat_loging)
-                        .error(R.mipmap.cat_loging)
-                        .into(photoView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                if (attacher != null)
-                                    attacher.update();
-                            }
+                if (HtmlAcgUtil.isHttps(url)){
+                    Picasso.with(context)
+                            .load(url)
+                            .placeholder(R.mipmap.cat_loging)
+                            .error(R.mipmap.cat_loging)
+                            .into(photoView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    if (attacher != null)
+                                        attacher.update();
+                                }
 
-                            @Override
-                            public void onError() {
-                            }
-                        });
+                                @Override
+                                public void onError() {
+                                }
+                            });
+                }else {
+                    Picasso.with(context)
+                            .load("https:" + url)
+                            .placeholder(R.mipmap.cat_loging)
+                            .error(R.mipmap.cat_loging)
+                            .into(photoView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    if (attacher != null)
+                                        attacher.update();
+                                }
+
+                                @Override
+                                public void onError() {
+                                }
+                            });
+                }
+
             }
 
             return photoView;

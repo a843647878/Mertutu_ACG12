@@ -13,14 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.activity.SwitchBgActivity;
 import com.moetutu.acg12.adapter.BaseFragmentAdapter;
 import com.moetutu.acg12.util.Const;
+import com.moetutu.acg12.util.HtmlAcgUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Description
@@ -45,11 +48,6 @@ public class MainMerTuFragement extends LazyBaseFragment {
     @BindView(R.id.main_content)
     CoordinatorLayout mainContent;
 
-
-    private String userid;
-    private String touxiang;
-    private String name;
-    public static boolean isForeground = false;
     BaseFragmentAdapter fragmentAdapter;
 
     public static MainMerTuFragement newInstance() {
@@ -72,6 +70,7 @@ public class MainMerTuFragement extends LazyBaseFragment {
     }
 
     private synchronized void initView() {
+        mainContent.setScrollContainer(false);
 
         fragmentAdapter = new BaseFragmentAdapter(getChildFragmentManager());
 
@@ -99,4 +98,8 @@ public class MainMerTuFragement extends LazyBaseFragment {
 
     }
 
+    @OnClick(R.id.acg_icon)
+    public void onClick() {
+        SwitchBgActivity.launch(getContext());
+    }
 }

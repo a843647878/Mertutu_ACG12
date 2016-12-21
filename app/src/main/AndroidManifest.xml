@@ -109,8 +109,18 @@
             android:name=".activity.ArticleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ArticleBActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ImagePagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.SwitchBgActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
@@ -239,7 +249,7 @@
 
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="1b3e7020ca97a534cf7d8584" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data android:name="JPUSH_APPKEY" android:value="d51d951f4d617578e6387215" /> <!--  </>值来自开发者平台取得的AppKey-->
 
 
     </application>

@@ -2,6 +2,7 @@ package com.moetutu.acg12.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -22,16 +23,12 @@ import butterknife.ButterKnife;
  * Company guokeyuzhou
  * Created by chengwanying on 16/7/4.
  * version
+ * 之前的漫画页
  */
 public class MainComicFragement extends LazyBaseFragment {
     View rootView;
 
-    @BindView(R.id.viewpagertab)
-    SmartTabLayout viewpagertab;
-    @BindView(R.id.viewpager)
-    ViewPager viewpager;
 
-    BaseFragmentAdapter fragmentAdapter;
 
     public static MainComicFragement newInstance() {
         MainComicFragement fragment = new MainComicFragement();
@@ -42,9 +39,7 @@ public class MainComicFragement extends LazyBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_comic, container, false);
-            ButterKnife.bind(this, rootView);
-            initView();
+            rootView = inflater.inflate(R.layout.fragment_user, container, false);
         }
         if (rootView.getParent() != null) {
             ((ViewGroup) rootView.getParent()).removeView(rootView);
@@ -52,26 +47,7 @@ public class MainComicFragement extends LazyBaseFragment {
         return rootView;
     }
 
-    private void initView() {
-        fragmentAdapter = new BaseFragmentAdapter(getChildFragmentManager());
 
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                Fragment fragment = fragmentAdapter.getItem(position);
-                fragment.setUserVisibleHint(true);
-            }
-        });
-        fragmentAdapter.bindTitle(true, Arrays.asList("漫画中心", "吾之宝藏", "动态"));
-        fragmentAdapter.bindData(true,
-                Arrays.asList(
-                        FeagementComicOne.newInstance().startLazyMode(),
-                        FeagementComicOne.newInstance(),
-                        FeagementComicOne.newInstance()));
-        viewpager.setAdapter(fragmentAdapter);
-        viewpagertab.setViewPager(viewpager);
-    }
 
     @Override
     public void onLazyLoad() {

@@ -72,7 +72,6 @@ public class MoeTuMainActivity extends BaseActivity {
         setContentView(R.layout.fragment_main);
         ButterKnife.bind(this);
         JPushInterface.resumePush(getApplicationContext());
-        setImmerseLayout(findViewById(R.id.main_content));
         mMessageReceiver = new MessageReceiver();
         initView(this);
         //m_vp.setOffscreenPageLimit(2);

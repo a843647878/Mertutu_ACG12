@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.WenDangAdapter;
 import com.moetutu.acg12.app.AppContext;
@@ -31,6 +32,7 @@ import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.GlideUtils;
+import com.moetutu.acg12.util.HtmlAcgUtil;
 import com.moetutu.acg12.util.ItemDecorationUtils;
 import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
@@ -75,7 +77,7 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
     @BindView(R.id.main_toolbar)
     Toolbar mainToolbar;
     @BindView(R.id.head_portrait)
-    CircleImageView headPortrait;
+    ImageView headPortrait;
     @BindView(R.id.framelayout_details)
     TextView framelayoutDetails;
     @BindView(R.id.activity_wendang)
@@ -158,9 +160,17 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
 
                         toolbarTitle.setText(data.title);
 
-                        GlideUtils.loadUser(headPortrait.getContext(),data.author.avatarURL,headPortrait);
+                        if (HtmlAcgUtil.isHttps(data.author.avatarURL)){
+                            GlideUtils.loadUser(headPortrait.getContext(),data.author.avatarURL,headPortrait);
+                        }else {
+                            GlideUtils.loadUser(headPortrait.getContext(),"https:"+data.author.avatarURL,headPortrait);
+                        }
 
-                        GlideUtils.loadDetails(backgroundImageview.getContext(), data.thumbnail.url, backgroundImageview);
+                        if (HtmlAcgUtil.isHttps(data.thumbnail.url)){
+                            GlideUtils.loadDetails(backgroundImageview.getContext(), data.thumbnail.url, backgroundImageview);
+                        }else {
+                            GlideUtils.loadDetails(backgroundImageview.getContext(), "https:"+data.thumbnail.url, backgroundImageview);
+                        }
 
                         String s = data.excerpt;
                         framelayoutDetails.setText(s.replaceAll("[&hellip;]", ""));
@@ -168,7 +178,7 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
                         url = data.url;
                         list.clear();
 
-                        list = quChu(getImgStr(data.content));
+                        list = HtmlAcgUtil.quChu(HtmlAcgUtil.getImgStr(data.content));
 
                         adapter.bindData(true, list);
                     }
@@ -229,64 +239,9 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
 
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
-        ImagePagerActivity.launch(context, (ArrayList<String>) list,position);
-    }
-
-    public static String stripHtml(String content) {
-        // <p>段落替换为换行
-        content = content.replaceAll("<p .*?>", "\r\n");
-        // <br><br/>替换为换行
-        content = content.replaceAll("<br\\s*/?>", "\r\n");
-        // 去掉其它的<>之间的东西
-        content = content.replaceAll("\\<.*?>", "");
-        // 还原HTML
-        // content = HTMLDecoder.decode(content);
-        content = content.replaceAll("&nbsp;", "");
-        content = content.replaceAll("&#8211;", "");
-        content = content.replaceAll("&#8221;", "");
-        content = content.replaceAll("&#amp;", "");
-        return content;
+        ImagePagerActivity.launch(context, (ArrayList<String>) list,position+1);
     }
 
 
-    public static List<String> getImgStr(String htmlStr) {
-        String img = "";
-        Pattern p_image;
-        Matcher m_image;
-        List<String> pics = new ArrayList<String>();
 
-        //     String regEx_img = "<img.*src=(.*?)[^>]*?>"; //图片链接地址
-
-        String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
-        p_image = Pattern.compile
-                (regEx_img, Pattern.CASE_INSENSITIVE);
-        m_image = p_image.matcher(htmlStr);
-        while (m_image.find()) {
-            img = img + "," + m_image.group();
-            // Matcher m  = Pattern.compile("src=\"?(.*?)(\"|>|\\s+)").matcher(img); //匹配src
-
-            Matcher m = Pattern.compile("src\\s*=\\s*\"?(.*?)(\"|>|\\s+)").matcher(img);
-
-            while (m.find()) {
-                pics.add(m.group(1));
-            }
-        }
-        return pics;
-    }
-
-
-    public List<String> quChu(List<String> l) {
-        for (int i = 0; i < l.size(); i++)  //外循环是循环的次数
-        {
-            for (int j = l.size() - 1; j > i; j--)  //内循环是 外循环一次比较的次数
-            {
-
-                if (l.get(i).equals(l.get(j))) {
-                    l.remove(j);
-                }
-
-            }
-        }
-        return l;
-    }
 }

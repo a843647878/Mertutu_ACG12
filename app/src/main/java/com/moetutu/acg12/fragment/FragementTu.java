@@ -4,12 +4,14 @@ package com.moetutu.acg12.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.ArticleActivity;
+import com.moetutu.acg12.activity.ArticleBActivity;
 import com.moetutu.acg12.adapter.TuJiAdapter;
 import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.PostEntity;
@@ -19,6 +21,8 @@ import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.ItemDecorationUtils;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView;
+import com.moetutu.acg12.view.refresh.MaterialRefreshLayout;
+import com.moetutu.acg12.view.refresh.MaterialRefreshListener;
 import com.moetutu.acg12.view.refreshview.ProgressStyle;
 import com.moetutu.acg12.view.refreshview.XRecyclerView;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
@@ -56,8 +60,8 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
 
     TuJiAdapter tuadapter;
 
-    XRecyclerView recyclerView;
-    FunGameRefreshView beautifulRefreshLayout;
+    RecyclerView recyclerView;
+    MaterialRefreshLayout myRefreshLayout;
 
     @Nullable
     @Override
@@ -74,57 +78,40 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
 
     public void initViews(View view) {
 
-        recyclerView = (XRecyclerView) view.findViewById(R.id.list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.addItemDecoration(ItemDecorationUtils.getCommTrans5Divider(getActivity(), true));
-        beautifulRefreshLayout = (FunGameRefreshView) view.findViewById(R.id.refresh);
-        beautifulRefreshLayout.setOnRefreshListener(new FunGameRefreshView.FunGameRefreshListener() {
+        myRefreshLayout = (MaterialRefreshLayout) view.findViewById(R.id.myRefreshLayout);
+
+        myRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
-            public void onRefreshing() {
-                try {
-                    // 模拟网络请求耗时动作
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
                 initData(true);
-            }
-        });
-        recyclerView.setLoadingMoreProgressStyle(ProgressStyle.Pacman);
-        recyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                //已经无效了
-                initData( true);
             }
 
             @Override
-            public void onLoadMore() {
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
                 initData(false);
             }
         });
-
-        recyclerView.setPullRefreshEnabled(false);
         tuadapter = new TuJiAdapter();
         tuadapter.setOnItemClickListener(this);
         recyclerView.setAdapter(tuadapter);
-        if (matches == null) {
-            LogUtils.d("---------onViewCreated");
-            initData(true);
-        }
-//        initData(PageIndex, true);
+
     }
 
     @Override
     public void onLazyLoad() {
         super.onLazyLoad();
-        initData(true);
+        myRefreshLayout.autoRefresh();
     }
 
-    private synchronized void initData(final boolean mm) {
-        if (mm) {
+    private synchronized void initData(final boolean isRefresh) {
+        if (isRefresh) {
             PageIndex = 1;
         }
+        LogUtils.d("------------->PageIndex:"+PageIndex);
+        endLastRefresh(isRefresh);
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
@@ -133,16 +120,17 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
                         if (response.body().data.posts != null) {
-                            tuadapter.bindData(mm, response.body().data.posts);
+                            endCurrentRefresh(isRefresh);
+                            tuadapter.bindData(isRefresh, response.body().data.posts);
                             PageIndex++;
-                            recyclerView.loadMoreComplete();
-                            beautifulRefreshLayout.finishRefreshing();
+                            myRefreshLayout.setLoadMore(response.body().data.posts.size() > 9);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResEntity<PostEntity>> call, Throwable t) {
                         super.onFailure(call, t);
+                        endCurrentRefresh(isRefresh);
                     }
                 });
 
@@ -150,9 +138,30 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
 
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
-        XRecyclerView.WrapAdapter wpAdapter = (XRecyclerView.WrapAdapter) recyclerView.getAdapter();
-        ArticleEntity obj = tuadapter.getItem(position - wpAdapter.getHeadersCount());
-        ArticleActivity.launch(getActivity(),obj.id);
+        if (adapter == tuadapter) {
+            ArticleEntity obj = tuadapter.getItem(position);
+            if (obj != null){
+                ArticleBActivity.launch(getActivity(),obj.id);
+            }
+        }
+    }
+
+
+
+    public void endLastRefresh(boolean isRefresh) {
+        if (myRefreshLayout == null) return;
+        if (isRefresh)
+            myRefreshLayout.finishRefreshLoadMore();
+        else
+            myRefreshLayout.finishRefresh();
+    }
+
+    public void endCurrentRefresh(boolean isRefresh) {
+        if (myRefreshLayout == null) return;
+        if (isRefresh)
+            myRefreshLayout.finishRefresh();
+        else
+            myRefreshLayout.finishRefreshLoadMore();
     }
 
 }

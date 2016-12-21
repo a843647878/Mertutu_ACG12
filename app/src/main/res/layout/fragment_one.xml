@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.moetutu.acg12.view.refresh.MaterialRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/refresh"
+    android:id="@+id/myRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    app:game_type="hit_block">
+    app:progress_colors="@array/material_colors"
+    app:overlay="true"
+    app:wave_show="false">
 
 
-    <com.moetutu.acg12.view.refreshview.XRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="2.5dp"
         android:paddingRight="2.5dp"/>
-</com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView>
+
+</com.moetutu.acg12.view.refresh.MaterialRefreshLayout>

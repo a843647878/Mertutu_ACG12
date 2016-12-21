@@ -11,6 +11,7 @@ import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.presenter.UserDbPresenter;
 import com.moetutu.acg12.util.JsonUtils;
 import com.moetutu.acg12.util.LogUtils;
+import com.moetutu.acg12.util.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -115,7 +116,14 @@ public class RetrofitService {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                LogUtils.d("http", message);
+                if (!TextUtils.isEmpty(message)) {
+                    LogUtils.d("logger-http", message);
+                    if (message.startsWith("{") && message.endsWith("}")) {
+                        Logger.t("http-format").json(message);
+                    } else if (message.startsWith("[") && message.endsWith("]")) {
+                        Logger.t("http-format").json(message);
+                    }
+                }
             }
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

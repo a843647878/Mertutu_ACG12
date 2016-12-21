@@ -18,7 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/acg_fen"
+            android:background="?attr/appbg"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageView
@@ -48,7 +48,7 @@
             android:id="@+id/viewpagertab"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/acg_fen"
+            android:background="?attr/appbg"
             android:clipToPadding="false"
             android:paddingBottom="4dp"
             android:paddingLeft="4dp"

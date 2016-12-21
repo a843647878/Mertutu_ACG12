@@ -65,7 +65,7 @@
             <!-- Blue button pressed -->
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/acg_fen" />
+                    <solid android:color="?attr/appbg" />
                 </shape>
             </item>
         </layer-list>
@@ -138,7 +138,7 @@
 
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/acg_fen" />
+                    <solid android:color="?attr/appbg" />
                 </shape>
             </item>
         </layer-list>

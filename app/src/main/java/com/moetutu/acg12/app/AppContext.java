@@ -25,9 +25,9 @@ public class AppContext extends MultiDexApplication {//com.zztzt.android.simple.
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);
 
+		JPushInterface.init(this);
+		JPushInterface.setDebugMode(false);        // 设置开启日志,发布时请关闭日志
 		mInstance = this;
 		//fasebook初始化
 		Fresco.initialize(this);
@@ -52,21 +52,6 @@ public class AppContext extends MultiDexApplication {//com.zztzt.android.simple.
 		return null;
 	}
 
-	public String getTuJiList(String url,int bookpage){
-
-		String ss=String.format(url,bookpage);
-		return ss;
-	}
-
-	public String getWenDang(String url,String wendangid){
-
-		String ss=String.format(url,wendangid);
-		return ss;
-	}
-	
-	
-
-	
 
 	
 }

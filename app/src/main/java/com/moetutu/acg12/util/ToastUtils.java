@@ -43,7 +43,7 @@ public class ToastUtils {
                 .setyOffset(DensityUtil.dip2px(context, 52))
                 .setTitle(notice)
                 .setTextColor(Color.WHITE)
-                .setBackgroundColor(0XFF17AF6C)
+                .setBackgroundColor(0XFFFF4590)
                 .setRadius(0)
                 .setElevation(0)
                 .build()

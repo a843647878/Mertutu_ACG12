@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity {
     BaseFragmentAdapter fragmentAdapter;
     String KEY_TAB_INDEX = "tab_index";
     @BindView(R.id.viewpager_main)
-    NoScrollViewPager viewpagerMain;
+   ViewPager viewpagerMain;
     @BindView(R.id.bottom_view)
     View bottomView;
     @BindView(R.id.rb_mertu)
@@ -58,8 +58,6 @@ public class MainActivity extends BaseActivity {
     RadioButton rbUser;
     @BindView(R.id.main_tab)
     RadioGroup mainTab;
-    @BindView(R.id.main_main)
-    LinearLayout mainMain;
 
 
     private MessageReceiver mMessageReceiver;
@@ -78,21 +76,19 @@ public class MainActivity extends BaseActivity {
 
         mMessageReceiver = new MessageReceiver();
         JPushInterface.resumePush(this);
-        setImmerseLayout(findViewById(R.id.main_main));
         initView(this);
     }
 
     @Override
     public void initView(Activity activity) {
         super.initView(activity);
-
+        fragmentAdapter = new BaseFragmentAdapter(getSupportFragmentManager());
+        viewpagerMain.setAdapter(fragmentAdapter);
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(MainMerTuFragement.newInstance());
+        fragmentList.add(MainMerTuFragement.newInstance().startLazyMode());
         fragmentList.add(MainFigureFragement.newInstance());
         fragmentList.add(MainComicFragement.newInstance());
         fragmentList.add(MainUserFragement.newInstance());
-        fragmentAdapter = new BaseFragmentAdapter(getSupportFragmentManager());
-        viewpagerMain.setAdapter(fragmentAdapter);
         viewpagerMain.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {

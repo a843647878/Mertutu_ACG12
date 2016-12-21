@@ -199,8 +199,8 @@ public class GlideUtils {
         }
         Glide.with(context)
                 .load(path)
-                .placeholder(R.mipmap.loginicon)
-                .error(R.mipmap.loginicon)
+                .placeholder(R.mipmap.cat_loging)
+                .error(R.mipmap.cat_loging)
                 .into(imageView);
     }
 

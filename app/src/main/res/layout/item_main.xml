@@ -35,8 +35,8 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:gravity="center"
-                android:background="@color/text_light_gray"
-                android:alpha="0.4"
+                android:background="@color/line_title_bottom"
+                android:alpha="0.5"
                 android:layout_alignParentBottom="true"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="浏览"
-                android:textColor="@color/jiaoyi_qq_celue_green"
+                android:textColor="@color/text_hui"
                 android:layout_centerInParent="true"
                 android:textSize="12sp" />
         </RelativeLayout>

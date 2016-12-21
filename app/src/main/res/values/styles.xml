@@ -13,8 +13,10 @@
         -->
         <item name="colorPrimary">@color/acg_fen2</item>
         <item name="colorPrimaryDark">@color/acg_fen2</item>
-    </style>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="appbg">@color/acg_fen2</item>
 
+    </style>
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
@@ -22,6 +24,66 @@
         <item name="android:windowIsTranslucent">false</item>
 
     </style>
+
+
+
+    <style name="AppBaseThemeZi" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/jilaozi</item>
+        <item name="colorPrimaryDark">@color/jilaozi</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="appbg">@color/jilaozi</item>
+    </style>
+
+    <style name="AppThemeZi" parent="AppBaseThemeZi">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+
+
+    <style name="AppBaseThemeLan" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/pangcilan</item>
+        <item name="colorPrimaryDark">@color/pangcilan</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="appbg">@color/pangcilan</item>
+    </style>
+
+    <style name="AppThemeLan" parent="AppBaseThemeLan">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+
+    </style>
+
+
+
+    <style name="AppBaseThemeFen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/shaonvfen</item>
+        <item name="colorPrimaryDark">@color/shaonvfen</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="appbg">@color/shaonvfen</item>
+    </style>
+
+    <style name="AppThemeFen" parent="AppBaseThemeFen">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+
+    </style>
+
+
+
+    <style name="AppBaseThemeHong" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/yimahong</item>
+        <item name="colorPrimaryDark">@color/yimahong</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="appbg">@color/yimahong</item>
+    </style>
+
+    <style name="AppThemeHong" parent="AppBaseThemeHong">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+
 
     <!-- popwidnow 显示/消失 动画 -->
     <style name="mypopwindow_anim_style_menu">

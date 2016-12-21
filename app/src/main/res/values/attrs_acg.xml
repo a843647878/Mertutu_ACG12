@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  【统一颜色定义区域】 -->
+    <color name="acg_background_window">@color/white</color>                   <!-- 窗体的背景色 -->
+    <color name="acg_divider_color">#ededed</color>                        <!-- 分割线 -->
+    <color name="acg_title_txt_color">@color/text_hui</color>  <!-- 标题字体颜色-->
+    <color name="acg_font_color_black">#FF333333</color>                   <!-- 普通黑色-->
+    <color name="acg_font_color_gray">#FF666666</color>                    <!-- 普通灰色 -->
+
+    <!--  【统一单位定义区域】 -->
+    <dimen name="acg_divider_height">0.4dp</dimen>         <!-- 分割线高度 -->
+    <dimen name="acg_title_height">53dp</dimen>            <!-- 页面标题布局高度 -->
+
+
+    <!-- 字体大小相对单位 为zeplin 聚合单位 [四舍五入]   -->
+    <dimen name="acg_font_size_title">17.5sp</dimen>          <!-- 页面标题字体大小 -->
+    <dimen name="acg_font_size_comm">15.5sp</dimen>           <!-- 页面普通字体大小 -->
+    <dimen name="acg_font_size_comm_medium">14.5sp</dimen>    <!-- 页面普通小字体 -->
+    <dimen name="acg_font_size_mini">14sp</dimen>             <!-- 页面小字体 -->
+    <dimen name="acg_font_size_mini_medium">12.5sp</dimen>    <!-- 页面中等小字体 -->
+    <dimen name="acg_font_size_mini_lowest">11.5sp</dimen>    <!-- 页面最小字体 -->
+
+
+    <!-- 布局的内容边距 常见左边距;右边距; -->
+    <dimen name="acg_padding_content">11.5dp</dimen>      <!-- 内容边距 -->
+
+</resources>

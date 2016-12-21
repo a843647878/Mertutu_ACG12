@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/common_title_layout"
     android:layout_width="fill_parent"
-    android:layout_height="45dp"
-    android:background="@drawable/shadow_title" >
+    android:layout_height="@dimen/acg_title_height"
+    android:background="?attr/appbg" >
+
 
     <ImageView 
         android:id="@+id/acg_icon"
@@ -19,8 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ACG调查小队"
-        android:textSize="14sp"
+        android:textSize="@dimen/acg_font_size_title"
         android:layout_marginLeft="8dp"
+        android:lines="1"
         android:layout_centerVertical="true"
         android:textColor="@color/white"
         android:visibility="gone"/>
@@ -35,7 +37,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="登录"
-        android:textSize="14sp"
+        android:textSize="@dimen/acg_font_size_comm"
         android:textColor="@color/white"
         android:visibility="gone" />
     
@@ -50,17 +52,17 @@
         android:paddingRight="8dp"
         android:src="@mipmap/fangdajing"
         android:visibility="gone" />
+
     <TextView
         android:id="@+id/view_title_left_image_btn_back"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/background_touming_lan"
         android:paddingLeft="8dp"
         android:paddingRight="8.0dp"
         android:text="返回"
-        android:textSize="14sp"
+        android:textSize="@dimen/acg_font_size_comm"
         android:gravity="center_vertical"
         android:textColor="@color/white"
         android:drawableLeft="@mipmap/back"

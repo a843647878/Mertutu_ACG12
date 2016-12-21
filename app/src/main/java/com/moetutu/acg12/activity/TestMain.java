@@ -41,7 +41,6 @@ public class TestMain extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_article);
-//        setImmerseLayout(findViewById(R.id.activity_wendang));
         initData(false);
         initView(this);
     }

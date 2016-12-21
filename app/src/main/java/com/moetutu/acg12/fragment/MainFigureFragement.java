@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.ArticleActivity;
+import com.moetutu.acg12.activity.ArticleBActivity;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.PostEntity;
 import com.moetutu.acg12.entity.TestMode;
@@ -85,7 +86,7 @@ public class MainFigureFragement extends LazyBaseFragment {
             public void onItemClick(View cardView, int index) {
                 LogUtils.d("---------->卡片点击-" + index);
                 if (slidePanel.dataList == null) return;
-                ArticleActivity.launch(getContext(),slidePanel.dataList.get(index).id);
+                ArticleBActivity.launch(getContext(),slidePanel.dataList.get(index).id);
             }
         };
 

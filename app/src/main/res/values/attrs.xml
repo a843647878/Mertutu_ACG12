@@ -187,4 +187,7 @@
         <attr name="startHeight" format="dimension"/>
         <attr name="finalHeight" format="dimension"/>
     </declare-styleable>
+
+
+    <attr name="appbg" format="reference"/>
 </resources>

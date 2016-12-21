@@ -21,5 +21,6 @@ public class ArticleEntity {
     public UserEntity author;
 
     public DateEntity date;
+    public StorageEntity storage;
 
 }
