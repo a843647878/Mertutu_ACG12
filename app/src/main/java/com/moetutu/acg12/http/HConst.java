@@ -36,17 +36,17 @@ public class HConst {
     /**
      * 网络缓存保存时间
      */
-    public static final int TIME_CACHE = 60 * 60; // 一小时
+    public static final int TIME_CACHE = 1024 * 1024 * 30; // 一小时
 
     /**
      * 接口请求超时时间
      */
-    public static final int SOCKET_TIME_OUT = 20_000;
+    public static final int SOCKET_TIME_OUT = 30_000;
 
     /**
      * 接口响应超时时间  目前服务器压力大
      */
-    public static final int SOCKET_RESPONSE_TIME_OUT = 20_000;
+    public static final int SOCKET_RESPONSE_TIME_OUT = 30_000;
 
 
     /**

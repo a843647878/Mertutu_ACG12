@@ -4,29 +4,18 @@ package com.moetutu.acg12.view;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.app.AppContext;
-import com.moetutu.acg12.asynctask.type.Acg12Obj;
-import com.moetutu.acg12.http.RetrofitService;
-import com.moetutu.acg12.http.callback.SimpleCallBack;
-import com.moetutu.acg12.util.Const;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class LogingPopupWindow extends PopupWindow {
 

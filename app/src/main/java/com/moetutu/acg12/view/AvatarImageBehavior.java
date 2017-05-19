@@ -7,10 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-
 import com.moetutu.acg12.R;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("unused")
 public class AvatarImageBehavior extends CoordinatorLayout.Behavior<ImageView> {

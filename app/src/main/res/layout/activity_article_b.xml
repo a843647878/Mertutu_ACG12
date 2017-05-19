@@ -1,50 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<sj.keyboard.SimpleUserdefEmoticonsKeyBoard xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ek_bar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/acg_background_window"
     android:orientation="vertical">
 
-
-    <include
-        android:id="@+id/main_title"
-        layout="@layout/view_title" />
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/download_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@mipmap/ic_file_download_white_18dp"
-        app:backgroundTint="?attr/appbg"
-        app:elevation="15dp"
-        app:fabSize="normal"
-        />
-
-
-    <ScrollView
-        android:layout_below="@+id/main_title"
+    <RelativeLayout
+        android:id="@+id/article_relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:background="@color/acg_background_window">
 
-        <LinearLayout
+
+        <include
+            android:id="@+id/main_title"
+            layout="@layout/view_title" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/download_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="50dp"
+            android:src="@mipmap/ic_file_download_white_18dp"
+            app:backgroundTint="?attr/appbg"
+            app:elevation="15dp"
+            app:fabSize="normal" />
+
+
+        <com.moetutu.acg12.view.refresh.MaterialRefreshLayout
+            android:id="@+id/myRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/main_title"
             android:layout_margin="8dp"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="5dp"
+            app:overlay="true"
+            app:progress_colors="@array/material_colors"
+            app:wave_show="false">
 
-            <TextView
-                android:id="@+id/tv_html"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_main_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/shenhuisehei" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_height="match_parent">
 
-</RelativeLayout>
+            </android.support.v7.widget.RecyclerView>
+        </com.moetutu.acg12.view.refresh.MaterialRefreshLayout>
+    </RelativeLayout>
+</sj.keyboard.SimpleUserdefEmoticonsKeyBoard>

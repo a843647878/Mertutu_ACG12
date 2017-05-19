@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -33,9 +34,16 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 
@@ -508,6 +516,35 @@ public class SystemUtils {
             Intent intent = new Intent(Settings.ACTION_SETTINGS);
             context.startActivity(intent);
         }
+    }
+
+    /**
+     * 网络图片转bitmap
+     *
+     * @param url
+     */
+    public static Bitmap getBitmap(String url) {
+        URL fileUrl = null;
+        Bitmap bitmap = null;
+
+        try {
+            fileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            HttpURLConnection conn = (HttpURLConnection) fileUrl
+                    .openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
 

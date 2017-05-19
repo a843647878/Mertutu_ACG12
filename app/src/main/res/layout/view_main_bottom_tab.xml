@@ -38,7 +38,7 @@
         android:drawableTop="@drawable/sl_tab_gadgets"
         android:gravity="center"
         android:lines="1"
-        android:text="杂货"
+        android:text="推荐"
         android:textColor="@color/sl_color_tab_botton"
         android:textSize="12sp" />
 
@@ -52,7 +52,7 @@
         android:drawableTop="@drawable/sl_tab_comic"
         android:gravity="center"
         android:lines="1"
-        android:text="漫画"
+        android:text="壁纸"
         android:textColor="@color/sl_color_tab_botton"
         android:textSize="12sp" />
 

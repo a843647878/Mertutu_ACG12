@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
  * date createTime：2015/9/9 11:25
  * version
  */
-public class LazyBaseFragment extends Fragment {
+public class LazyBaseFragment extends BasePermissionFragment {
     private boolean mHasLoadedOnce = false;
 
     public void onLazyLoad() {

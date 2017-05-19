@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,6 @@ import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.gamerefreshview.FunGameRefreshView;
 import com.moetutu.acg12.view.refresh.MaterialRefreshLayout;
 import com.moetutu.acg12.view.refresh.MaterialRefreshListener;
-import com.moetutu.acg12.view.refreshview.ProgressStyle;
-import com.moetutu.acg12.view.refreshview.XRecyclerView;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -32,6 +31,8 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.moetutu.acg12.view.DesignViewUtils.isSlideToBottom;
 
 /**
  * Description
@@ -79,7 +80,9 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
     public void initViews(View view) {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recyclerView.setHasFixedSize(true);
+
         recyclerView.addItemDecoration(ItemDecorationUtils.getCommTrans5Divider(getActivity(), true));
         myRefreshLayout = (MaterialRefreshLayout) view.findViewById(R.id.myRefreshLayout);
 
@@ -97,8 +100,20 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
         tuadapter = new TuJiAdapter();
         tuadapter.setOnItemClickListener(this);
         recyclerView.setAdapter(tuadapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isSlideToBottom(recyclerView)) {
+                    myRefreshLayout.autoRefreshLoadMore();
+                }
+            }
+        });
 
     }
+
+
+
 
     @Override
     public void onLazyLoad() {
@@ -110,7 +125,6 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
         if (isRefresh) {
             PageIndex = 1;
         }
-        LogUtils.d("------------->PageIndex:"+PageIndex);
         endLastRefresh(isRefresh);
         RetrofitService
                 .getInstance()

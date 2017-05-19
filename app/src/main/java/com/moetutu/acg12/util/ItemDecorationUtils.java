@@ -58,6 +58,19 @@ public class ItemDecorationUtils {
     }
 
     /**
+     * 高度 0.5 dp 分割
+     *
+     * @param context
+     * @return
+     */
+    public static RecyclerView.ItemDecoration getCommFull05Divider(Context context, boolean isShowLastDivider) {
+        getStyleDividerColor(context);
+        HorizontalDividerItemDecoration.Builder builder = new HorizontalDividerItemDecoration.Builder(context).color(color_comm_divider).sizeResId(R.dimen.dp0_5);
+        if (isShowLastDivider) builder.showLastDivider();
+        return builder.build();
+    }
+
+    /**
      * 高度 5 dp 分割
      *
      * @param context

@@ -5,13 +5,6 @@
     android:background="@android:color/black"
     android:orientation="vertical">
 
-    <com.moetutu.acg12.view.HackyViewPager
-        android:id="@+id/imagePager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.moetutu.acg12.view.HackyViewPager>
-
     <TextView
         android:id="@+id/tvPagerTitle"
         android:layout_width="wrap_content"
@@ -22,4 +15,28 @@
         android:text="1/1"
         android:textColor="@android:color/white"
         android:textSize="19sp" />
+
+
+
+
+    <com.moetutu.acg12.view.HackyViewPager
+        android:id="@+id/imagePager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.moetutu.acg12.view.HackyViewPager>
+
+    <TextView
+        android:id="@+id/tvDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:lines="1"
+        android:padding="8dp"
+        android:text="下载此图"
+        android:layout_marginBottom="9dp"
+        android:layout_marginRight="8sp"
+        android:background="@drawable/shixianyuanbian"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
 </FrameLayout>

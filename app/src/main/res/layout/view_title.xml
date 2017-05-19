@@ -3,7 +3,8 @@
     android:id="@+id/common_title_layout"
     android:layout_width="fill_parent"
     android:layout_height="@dimen/acg_title_height"
-    android:background="?attr/appbg" >
+    android:background="?attr/appbg"
+    android:paddingTop="@dimen/dp10">
 
 
     <ImageView 
@@ -65,6 +66,7 @@
         android:textSize="@dimen/acg_font_size_comm"
         android:gravity="center_vertical"
         android:textColor="@color/white"
+        android:drawablePadding="8dp"
         android:drawableLeft="@mipmap/back"
         android:visibility="gone" />
     

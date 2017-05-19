@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.entity.ChMedicCircleRecEntity;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +53,9 @@ public class ComicShufflingAdapter extends PagerAdapter {
         if (subjectsInfo != null) {
             title.setText(subjectsInfo.title);
             desc.setText(subjectsInfo.desc);
-            Picasso.with(context)
+            Glide.with(context)
                     .load(subjectsInfo.img)
-                    .fit()
                     .placeholder(R.mipmap.loginicon)
-                    .config(Bitmap.Config.RGB_565)
                     .error(R.mipmap.loginicon)
                     .into(imageView);
         }

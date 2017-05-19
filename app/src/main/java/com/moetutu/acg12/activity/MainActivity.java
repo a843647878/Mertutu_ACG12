@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.jaeger.library.StatusBarUtil;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.BaseFragmentAdapter;
 import com.moetutu.acg12.fragment.MainComicFragement;
@@ -23,6 +24,7 @@ import com.moetutu.acg12.fragment.MainUserFragement;
 import com.moetutu.acg12.util.ExampleUtil;
 import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.view.NoScrollViewPager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MainActivity extends BaseActivity {
 
+    public static boolean isForeground = false;
 
     BaseFragmentAdapter fragmentAdapter;
     String KEY_TAB_INDEX = "tab_index";
@@ -65,6 +68,16 @@ public class MainActivity extends BaseActivity {
     public static void launch(Context context) {
         if (context == null) return;
         Intent in = new Intent(context, MainActivity.class);
+        in.addCategory(Intent.CATEGORY_DEFAULT);
+        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(in);
+    }
+
+    public static void launchPush(Context context) {
+        if (context == null) return;
+        Intent in = new Intent(context, MainActivity.class);
+        in.addCategory(Intent.CATEGORY_DEFAULT);
+        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(in);
     }
 
@@ -206,5 +219,25 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("ACGmain_Activity");
+        MobclickAgent.onResume(this); // 统计时长
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("ACGmain_Activity");
+        MobclickAgent.onPause(this);
+        isForeground = false;
+    }
+
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(context, null);
     }
 }

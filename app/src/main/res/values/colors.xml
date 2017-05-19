@@ -112,7 +112,11 @@
 	<color name="lansewu2">#2980b9</color>
 	<color name="lansewu">#929292</color>
 	<color name="lanseliu">#2e81b7</color>
-	
+
+
+	<color name="black_alpha_45">#71000000</color>
+	<color name="black_alpha_30">#48000000</color>
+	<color name="black_alpha_60">#4f000000</color>
 	
 	
 	<color name="text_hui">#404257</color>

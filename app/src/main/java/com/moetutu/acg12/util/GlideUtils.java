@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.util.transformations.BlurTransformation;
 import com.moetutu.acg12.util.transformations.GlideCircleTransform;
@@ -96,9 +97,33 @@ public class GlideUtils {
         }
         Glide.with(context)
                 .load(path)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transform(new GlideCircleTransform(context))
-                .placeholder(R.mipmap.home_pressed)
-                .error(R.mipmap.home_pressed)
+                .placeholder(R.mipmap.icon_defaulthead)
+                .error(R.mipmap.icon_defaulthead)
+                .crossFade()
+                .into(imageView);
+    }
+
+    /**
+     * 加载用户 头像 等 圆角
+     *
+     * @param context
+     * @param path
+     * @param imageView
+     */
+    public static void loadUser(Context context, int path, ImageView imageView) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
+                .asGif()
+                .placeholder(R.mipmap.icon_defaulthead)
+                .error(R.mipmap.icon_defaulthead)
                 .crossFade()
                 .into(imageView);
     }
@@ -121,8 +146,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(path)
                 .transform(new GlideHollowCircleTransform(context,color,width,angle,img))
-                .placeholder(R.mipmap.home_pressed)
-                .error(R.mipmap.home_pressed)
+                .placeholder(R.mipmap.icon_defaulthead)
+                .error(R.mipmap.icon_defaulthead)
                 .crossFade()
                 .into(imageView);
     }
@@ -199,6 +224,8 @@ public class GlideUtils {
         }
         Glide.with(context)
                 .load(path)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .animate( android.R.anim.fade_in )
                 .placeholder(R.mipmap.cat_loging)
                 .error(R.mipmap.cat_loging)
                 .into(imageView);
@@ -223,7 +250,7 @@ public class GlideUtils {
                 .transform(new GlideCircleTransform(context))
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
-                .crossFade()
+                .crossFade()  //淡入淡出效果
                 .into(imageView);
     }
 

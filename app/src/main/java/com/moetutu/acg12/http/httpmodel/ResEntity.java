@@ -1,5 +1,7 @@
 package com.moetutu.acg12.http.httpmodel;
 
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -10,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  * 不要轻易修改
  * 不要轻易修改
  */
-
+@JsonObject
 public class ResEntity<T> {
 
     public static final int CODE_SUCESS = 0;//完全成功
@@ -24,11 +26,14 @@ public class ResEntity<T> {
     private static final String FIELD_DATA = "data";
 
     @SerializedName(FIELD_ERROR_CODE)
+    @JsonField(name = FIELD_ERROR_CODE)
     public int code;
 
     @SerializedName(FIELD_ERROR_MESSAGE)
+    @JsonField(name = FIELD_ERROR_MESSAGE)
     public String msg;
 
     @SerializedName(FIELD_DATA)
+    @JsonField(name = FIELD_DATA)
     public T data;
 }

@@ -5,9 +5,12 @@ import android.text.TextUtils;
 
 import com.dao.userinfo.DaoMaster;
 import com.dao.userinfo.DaoSession;
-import com.dao.userinfo.User;
+import com.dao.userinfo.UserEntityDao;
 import com.moetutu.acg12.constant.DbConfig;
+import com.moetutu.acg12.entity.UserEntity;
 
+
+import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
@@ -25,29 +28,35 @@ public class UserDbPresenter {
     DaoMaster.DevOpenHelper devOpenHelper;
 
     public UserDbPresenter(Context context) {
-        devOpenHelper = new DaoMaster.DevOpenHelper(context, DbConfig.DB_USER_LOGIN, null);
-        daoSession = new DaoMaster(devOpenHelper.getWritableDatabase()).newSession();
+        devOpenHelper = new DaoMaster.DevOpenHelper(context, UserEntityDao.TABLENAME, null);
+        daoSession = new DaoMaster(devOpenHelper.getWritableDb()).newSession();
     }
 
-    public long inertOrReplace(User user) throws Exception {
-        return daoSession.getUserDao().insertOrReplace(user);
+
+
+    public long inertOrReplace(UserEntity user) throws Exception {
+        return daoSession.getUserEntityDao().insertOrReplace(user);
     }
 
-    public List<User> loadAll() throws Exception {
-        return daoSession.getUserDao().loadAll();
+    public List<UserEntity> loadAll() throws Exception {
+        return daoSession.getUserEntityDao().loadAll();
     }
 
-    public void delete(String uid) throws Exception {
-        daoSession.getUserDao().deleteByKey(uid);
+    public void update(UserEntity user) throws Exception {
+        daoSession.getUserEntityDao().update(user);
     }
 
-    public User getLoginUser() throws Exception {
-        List<User> users = loadAll();
+    public void delete(long id) throws Exception {
+        daoSession.getUserEntityDao().deleteByKey(id);
+    }
+
+    public UserEntity getLoginUser() throws Exception {
+        List<UserEntity> users = loadAll();
         if (users == null || users.isEmpty()) {
             return null;
         } else {
             for (int i = 0; i < users.size(); i++) {
-                User user = users.get(i);
+                UserEntity user = users.get(i);
                 if (user == null) continue;
                 if (!TextUtils.isEmpty(user.getToken())) {
                     return user;
@@ -58,7 +67,7 @@ public class UserDbPresenter {
     }
 
     public void exitLoginUser() throws Exception {
-        User loginUser = getLoginUser();
+        UserEntity loginUser = getLoginUser();
         if (loginUser != null) {
             loginUser.setToken(null);
             daoSession.update(loginUser);
@@ -68,7 +77,7 @@ public class UserDbPresenter {
     public void close() throws Exception {
         daoSession.clear();
         if (daoSession.getDatabase() != null) {
-            if (daoSession.getDatabase().isOpen()) {
+            if (daoSession.getDatabase().inTransaction()) {
                 daoSession.getDatabase().close();
             }
         }

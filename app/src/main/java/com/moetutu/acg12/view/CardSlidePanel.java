@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.entity.ArticleEntity;
-import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.util.ViewDragHelper;
 

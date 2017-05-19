@@ -64,7 +64,9 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>  
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- 设置壁纸 -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
         android:name="com.moetutu.acg12.app.AppContext"
@@ -101,6 +103,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
             android:name=".activity.TestMain"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
@@ -115,7 +122,15 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ArticleBGActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.ImagePagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ImagePagerBGActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 

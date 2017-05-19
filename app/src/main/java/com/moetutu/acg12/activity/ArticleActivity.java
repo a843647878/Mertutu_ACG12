@@ -26,26 +26,24 @@ import com.moetutu.acg12.adapter.WenDangAdapter;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.PostEntity;
-import com.moetutu.acg12.entity.WenDangMode;
+
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
-import com.moetutu.acg12.util.Const;
+
 import com.moetutu.acg12.util.GlideUtils;
 import com.moetutu.acg12.util.HtmlAcgUtil;
 import com.moetutu.acg12.util.ItemDecorationUtils;
 import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -54,7 +52,9 @@ import retrofit2.Response;
  * Company guokeyuzhou
  * Created by chengwanying on 16/7/5.
  * version
+ * 目前已经被抛弃  请用B
  */
+@Deprecated
 public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, BaseRecyclerAdapter.OnItemClickListener {
 
     public static String KEY_ARTICLEID;
@@ -91,6 +91,9 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
     private int wendangid;
     private String url;
     public AppContext appContext;
+
+
+    ArticleEntity data;
 
     public static void launch(Context context, int wendangid) {
         if (context == null) return;
@@ -155,15 +158,15 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
                         if (response.body() == null) return;
-                        ArticleEntity data = response.body().data.post;
+                        data = response.body().data.post;
                         framelayoutTitle.setText(data.author.name);
 
                         toolbarTitle.setText(data.title);
 
-                        if (HtmlAcgUtil.isHttps(data.author.avatarURL)){
-                            GlideUtils.loadUser(headPortrait.getContext(),data.author.avatarURL,headPortrait);
+                        if (HtmlAcgUtil.isHttps(data.author.avatarUrl)){
+                            GlideUtils.loadUser(headPortrait.getContext(),data.author.avatarUrl,headPortrait);
                         }else {
-                            GlideUtils.loadUser(headPortrait.getContext(),"https:"+data.author.avatarURL,headPortrait);
+                            GlideUtils.loadUser(headPortrait.getContext(),"https:"+data.author.avatarUrl,headPortrait);
                         }
 
                         if (HtmlAcgUtil.isHttps(data.thumbnail.url)){
@@ -239,7 +242,7 @@ public class ArticleActivity extends BaseActivity implements AppBarLayout.OnOffs
 
     @Override
     public void onItemClick(BaseRecyclerAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int position) {
-        ImagePagerActivity.launch(context, (ArrayList<String>) list,position+1);
+        ImagePagerActivity.launch(context,data.title ,(ArrayList<String>) list,position+1);
     }
 
 

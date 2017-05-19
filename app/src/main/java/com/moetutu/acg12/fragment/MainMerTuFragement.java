@@ -1,6 +1,7 @@
 package com.moetutu.acg12.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -94,7 +95,12 @@ public class MainMerTuFragement extends LazyBaseFragment {
                         FragementTu.newInstance(Const.QiTaFenLei)));
         viewpager.setAdapter(fragmentAdapter);
         viewpagertab.setViewPager(viewpager);
-
+        viewpagertab.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+            @Override
+            public void onTabClicked(int position) {
+                viewpager.setCurrentItem(position);
+            }
+        });
 
     }
 
@@ -102,4 +108,5 @@ public class MainMerTuFragement extends LazyBaseFragment {
     public void onClick() {
         SwitchBgActivity.launch(getContext());
     }
+
 }

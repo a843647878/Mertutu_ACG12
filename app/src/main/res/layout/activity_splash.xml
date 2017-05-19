@@ -9,7 +9,9 @@
         android:id="@+id/welcome"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/splash"/>
 
     <TextView
         android:id="@+id/loading_text_view"

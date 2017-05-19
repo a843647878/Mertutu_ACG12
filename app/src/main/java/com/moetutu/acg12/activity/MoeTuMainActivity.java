@@ -15,12 +15,7 @@ import android.view.View;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.BaseFragmentAdapter;
-import com.moetutu.acg12.app.ACache;
-import com.moetutu.acg12.asynctask.type.Acg12Obj;
-import com.moetutu.acg12.asynctask.type.AcgUserObj;
 import com.moetutu.acg12.fragment.FragementTu;
-import com.moetutu.acg12.http.RetrofitService;
-import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.ExampleUtil;
 import com.moetutu.acg12.util.T;
@@ -44,6 +39,8 @@ import retrofit2.Response;
  * Created by chengwanying on 16/6/15.
  * version
  */
+
+@Deprecated
 public class MoeTuMainActivity extends BaseActivity {
     private String userid;
     private String touxiang;
@@ -107,30 +104,6 @@ public class MoeTuMainActivity extends BaseActivity {
         viewpagertab.setViewPager(viewpager);
     }
 
-
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        super.onClick(v);
-        ACache aCache = ACache.get(appContext);
-        AcgUserObj data = (AcgUserObj) aCache.getAsObject("LOGIN");
-        if (data != null) {
-            userid = data.getId() + "";
-        }
-        switch (v.getId()) {
-            case R.id.stock_remind:
-
-                if (TextUtils.isEmpty(userid)) {
-                    showLoginRegist2();
-                } else {
-                    T.showShort("你已经登录了喵！");
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
 
     @Override
     protected void onResume() {

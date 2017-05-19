@@ -20,12 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.HtmlAcgUtil;
 import com.moetutu.acg12.util.PreferenceUtils;
 import com.moetutu.acg12.util.ScreenUtil;
+import com.moetutu.acg12.util.SharedPreferrenceHelper;
 import com.umeng.analytics.MobclickAgent;
 
 
@@ -39,7 +41,7 @@ public class BaseActivity extends BaseAppUpdateActivity implements OnClickListen
     public SharedPreferences sharedPreferences;// 配置文件
     public PopupWindow choosePop;
 
-    private int theme = 1;
+    private int theme = 1;//主题
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +54,30 @@ public class BaseActivity extends BaseAppUpdateActivity implements OnClickListen
         super.onCreate(savedInstanceState);
         MobclickAgent.openActivityDurationTrack(false);
         appContext = (AppContext) getApplicationContext();
-        String result = PreferenceUtils.getPrefString(BaseActivity.this, Const.PREFERENCES_NAME, Context.MODE_PRIVATE, "onlyIdqudao", null);
-        if (TextUtils.isEmpty(result)) {
-            //获取手机的唯�?���?
-            String onlyId = appContext.getIMEI();
-            //获取渠道名称
-            ApplicationInfo appInfo = null;
-            String qudao = null;
-            try {
-                appInfo = this.getPackageManager()
-                        .getApplicationInfo(getPackageName(),
-                                PackageManager.GET_META_DATA);
-            } catch (NameNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
+        setStatusBar();
     }
 
-//    protected void setImmerseLayout(View view) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            Window window = getWindow();
-//            /*window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-//	                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);*/
-//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//
-//            int statusBarHeight = ScreenUtil.getStatusBarHeight(this.getBaseContext());
-//            view.setPadding(0, statusBarHeight, 0, 0);
-//        }
-//    }
+    protected void setStatusBar() {
+        switch (SharedPreferrenceHelper.gettheme(context)){
+            case "1":
+                StatusBarUtil.setColor(this, getResources().getColor(R.color.acg_fen2),0);
+                break;
+            case "2":
+                StatusBarUtil.setColor(this, getResources().getColor(R.color.jilaozi),0);
+                break;
+            case "3":
+                StatusBarUtil.setColor(this, getResources().getColor(R.color.pangcilan),0);
+                break;
+            case "4":
+                StatusBarUtil.setColor(this, getResources().getColor(R.color.shaonvfen),0);
+                break;
+            case "5":
+                StatusBarUtil.setColor(this, getResources().getColor(R.color.yimahong),0);
+                break;
+
+        }
+
+    }
 
     @Override
     protected void onStart() {
@@ -115,10 +112,11 @@ public class BaseActivity extends BaseAppUpdateActivity implements OnClickListen
     }
 
 
+    //设置完主题后重新加载
     public void reload() {
         Intent intent = getIntent();
         overridePendingTransition(0, 0);//不设置进入退出动画
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
         overridePendingTransition(0, 0);
@@ -136,6 +134,12 @@ public class BaseActivity extends BaseAppUpdateActivity implements OnClickListen
         sharedPreferences = activity.getSharedPreferences(
                 Const.PREFERENCES_NAME, Context.MODE_PRIVATE);
         appContext = (AppContext) getApplicationContext();
+    }
+
+    /**
+     * 获取数据数据
+     */
+    public synchronized void getData(boolean isRefresh) {
     }
 
     /**

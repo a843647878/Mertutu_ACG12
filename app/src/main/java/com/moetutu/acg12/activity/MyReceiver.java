@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.moetutu.acg12.util.ExampleUtil;
@@ -101,16 +102,16 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     private void processCustomMessage(Context context, Bundle bundle) {
-        if (com.moetutu.acg12.activity.MoeTuMainActivity.isForeground) {
+        if (com.moetutu.acg12.activity.MainActivity.isForeground) {
             String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            Intent msgIntent = new Intent(MoeTuMainActivity.MESSAGE_RECEIVED_ACTION);
-            msgIntent.putExtra(MoeTuMainActivity.KEY_MESSAGE, message);
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
+            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
             if (!ExampleUtil.isEmpty(extras)) {
                 try {
                     JSONObject extraJson = new JSONObject(extras);
                     if (null != extraJson && extraJson.length() > 0) {
-                        msgIntent.putExtra(MoeTuMainActivity.KEY_EXTRAS, extras);
+                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
                     }
                 } catch (JSONException e) {
 
@@ -132,6 +133,7 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     private void openNotification(Context context, Bundle bundle) {
+        //{"article":"138349"}
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
         String myValue = "";
         try {
@@ -142,8 +144,11 @@ public class MyReceiver extends BroadcastReceiver {
             return;
         }
 
-        if (myValue == null) return;
         //打开自定义的Activity
-        ArticleBActivity.launch(context, Integer.parseInt(myValue));
+        if (TextUtils.isEmpty(myValue)) {
+            MainActivity.launchPush(context);
+        } else {
+            ArticleBActivity.launch(context, Integer.parseInt(myValue));
+        }
     }
 }

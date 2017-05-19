@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="285dp">
+
+        <com.github.florent37.arclayout.ArcLayout
+            android:id="@+id/arclayout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:arc_cropDirection="cropInside"
+            android:elevation="5dp"
+            app:arc_height="45dp"
+            >
+
+            <ImageView
+                android:id="@+id/image_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gg" />
+
+        </com.github.florent37.arclayout.ArcLayout>
+
+        <ImageView
+            android:id="@+id/image_portrait"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/icon_defaulthead"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/no_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="来啊！快活啊！"
+            android:textColor="@color/acg_title_txt_color"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/acg_font_size_title"
+            android:drawableRight="@drawable/miaozhua"
+            android:drawableLeft="@drawable/miaozhua"
+            android:drawablePadding="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/acg_font_size_mini"
+            android:textColor="@color/acg_font_color_gray"
+            android:text="点此↑↑↑↑↑登录"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yes_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/acg_font_size_title"
+            android:textColor="@color/acg_font_color_gray"
+            android:text=""
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:id="@+id/tv_miao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/acg_font_size_mini"
+            android:textColor="@color/acg_title_txt_color"
+            android:text=""
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

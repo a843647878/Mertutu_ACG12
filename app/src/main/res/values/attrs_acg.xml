@@ -10,7 +10,23 @@
 
     <!--  【统一单位定义区域】 -->
     <dimen name="acg_divider_height">0.4dp</dimen>         <!-- 分割线高度 -->
-    <dimen name="acg_title_height">53dp</dimen>            <!-- 页面标题布局高度 -->
+    <dimen name="acg_title_height">43dp</dimen>            <!-- 页面标题布局高度 -->
+    <dimen name="action_bar_default_height">48dp</dimen>
+    <dimen name="fab_margin_height">190dp</dimen>
+    <dimen name="fab_default_elevation">4dp</dimen>
+    <dimen name="app_bar_elevation">3dp</dimen>
+    <dimen name="app_bar_default_elevation">0dp</dimen>
+    <dimen name="live_user_layout_height">70dp</dimen>
+    <dimen name="line_height">1dp</dimen>
+    <dimen name="line_width">120dp</dimen>
+    <dimen name="login_button_height">45dp</dimen>
+    <dimen name="default_tiny_padding">5dp</dimen>
+    <dimen name="default_small_padding">8dp</dimen>
+    <dimen name="default_tiny_margin">3dp</dimen>
+    <dimen name="default_general_margin">10dp</dimen>
+    <dimen name="default_grow_margin">20dp</dimen>
+    <dimen name="default_long_margin">30dp</dimen>
+    <dimen name="head_image_bg_height">128dp</dimen>
 
 
     <!-- 字体大小相对单位 为zeplin 聚合单位 [四舍五入]   -->

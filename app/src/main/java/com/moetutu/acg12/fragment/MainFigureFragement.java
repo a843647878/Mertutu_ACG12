@@ -7,15 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.moetutu.acg12.R;
-import com.moetutu.acg12.activity.ArticleActivity;
 import com.moetutu.acg12.activity.ArticleBActivity;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.entity.PostEntity;
-import com.moetutu.acg12.entity.TestMode;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
-import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.view.CardSlidePanel;
 import com.moetutu.acg12.view.CardSlidePanel.CardSwitchListener;
@@ -70,8 +67,6 @@ public class MainFigureFragement extends LazyBaseFragment {
 
             @Override
             public void onShow(int index) {
-                LogUtils.d("---------->正在显示-" + index);
-
             }
 
             @Override

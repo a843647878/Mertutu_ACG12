@@ -6,9 +6,17 @@
     android:id="@+id/activity_wendang"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/fake_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="?attr/appbg"/>
+
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/acg_title_height"
+        android:layout_marginTop="@dimen/statusbar_view_height"
         android:background="?attr/appbg">
 
         <ImageView
@@ -33,11 +41,11 @@
 
     </RelativeLayout>
     <com.moetutu.acg12.view.CardSlidePanel
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="68dp"
         android:id="@+id/image_slide_panel"
         android:layout_width="fill_parent"
-        card:bottomMarginTop="50dp"
-        card:yOffsetStep="22dp"
+        card:bottomMarginTop="60dp"
+        card:yOffsetStep="20dp"
         android:layout_height="fill_parent"
         android:background="@color/white">
 
@@ -50,20 +58,20 @@
 
             <Button
                 android:id="@+id/card_left_btn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/ignore_button" />
 
             <Button
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/home_button" />
 
             <Button
                 android:id="@+id/card_right_btn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/like_button" />
         </LinearLayout>

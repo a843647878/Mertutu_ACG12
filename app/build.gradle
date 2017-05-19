@@ -1,18 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-apply plugin: 'realm-android'
+
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.moetutu.acg12"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
         multiDexEnabled true
-        versionCode 39
-        versionName '1.1.1.16'
+        versionCode 42
+        versionName '1.1.2.1'
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -20,7 +22,7 @@ android {
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a','x86'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
 
@@ -30,6 +32,13 @@ android {
                 JPUSH_APPKEY : "d51d951f4d617578e6387215", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
+    }
+
+    /*针对greenDao的一些配置*/
+    greendao {
+        schemaVersion 1 //数据库版本号
+        daoPackage 'com.dao.userinfo' //自动生成的工具类的包名
+        targetGenDir 'src/main/java-gen' //路径
     }
 
     repositories {
@@ -132,11 +141,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.facebook.fresco:fresco:0.10.0'
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.android.support:cardview-v7:24.2.0'
+    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:cardview-v7:25.1.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
@@ -144,26 +153,40 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.google.android.exoplayer:exoplayer:r1.4.1'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'org.greenrobot:greendao:2.2.1'
+    compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
 
-    compile 'de.hdodenhof:circleimageview:2.1.0'
+
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.liulishuo.filedownloader:library:1.3.0'
 
-    compile 'com.github.florent37:arclayout:1.0.1'//可显示曲线图片
-    compile 'com.zzhoujay.richtext:richtext:2.3.7'//富文本解析器 支持Html和Markdown
+    compile 'com.github.florent37:arclayout:1.0.2'//可显示曲线图片
+    compile project(':richtext')
+    compile project(':emojilibrary')
+
 
     compile 'cn.jiguang.sdk:jpush:3.0.0'  // 此处以JPush 3.0.0 版本为例例。
     compile 'cn.jiguang.sdk:jcore:1.0.0'  // 此处以JCore 1.0.0 版本为例。
     compile files('libs/umeng-analytics-v5.2.4.jar')
     compile files('libs/umeng_social_sdk.jar')
+
+    compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
+    compile 'com.github.ctiao:ndkbitmap-armv7a:0.6.2'
+
+    compile 'com.jaeger.statusbaruitl:library:1.3.6'//沉浸效果
+
+
+    compile 'com.yalantis:ucrop:2.2.0'
+
+    apt 'com.bluelinelabs:logansquare-compiler:1.3.7'//LoganSquare解析
+    compile 'com.bluelinelabs:logansquare:1.3.7'
+    compile "com.github.aurae.retrofit2:converter-logansquare:1.4.1"
 
 }
 // -----------------------------------------------------------@Assist

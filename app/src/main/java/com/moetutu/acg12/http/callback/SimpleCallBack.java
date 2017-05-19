@@ -3,9 +3,11 @@ package com.moetutu.acg12.http.callback;
 import android.app.Activity;
 import android.widget.Toast;
 
+import com.moetutu.acg12.activity.SplashActivity;
 import com.moetutu.acg12.app.AppContext;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.interf.OnUpdateDialogNoticeListener;
+import com.moetutu.acg12.presenter.UserDbPresenter;
 import com.moetutu.acg12.util.AppManager;
 import com.moetutu.acg12.util.LogUtils;
 import com.google.gson.JsonParseException;
@@ -60,8 +62,16 @@ public abstract class SimpleCallBack<T> extends  BaseCallBack<ResEntity<T>> {
             switch (jsonResponseException.code) {
                 case ResEntity.CODE_TOKEN_INVALID:
                     try {
-                        defNotify("token失效，请退出程序重新登录");
+                        defNotify("token失效，请退出程序重新进入");
+                        Activity currActivity = AppManager.getAppManager().currentActivity();
+                        UserDbPresenter userDbPresenter = new UserDbPresenter(currActivity);
+                        userDbPresenter.exitLoginUser();
+                        userDbPresenter.close();
+//                        System.exit(0);
+//                        SplashActivity.launch(currActivity);
                     } catch (NoSuchElementException e) {
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
                 case ResEntity.CODE_INVALIDAPPID:// 无效的APPID

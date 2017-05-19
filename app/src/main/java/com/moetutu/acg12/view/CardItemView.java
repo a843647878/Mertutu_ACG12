@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.entity.ArticleEntity;
-import com.moetutu.acg12.entity.TestMode;
+
 
 import java.util.ArrayList;
 import java.util.List;
