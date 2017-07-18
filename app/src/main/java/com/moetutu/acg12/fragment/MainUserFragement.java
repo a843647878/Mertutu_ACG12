@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -19,16 +20,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.github.florent37.arclayout.ArcLayout;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.activity.LoginAcitivity;
 import com.moetutu.acg12.dialog.BottomActionDialog;
 import com.moetutu.acg12.entity.UserEntity;
+import com.moetutu.acg12.entity.eventmodel.ImageEvtivity;
 import com.moetutu.acg12.entity.eventmodel.UserEvent;
 import com.moetutu.acg12.presenter.UserDbPresenter;
 import com.moetutu.acg12.util.GlideUtils;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.util.PicCropUtil;
+import com.moetutu.acg12.util.SpUtils;
 import com.moetutu.acg12.util.SystemUtils;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
 import com.yalantis.ucrop.UCrop;
@@ -43,6 +48,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Description
@@ -110,6 +117,11 @@ public class MainUserFragement extends LazyBaseFragment {
 
     public void initView(View view) {
         EventBus.getDefault().register(this);
+        String bg = SpUtils.getInstance().getStringData("userBg","");
+        if (!TextUtils.isEmpty(bg)){
+            Uri bgUri = Uri.parse(bg);
+            GlideUtils.loadUserBG(getContext(), bgUri, imageBg);
+        }
         GlideUtils.loadUser(getContext(), R.mipmap.icon_defaulthead, imagePortrait);
         loadUser();
     }
@@ -119,6 +131,13 @@ public class MainUserFragement extends LazyBaseFragment {
     public void onEvent(UserEvent event) {
         if (event == null) return;
         loadUser();
+    }
+
+    @Subscribe
+    public void onEvent(ImageEvtivity event) {
+        if (event == null) return;
+        SpUtils.getInstance().putData("userBg",event.uri.toString());
+        GlideUtils.loadUserBG(getContext(), event.uri, imageBg);
     }
 
     public void loadUser() {
@@ -162,12 +181,12 @@ public class MainUserFragement extends LazyBaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.arclayout:
-//                String[] permisions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-//                if (checkPermissions(permisions)) {
-//                    showPicMenu();
-//                } else {
-//                    requestPermissions(permisions, REQUEST_CAMERA_STORAGE);
-//                }
+                String[] permisions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                if (checkPermissions(permisions)) {
+                    showPicMenu();
+                } else {
+                    requestPermissions(permisions, REQUEST_CAMERA_STORAGE);
+                }
                 break;
             case R.id.tv_login:
                 LoginAcitivity.launch(getContext());

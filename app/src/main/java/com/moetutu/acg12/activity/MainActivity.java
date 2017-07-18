@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,14 +18,19 @@ import android.widget.RadioGroup;
 import com.jaeger.library.StatusBarUtil;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.BaseFragmentAdapter;
+import com.moetutu.acg12.entity.eventmodel.ImageEvtivity;
 import com.moetutu.acg12.fragment.MainComicFragement;
 import com.moetutu.acg12.fragment.MainFigureFragement;
 import com.moetutu.acg12.fragment.MainMerTuFragement;
 import com.moetutu.acg12.fragment.MainUserFragement;
 import com.moetutu.acg12.util.ExampleUtil;
+import com.moetutu.acg12.util.LogUtils;
+import com.moetutu.acg12.util.PicCropUtil;
 import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.view.NoScrollViewPager;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -239,5 +245,22 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void setStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(context, null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        PicCropUtil.onActivityResult(requestCode, resultCode, data, context, new PicCropUtil.CropHandler() {
+            @Override
+            public void handleCropResult(Uri uri, int tag) {
+                LogUtils.d("---------->Uri"+uri);
+                EventBus.getDefault().post(new ImageEvtivity(uri));
+            }
+
+            @Override
+            public void handleCropError(Intent data) {
+
+            }
+        });
     }
 }

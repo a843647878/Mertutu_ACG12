@@ -32,4 +32,15 @@
     <dimen name="dp10">10dp</dimen>
     <dimen name="dp15">15dp</dimen>
 
+
+    <!--video card size-->
+    <dimen name="card_default_height">170dp</dimen>
+    <dimen name="card_image_default_height">100dp</dimen>
+
+    <!--video item common strip size-->
+    <dimen name="video_item_layout_height">90dp</dimen>
+    <dimen name="video_item_image_width">140dp</dimen>
+    <dimen name="video_item_layout_small_height">90dp</dimen>
+    <dimen name="video_item_image_small_width">120dp</dimen>
+
 </resources>

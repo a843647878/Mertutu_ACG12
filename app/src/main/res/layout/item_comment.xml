@@ -11,6 +11,8 @@
             android:id="@+id/image_portrait"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@mipmap/home_pressed"/>
 
         <TextView

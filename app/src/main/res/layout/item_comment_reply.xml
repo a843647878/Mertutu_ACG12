@@ -2,6 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp0_5"
+        android:background="@color/acg_divider_color"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,6 +18,8 @@
             android:id="@+id/image_portrait"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@mipmap/home_pressed"/>
 
         <TextView

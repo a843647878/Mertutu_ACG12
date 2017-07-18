@@ -2,6 +2,8 @@ package com.moetutu.acg12.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -228,6 +230,29 @@ public class GlideUtils {
                 .animate( android.R.anim.fade_in )
                 .placeholder(R.mipmap.cat_loging)
                 .error(R.mipmap.cat_loging)
+                .into(imageView);
+    }
+
+
+    /**
+     * 加载背景图
+     *
+     * @param context
+     * @param path
+     * @param imageView
+     */
+    public static void loadUserBG(Context context, Uri path, ImageView imageView) {
+        if (context == null) return;
+        if (imageView == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing())
+                return;
+        }
+        Glide.with(context)
+                .load(path)
+                .animate(android.R.anim.fade_in )
+                .placeholder(R.drawable.gg)
+                .error(R.drawable.gg)
                 .into(imageView);
     }
 

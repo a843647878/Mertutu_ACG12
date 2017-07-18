@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,11 +19,13 @@ import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.ArticleAdapter;
 import com.moetutu.acg12.entity.ArticleEntity;
@@ -93,6 +96,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     View headerView;
     HeaderFooterAdapter<ArticleAdapter> headerFooterAdapter;
     ArticleAdapter articleAdapter;
+
     @BindView(R.id.rv_main_list)
     RecyclerView rvMainList;
     @BindView(R.id.myRefreshLayout)
@@ -101,6 +105,8 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     SimpleUserdefEmoticonsKeyBoard ekBar;
     @BindView(R.id.article_relative)
     RelativeLayout articleRelative;
+    @BindView(R.id.floatingToolbar)
+    FloatingToolbar floatingToolbar;
 
     private int wendangid;
     public ArticleEntity data;
@@ -135,24 +141,6 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     }
 
 
-    GestureDetector gestureDetector;
-    GestureDetector.SimpleOnGestureListener onGestureListener = new GestureDetector.SimpleOnGestureListener() {
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            LogUtils.d("----------------1");
-            if (ekBar != null) {// && ekBar.isSoftKeyboardPop()
-                ekBar.reset();
-            }
-            return super.onSingleTapUp(e);
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-            LogUtils.d("-------------------------3");
-            super.onShowPress(e);
-        }
-    };
-
     @Override
     public void initView(Activity activity) {
         super.initView(activity);
@@ -186,6 +174,8 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
 
         headerFooterAdapter.addHeader(headerView);
         rvMainList.setAdapter(headerFooterAdapter);
+        floatingToolbar.attachFab(downloadButton);
+        floatingToolbar.attachRecyclerView(rvMainList);
 
         articleRelative.setLayoutTransition(getLayoutTransition());//把动画加到按钮上
         rvMainList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -194,6 +184,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
                 super.onScrollStateChanged(recyclerView, newState);
                 //滑动关闭键盘
                 if (ekBar != null) {// && ekBar.isSoftKeyboardPop()
+                    SystemUtils.hideSoftKeyBoard(context);
                     ekBar.reset();
                 }
                 if (newState == recyclerView.SCROLL_STATE_IDLE) {
@@ -215,6 +206,41 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
 
         articleAdapter.setOnItemClickListener(this);
         myRefreshLayout.autoRefresh();
+
+        floatingToolbar.setClickListener(new FloatingToolbar.ItemClickListener() {
+            @Override
+            public void onItemClick(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if (data.storage == null) {
+                    ToastUtils.showRoundRectToast("此文章没有可以下载的东西喵!");
+                } else {
+                    switch (id) {
+                        case R.id.menu_pass:
+                            if (TextUtils.isEmpty(data.storage.items.get(0).extractPwd)) {
+                                ToastUtils.showRoundRectToast("此文件没有解压密码!");
+                            } else {
+                                new AlertDialog.Builder(context)
+                                        .setTitle("解压密码：")
+                                        .setMessage(data.storage.items.get(0).extractPwd)
+                                        .setNegativeButton("确认", null).show();
+                                SystemUtils.copyToClipboard(context, "text", data.storage.items.get(0).extractPwd);
+                                ToastUtils.showRoundRectToast("解压密码已经复制到剪切板啦!");
+                            }
+
+                            break;
+                        case R.id.menu_download:
+                            //跳转下载
+                            intentDownload();
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onItemLongClick(MenuItem menuItem) {
+
+            }
+        });
         initData();
     }
 
@@ -311,12 +337,14 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
             myRefreshLayout.finishRefreshLoadMore();
     }
 
-    @OnClick(R.id.download_button)
-    public void onClick() {
+
+
+    //跳转到下载页面
+    public void intentDownload() {
         if (data.storage.items.size() > 0) {
             SystemUtils.copyToClipboard(context, "text", data.storage.items.get(0).downloadPwd);
             ToastUtils.showRoundRectToast("提取密码已经复制到剪切板啦!");
-            Uri uri = Uri.parse(data.storage.items.get(0).url);
+            Uri uri = Uri.parse(data.storage.items.get(0).url.replace(" ",""));
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } else {

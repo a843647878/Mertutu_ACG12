@@ -82,7 +82,6 @@ public class FragementTu extends LazyBaseFragment implements BaseRecyclerAdapter
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         recyclerView.setHasFixedSize(true);
-
         recyclerView.addItemDecoration(ItemDecorationUtils.getCommTrans5Divider(getActivity(), true));
         myRefreshLayout = (MaterialRefreshLayout) view.findViewById(R.id.myRefreshLayout);
 

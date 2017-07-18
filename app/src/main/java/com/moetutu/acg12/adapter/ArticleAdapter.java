@@ -62,15 +62,15 @@ public class ArticleAdapter extends BaseArrayRecyclerAdapter<CommentEntity> {
 
                     @Override
                     public void onSizeReady(ImageHolder holder, int width, int height) {
-                        holder.setMaxHeight(height+300);
-                        holder.setMaxWidth(width+300);
+                        holder.setMaxHeight(height+200);
+                        holder.setMaxWidth(width+200);
                     }
 
                     @Override
                     public void onImageReady(ImageHolder holder, int width, int height) {
                         holder.setScaleType(ImageHolder.ScaleType.FIT_CENTER);
-                        holder.setHeight(height+240);
-                        holder.setWidth(width+240);
+                        holder.setHeight(height+140);
+                        holder.setWidth(width+140);
                     }
 
                     @Override

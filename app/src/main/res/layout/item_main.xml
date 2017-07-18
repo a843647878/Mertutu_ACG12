@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/video_item_layout_small_height"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/loginicon" />
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp5"
             android:layout_marginBottom="@dimen/dp5"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="@dimen/dp5"
             android:text="11111"
             android:gravity="left"
             android:maxLines="2"
@@ -44,19 +44,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="5dp" >
+            android:layout_marginLeft="@dimen/dp5"
+            android:layout_marginBottom="@dimen/dp5" >
             <ImageView
                 android:id="@+id/image_portrait"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
                 android:src="@color/acgfen"
                 />
 
             <TextView
                 android:id="@+id/liulantext"
                 android:layout_toRightOf="@+id/image_portrait"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="@dimen/dp5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""

@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -28,6 +29,8 @@ import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.presenter.UserDbPresenter;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.util.SpUtils;
+import com.moetutu.acg12.util.T;
+import com.moetutu.acg12.view.SplashView;
 
 import cn.jpush.android.api.JPushInterface;
 import retrofit2.Call;
@@ -140,8 +143,26 @@ public class SplashActivity extends BaseActivity {
             if (TextUtils.isEmpty(user.token)){
                 initData();
             }else {
-                handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(flashTask, DELAY_TIME);
+                // call after setContentView(R.layout.activity_sample);
+                SplashView.showSplashView(this, 3, R.mipmap.splash, new SplashView.OnSplashViewActionListener() {
+                    @Override
+                    public void onSplashImageClick(String actionUrl) {
+                        LogUtils.d("----------------->广告");
+                        T.showShort("点击广告进入的位置");
+                    }
+
+                    @Override
+                    public void onSplashViewDismiss(boolean initiativeDismiss) {
+                        LogUtils.d("----------------->关闭");
+                        MainActivity.launch(SplashActivity.this);
+                        finish();
+                    }
+                });
+
+                // call this method anywhere to update splash view data
+                SplashView.updateSplashData(this, "https://static.acg12.com/uploads/2017/04/d24a509a57e82b556eaa7de868f8f38c.jpg", "https://static.acg12.com");
+//                handler.removeCallbacksAndMessages(null);
+//                handler.postDelayed(flashTask, DELAY_TIME);
             }
         }
     }

@@ -17,14 +17,20 @@
             android:id="@+id/main_title"
             layout="@layout/view_title" />
 
+        <com.github.rubensousa.floatingtoolbar.FloatingToolbar
+            android:id="@+id/floatingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_default_height"
+            android:layout_alignParentBottom="true"
+            app:floatingItemBackground="?attr/appbg"
+            app:floatingMenu="@menu/fab_article" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/download_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/action_bar_default_height"
+            android:layout_height="@dimen/action_bar_default_height"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="50dp"
             android:src="@mipmap/ic_file_download_white_18dp"
             app:backgroundTint="?attr/appbg"
             app:elevation="15dp"
