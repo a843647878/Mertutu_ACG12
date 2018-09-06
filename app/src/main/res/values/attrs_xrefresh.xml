@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SmileyLoadingView">
+        <!-- animation duration -->
+        <attr name="duration" format="integer" />
+        <!-- stroke width -->
+        <attr name="strokeWidth" format="dimension" />
+        <!-- stroke color -->
+        <attr name="strokeColor" format="color" />
+        <!-- animation repeat count -->
+        <attr name="animRepeatCount" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="StickyListHeadersListView">
+
+        <!-- Android attributes -->
+        <attr name="android:clipToPadding" />
+        <attr name="android:padding" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingBottom" />
+
+        <!-- ListView attributes -->
+        <attr name="android:fadingEdgeLength" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:cacheColorHint" />
+        <attr name="android:choiceMode" />
+        <attr name="android:drawSelectorOnTop" />
+        <attr name="android:fastScrollEnabled" />
+        <attr name="android:listSelector" />
+        <attr name="android:scrollingCache" />
+        <attr name="android:scrollbarStyle" />
+        <attr name="android:divider" />
+        <attr name="android:dividerHeight" />
+
+        <!-- StickyListHeaders attributes -->
+        <attr name="hasStickyHeaders" format="boolean" />
+        <attr name="isDrawingListUnderStickyHeader" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="RainDropView">
+        <attr name="max_circle_radius" format="dimension" />
+        <attr name="min_circle_radius" format="dimension" />
+        <attr name="waterdrop_color" format="color" />
+        <attr name="topcircle_x" format="dimension" />
+        <attr name="topcircle_y" format="dimension" />
+        <attr name="bottomcircle_x" format="dimension" />
+        <attr name="bottomcircle_y" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="GifView">
+        <attr name="gif" format="reference" />
+        <attr name="paused" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomTheme">
+        <attr name="gifViewStyle" format="reference" />
+    </declare-styleable>
+</resources>

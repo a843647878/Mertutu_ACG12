@@ -82,11 +82,6 @@ public class LoginAcitivity extends BaseActivity {
         super.initView(activity);
         setZhuTitle("登录");
         setTitleLeftImageBack();
-        try {
-            presenter.exitLoginUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         switch (SharedPreferrenceHelper.gettheme(activity)) {
             case "1":

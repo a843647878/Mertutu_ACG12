@@ -5,8 +5,8 @@
     android:installLocation="auto" >
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="23" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="25" />
     <!-- 添加版本支持 -->
     <supports-screens
         android:anyDensity="true"
@@ -76,6 +76,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.moetutu.acg12.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <!--元数据-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <activity
             android:name="com.moetutu.acg12.activity.SplashActivity"
             android:label="@string/app_name" >
@@ -89,10 +99,7 @@
             android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MoeTuMainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.TongYongWebActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -147,30 +154,33 @@
             android:name="UMENG_CHANNEL"
             android:value="Android_001_guanfang" />
 
+
+        <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
-            android:name="com.umeng.socialize.view.ShareActivity"
-            android:configChanges="orientation|keyboard|screenSize"
+            android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true"
-            android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-
-
-
-         <!-- For test only 测试状态通知栏，需要打开的Activity -->
-        <activity android:name=".activity.TestActivity" android:exported="false">
+            android:noHistory="true">
             <intent-filter>
-                <action android:name="jpush.testAction" />
-                <category android:name="jpush.testCategory" />
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
+                <data android:scheme="tencent1106093851"/>
             </intent-filter>
-        </activity>  
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+
 
 
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:theme="@style/MyDialogStyle"
-            android:exported="false" >
+            android:exported="false">
         </activity>
 
         <!-- Required SDK核心功能-->
@@ -185,13 +195,6 @@
                 <category android:name="com.moetutu.acg12" />
             </intent-filter>
         </activity>
-        <!-- Required  SDK核心功能-->
-        <service
-            android:name="cn.jpush.android.service.DownloadService"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
-
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -206,6 +209,12 @@
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
+        <!-- since 3.0.9 Required SDK 核心功能-->
+        <provider
+            android:authorities="com.moetutu.acg12.DataProvider"
+            android:name="cn.jpush.android.service.DataProvider"
+            android:exported="true"
+            />
 
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
@@ -237,9 +246,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
-
         </receiver>
 
         <!-- Required SDK核心功能-->
@@ -247,7 +256,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".activity.MyReceiver"
+            android:name=".broadcast.MyReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>
@@ -255,13 +264,18 @@
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
                 <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.moetutu.acg12" />
             </intent-filter>
         </receiver>
 
-
+        <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
+        <receiver android:name=".broadcast.MyJPushMessageReceiver">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="com.moetutu.acg12"></category>
+            </intent-filter>
+        </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
         <meta-data android:name="JPUSH_APPKEY" android:value="d51d951f4d617578e6387215" /> <!--  </>值来自开发者平台取得的AppKey-->

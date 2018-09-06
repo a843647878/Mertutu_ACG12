@@ -204,11 +204,7 @@ public class MainUserFragement extends LazyBaseFragment {
                     public void onItemClick(BottomActionDialog dialog, BottomActionDialog.ActionItemAdapter adapter, BaseRecyclerAdapter.ViewHolder holder, View view, int p) {
                         if (p == 0) {
                             PicCropUtil.cropFromCamera(getActivity());
-//                            groupIconPathUri = Uri.fromFile(new File(SystemUtils.getFileDiskCache(getContext()) + File.separator
-//                                    + System.currentTimeMillis() + ".png"));
-//                            SystemUtils.doTakePhotoAction(MainUserFragement.this, groupIconPathUri, REQ_CMERA);
                         } else if (p == 1) {
-//                            SystemUtils.lauchAlbum(getActivity(), REQ_ALBUM);
                             PicCropUtil.cropFromGallery(getActivity());
                         }
                         dialog.dismiss();

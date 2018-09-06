@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.util.transformations.BlurTransformation;
 import com.moetutu.acg12.util.transformations.GlideCircleTransform;
@@ -81,6 +83,11 @@ public class GlideUtils {
 
 
     private GlideUtils() {
+
+    }
+
+    public static GlideUrl addHeader(String url){
+        return new GlideUrl(url, new LazyHeaders.Builder().addHeader("Referer", "https://acg12.com/").build());
     }
 
     /**
@@ -98,7 +105,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transform(new GlideCircleTransform(context))
                 .placeholder(R.mipmap.icon_defaulthead)
@@ -146,7 +153,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .transform(new GlideHollowCircleTransform(context,color,width,angle,img))
                 .placeholder(R.mipmap.icon_defaulthead)
                 .error(R.mipmap.icon_defaulthead)
@@ -165,7 +172,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .transform(new GlideHollowCircleTransform(context,color,width))
                 .placeholder(R.mipmap.home_pressed)
                 .error(R.mipmap.home_pressed)
@@ -185,7 +192,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .transform(new GlideHollowCircleTransform(context,angle,img,isImg))
                 .placeholder(R.mipmap.home_pressed)
                 .error(R.mipmap.home_pressed)
@@ -201,7 +208,7 @@ public class GlideUtils {
      */
     public static void blurImg(Context context, String path, ImageView imageView, int blur){
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .bitmapTransform(new BlurTransformation(context,blur))
                 .placeholder(R.mipmap.home_pressed)
                 .error(R.mipmap.home_pressed)
@@ -225,7 +232,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .animate( android.R.anim.fade_in )
                 .placeholder(R.mipmap.cat_loging)
@@ -271,7 +278,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .transform(new GlideCircleTransform(context))
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
@@ -295,7 +302,7 @@ public class GlideUtils {
                 return;
         }
         Glide.with(context)
-                .load(path)
+                .load(addHeader(path))
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .crossFade()

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -16,11 +17,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.adapter.ArticleAdapter;
+import com.moetutu.acg12.dialog.ShareDialog;
 import com.moetutu.acg12.entity.ArticleEntity;
 import com.moetutu.acg12.entity.CommentDateEntity;
 import com.moetutu.acg12.entity.CommentEntity;
@@ -44,10 +44,12 @@ import com.moetutu.acg12.util.SharedPreferrenceHelper;
 import com.moetutu.acg12.util.SystemUtils;
 import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.util.ToastUtils;
-import com.moetutu.acg12.view.refresh.MaterialRefreshLayout;
-import com.moetutu.acg12.view.refresh.MaterialRefreshListener;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
 import com.moetutu.acg12.view.widget.HeaderFooterAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sj.emoji.EmojiBean;
 import com.zzhoujay.richtext.CacheType;
 import com.zzhoujay.richtext.RichText;
@@ -82,9 +84,11 @@ import sj.keyboard.widget.FuncLayout;
 public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncKeyBoardListener,
         BaseRecyclerAdapter.OnItemClickListener, sj.keyboard.widget.BaseRecyclerAdapter.OnItemClickListener {
 
+
     public static String KEY_ARTICLEID = "key_articleid";
 
     protected static final int REQUEST_RECORD_AUDIO = 105;
+    protected static final int READ_EXTERNAL_STORAGE = 106;
 
     SimpleAppsGridView simpleAppsGridView;
 
@@ -100,13 +104,15 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     @BindView(R.id.rv_main_list)
     RecyclerView rvMainList;
     @BindView(R.id.myRefreshLayout)
-    MaterialRefreshLayout myRefreshLayout;
+    SmartRefreshLayout myRefreshLayout;
     @BindView(R.id.ek_bar)
     SimpleUserdefEmoticonsKeyBoard ekBar;
     @BindView(R.id.article_relative)
     RelativeLayout articleRelative;
     @BindView(R.id.floatingToolbar)
     FloatingToolbar floatingToolbar;
+    @BindView(R.id.stock_remind)
+    TextView stockRemind;
 
     private int wendangid;
     public ArticleEntity data;
@@ -121,8 +127,12 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     LinearLayoutManager linearLayoutManager;
 
     public static void launch(Context context, int wendangid) {
-        if (context == null) return;
-        if (wendangid == 0) return;
+        if (context == null) {
+            return;
+        }
+        if (wendangid == 0) {
+            return;
+        }
         Intent in = new Intent(context, ArticleBActivity.class);
         in.putExtra(KEY_ARTICLEID, wendangid);
         in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -145,6 +155,8 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     public void initView(Activity activity) {
         super.initView(activity);
         setZhuTitle();
+        stockRemind.setText("分享");
+        stockRemind.setVisibility(View.VISIBLE);
         setTitleLeftImageBack();
         presenter = new UserDbPresenter(this);
         try {
@@ -152,16 +164,18 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
         } catch (Exception e) {
             e.printStackTrace();
         }
-        myRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        myRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
                 getData(true);
+                refreshlayout.finishRefresh(2000);
             }
-
+        });
+        myRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                super.onRefreshLoadMore(materialRefreshLayout);
+            public void onLoadmore(RefreshLayout refreshlayout) {
                 getData(false);
+                refreshlayout.finishLoadmore(2000);
             }
         });
 
@@ -187,9 +201,9 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
                     SystemUtils.hideSoftKeyBoard(context);
                     ekBar.reset();
                 }
-                if (newState == recyclerView.SCROLL_STATE_IDLE) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     showBottomBar();
-                } else if (newState == recyclerView.SCROLL_STATE_DRAGGING) {
+                } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     if (downloadButton.getVisibility() == View.VISIBLE) {
                         downloadButton.setVisibility(View.GONE);
                     }
@@ -205,7 +219,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
         tvHtml = (TextView) headerView.findViewById(R.id.tv_html);
 
         articleAdapter.setOnItemClickListener(this);
-        myRefreshLayout.autoRefresh();
+
 
         floatingToolbar.setClickListener(new FloatingToolbar.ItemClickListener() {
             @Override
@@ -232,6 +246,8 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
                             //跳转下载
                             intentDownload();
                             break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -242,6 +258,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
             }
         });
         initData();
+        myRefreshLayout.autoRefresh();
     }
 
 
@@ -258,7 +275,9 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
                 .enqueue(new SimpleCallBack<PostEntity>() {
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
-                        if (response.body() == null) return;
+                        if (response.body() == null) {
+                            return;
+                        }
                         data = response.body().data.post;
                         RichText
                                 .fromHtml(data.content) // 数据源
@@ -296,7 +315,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
         if (isRefresh) {
             PageIndex = 1;
         }
-        endLastRefresh(isRefresh);
+//        endLastRefresh(isRefresh);
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
@@ -304,11 +323,12 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
                 .enqueue(new SimpleCallBack<CommentsList>() {
                     @Override
                     public void onSuccess(Call<ResEntity<CommentsList>> call, Response<ResEntity<CommentsList>> response) {
-                        endCurrentRefresh(isRefresh);
+//                        endCurrentRefresh(isRefresh);
                         if (response.body().data.comments != null) {
                             articleAdapter.bindData(isRefresh, response.body().data.comments);
                             PageIndex++;
-                            myRefreshLayout.setLoadMore(response.body().data.comments.size() > 9);
+                            myRefreshLayout.setLoadmoreFinished(!(response.body().data.comments.size() > 9));
+//                            myRefreshLayout.setLoadMore(response.body().data.comments.size() > 9);
                             headerFooterAdapter.notifyDataSetChanged();
                         }
                     }
@@ -316,35 +336,22 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
                     @Override
                     public void onFailure(Call<ResEntity<CommentsList>> call, Throwable t) {
                         super.onFailure(call, t);
-                        endCurrentRefresh(isRefresh);
+//                        endCurrentRefresh(isRefresh);
                     }
                 });
     }
-
-    public void endLastRefresh(boolean isRefresh) {
-        if (myRefreshLayout == null) return;
-        if (isRefresh)
-            myRefreshLayout.finishRefreshLoadMore();
-        else
-            myRefreshLayout.finishRefresh();
-    }
-
-    public void endCurrentRefresh(boolean isRefresh) {
-        if (myRefreshLayout == null) return;
-        if (isRefresh)
-            myRefreshLayout.finishRefresh();
-        else
-            myRefreshLayout.finishRefreshLoadMore();
-    }
-
 
 
     //跳转到下载页面
     public void intentDownload() {
         if (data.storage.items.size() > 0) {
+            if (TextUtils.isEmpty(data.storage.items.get(0).downloadPwd)){
+                ToastUtils.showRoundRectToast("没发现下载地址");
+                return;
+            }
             SystemUtils.copyToClipboard(context, "text", data.storage.items.get(0).downloadPwd);
             ToastUtils.showRoundRectToast("提取密码已经复制到剪切板啦!");
-            Uri uri = Uri.parse(data.storage.items.get(0).url.replace(" ",""));
+            Uri uri = Uri.parse(data.storage.items.get(0).url.replace(" ", ""));
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } else {
@@ -495,7 +502,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
 
 
     private void scrollToBottom() {
-        if (rvMainList == null) return;
+        if (rvMainList == null) {return;}
         int lastChildViewPosition = linearLayoutManager.findLastVisibleItemPosition();
         LogUtils.d("------------->lastChildViewPosition:" + lastChildViewPosition + "--------->" + articleAdapter.getItemCount());
         if (articleAdapter.getItemCount() - lastChildViewPosition < 3) {
@@ -505,7 +512,7 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
     }
 
     private void scrollToBottomSend() {
-        if (rvMainList == null) return;
+        if (rvMainList == null) {return;}
         rvMainList.scrollToPosition(articleAdapter.getItemCount() - 1);
     }
 
@@ -567,9 +574,34 @@ public class ArticleBActivity extends BaseActivity implements FuncLayout.OnFuncK
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
-            requestPermission(Manifest.permission.RECORD_AUDIO, "我们需要拍照权限",
+            requestPermission(Manifest.permission.RECORD_AUDIO, "我们需要录音权限",
                     REQUEST_RECORD_AUDIO);
         }
     }
 
+    @OnClick(R.id.stock_remind)
+    public void onViewClicked() {
+        String[] permisions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (checkPermissions(permisions))//有权限
+        {
+            new ShareDialog(context, data.title, R.mipmap.ic_launcher, data.url).show();
+        } else {//没权限
+            reqPermission(permisions, READ_EXTERNAL_STORAGE);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case READ_EXTERNAL_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    new ShareDialog(context, data.title, R.mipmap.ic_launcher, data.url).show();
+                } else {
+                    showFillToast("权限被拒绝,请到设置中心打开读取权限!");
+                }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }

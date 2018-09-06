@@ -37,16 +37,14 @@
             app:fabSize="normal" />
 
 
-        <com.moetutu.acg12.view.refresh.MaterialRefreshLayout
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/myRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/main_title"
             android:layout_margin="8dp"
             android:padding="5dp"
-            app:overlay="true"
-            app:progress_colors="@array/material_colors"
-            app:wave_show="false">
+            android:overScrollMode="always">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_main_list"
@@ -54,6 +52,6 @@
                 android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
-        </com.moetutu.acg12.view.refresh.MaterialRefreshLayout>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </RelativeLayout>
 </sj.keyboard.SimpleUserdefEmoticonsKeyBoard>

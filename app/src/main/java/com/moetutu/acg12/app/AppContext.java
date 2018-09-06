@@ -6,18 +6,28 @@ import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadHelper;
 import com.liulishuo.filedownloader.util.FileDownloadLog;
 import com.moetutu.acg12.BuildConfig;
+import com.moetutu.acg12.R;
 import com.moetutu.acg12.presenter.UserDbPresenter;
 import com.moetutu.acg12.util.AppManager;
 import com.moetutu.acg12.util.LogUtils;
 import com.moetutu.acg12.util.logger.AndroidLogAdapter;
 import com.moetutu.acg12.util.logger.LogLevel;
 import com.moetutu.acg12.util.logger.Logger;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
@@ -35,20 +45,41 @@ public class AppContext extends MultiDexApplication {//com.zztzt.android.simple.
 	 */
 	private static AppContext mInstance;
 
-	private UserDbPresenter userDbPresenter;
-	
+
+	{// 友盟分享初始化
+		PlatformConfig.setQQZone("1106093851", "xzMIm9suRXPC4vj2");
+	}
+
+	//static 代码段可以防止内存泄露
+	static {
+		//设置全局的Header构建器
+		SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+			@Override
+			public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+//				layout.setPrimaryColorsId(R.color.acg_fen2, android.R.color.white);//全局设置主题颜色
+				return new MaterialHeader(context).setShowBezierWave(false);
+			}
+		});
+		//设置全局的Footer构建器
+		SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+			@Override
+			public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+				//指定为经典Footer，默认是 BallPulseFooter
+				return new ClassicsFooter(context).setDrawableSize(20);
+			}
+		});
+	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-
+		UMShareAPI.get(this);
 		JPushInterface.init(this);
-		JPushInterface.setDebugMode(false);        // 设置开启日志,发布时请关闭日志
+		JPushInterface.setDebugMode(true);        // 设置开启日志,发布时请关闭日志
 		mInstance = this;
-		//fasebook初始化
-		Fresco.initialize(this);
+
 		initLogger();
 
 
@@ -139,11 +170,6 @@ public class AppContext extends MultiDexApplication {//com.zztzt.android.simple.
 				.logAdapter(new AndroidLogAdapter()); //default AndroidLogAdapter
 	}
 
-	public UserDbPresenter getUserDbPresenter() {
-		if (userDbPresenter == null) {
-			userDbPresenter = new UserDbPresenter(this);
-		}
-		return userDbPresenter;
-	}
+
 
 }

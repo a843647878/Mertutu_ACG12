@@ -128,7 +128,7 @@ public class DefaultImageGetter implements ImageGetter, ImageLoadNotify {
             imageLoader = localFileImageLoader;
         } else {
             // 网络图片
-            Request builder = new Request.Builder().url(holder.getSource()).get().build();
+            Request builder = new Request.Builder().url(holder.getSource()).addHeader("Referer", "https://acg12.com/").get().build();
             Call call = getClient().newCall(builder);
             CallbackImageLoader callback = new CallbackImageLoader(holder, config, textView, drawableWrapper, this, rect);
             cancelable = new CallCancelableWrapper(call);

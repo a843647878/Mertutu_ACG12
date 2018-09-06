@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.entity.ArticleEntity;
 

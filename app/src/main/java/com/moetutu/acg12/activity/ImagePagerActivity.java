@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -34,6 +36,7 @@ import com.moetutu.acg12.util.logger.LogAdapter;
 import com.moetutu.acg12.view.HackyViewPager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +73,8 @@ public class ImagePagerActivity extends BaseActivity {
     TextView tvDownload;
 
     private String apkFileName;
+
+    private String ROOTPATH;
 
 
     public static void launch(Context context, String name,String[] urls, int pos) {
@@ -165,7 +170,7 @@ public class ImagePagerActivity extends BaseActivity {
         if (Environment.isExternalStorageEmulated()) {
             apkFileName = String.format(getIntent().getStringExtra(KEY_NAME)+"_%s.jpg", realPos+"");
             String imageurl = urls[realPos];
-            String ROOTPATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator+"DCIM/";
+            ROOTPATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator+"DCIM/";
             FileDownloader
                     .getImpl()
                     .create(imageurl)
@@ -190,7 +195,19 @@ public class ImagePagerActivity extends BaseActivity {
 
         @Override
         protected void completed(BaseDownloadTask task) {
+
+            // 其次把文件插入到系统图库
+            try {
+                MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                        ROOTPATH, apkFileName, null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // 最后通知图库更新
+//        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(ROOTPATH))));
             T.showShort("下载完成");
+
         }
 
         @Override

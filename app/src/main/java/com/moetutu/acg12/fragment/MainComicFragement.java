@@ -20,9 +20,11 @@ import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.util.Const;
 import com.moetutu.acg12.util.ItemDecorationUtils;
-import com.moetutu.acg12.view.refresh.MaterialRefreshLayout;
-import com.moetutu.acg12.view.refresh.MaterialRefreshListener;
 import com.moetutu.acg12.view.widget.BaseRecyclerAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,6 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.moetutu.acg12.fragment.FragementTu.TYPE_API;
-import static com.moetutu.acg12.view.DesignViewUtils.isSlideToBottom;
 
 /**
  * Description
@@ -49,7 +49,7 @@ public class MainComicFragement extends LazyBaseFragment implements BaseRecycler
     @BindView(R.id.list)
     RecyclerView recyclerView;
     @BindView(R.id.myRefreshLayout)
-    MaterialRefreshLayout myRefreshLayout;
+    SmartRefreshLayout myRefreshLayout;
 
 
     //图站Fragement
@@ -71,7 +71,6 @@ public class MainComicFragement extends LazyBaseFragment implements BaseRecycler
             rootView = inflater.inflate(R.layout.fragment_wallpaper, container, false);
             ButterKnife.bind(this, rootView);
             initView();
-            initData(false);
         }
         if (rootView.getParent() != null) {
             ((ViewGroup) rootView.getParent()).removeView(rootView);
@@ -89,36 +88,39 @@ public class MainComicFragement extends LazyBaseFragment implements BaseRecycler
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.addItemDecoration(ItemDecorationUtils.getCommTrans5Divider(getActivity(), true));
 
-        myRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+        myRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+            public void onRefresh(RefreshLayout refreshlayout) {
                 initData(true);
+                refreshlayout.finishRefresh(2000);
             }
-
+        });
+        myRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+            public void onLoadmore(RefreshLayout refreshlayout) {
                 initData(false);
+                refreshlayout.finishLoadmore(2000);
             }
         });
         tuadapter = new TuJiAdapter();
         tuadapter.setOnItemClickListener(this);
         recyclerView.setAdapter(tuadapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (isSlideToBottom(recyclerView)) {
-                    myRefreshLayout.autoRefreshLoadMore();
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (isSlideToBottom(recyclerView)) {
+//                    myRefreshLayout.autoRefreshLoadMore();
+//                }
+//            }
+//        });
+        myRefreshLayout.autoRefresh();
     }
 
     private synchronized void initData(final boolean isRefresh) {
         if (isRefresh) {
             PageIndex = 1;
         }
-        endLastRefresh(isRefresh);
         RetrofitService
                 .getInstance()
                 .getApiCacheRetryService()
@@ -127,17 +129,10 @@ public class MainComicFragement extends LazyBaseFragment implements BaseRecycler
                     @Override
                     public void onSuccess(Call<ResEntity<PostEntity>> call, Response<ResEntity<PostEntity>> response) {
                         if (response.body().data.posts != null) {
-                            endCurrentRefresh(isRefresh);
                             tuadapter.bindData(isRefresh, response.body().data.posts);
                             PageIndex++;
-                            myRefreshLayout.setLoadMore(response.body().data.posts.size() > 9);
+                            myRefreshLayout.setLoadmoreFinished(!(response.body().data.posts.size() > 9));
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResEntity<PostEntity>> call, Throwable t) {
-                        super.onFailure(call, t);
-                        endCurrentRefresh(isRefresh);
                     }
                 });
 
@@ -151,24 +146,6 @@ public class MainComicFragement extends LazyBaseFragment implements BaseRecycler
                 ArticleBGActivity.launch(getActivity(),obj.id);
             }
         }
-    }
-
-
-
-    public void endLastRefresh(boolean isRefresh) {
-        if (myRefreshLayout == null) return;
-        if (isRefresh)
-            myRefreshLayout.finishRefreshLoadMore();
-        else
-            myRefreshLayout.finishRefresh();
-    }
-
-    public void endCurrentRefresh(boolean isRefresh) {
-        if (myRefreshLayout == null) return;
-        if (isRefresh)
-            myRefreshLayout.finishRefresh();
-        else
-            myRefreshLayout.finishRefreshLoadMore();
     }
 
 

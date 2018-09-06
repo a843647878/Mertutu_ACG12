@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.app.AppContext;
-import com.moetutu.acg12.view.refresh.DensityUtil;
 
 
 /**
@@ -40,7 +39,7 @@ public class ToastUtils {
                 .setDuration(Toast.LENGTH_SHORT)
                 .setFill(true)
                 .setGravity(Gravity.TOP)
-                .setyOffset(DensityUtil.dip2px(context, 52))
+                .setyOffset(DensityUtils.dp2px(context, 52))
                 .setTitle(notice)
                 .setTextColor(Color.WHITE)
                 .setBackgroundColor(0XFFFF4590)
@@ -69,8 +68,8 @@ public class ToastUtils {
                 .setTitle(notice)
                 .setTextColor(Color.WHITE)
                 .setBackgroundColor(0XFFFF4081)
-                .setRadius(DensityUtil.dip2px(context, 4))
-                .setElevation(DensityUtil.dip2px(context, 4))
+                .setRadius(DensityUtils.dp2px(context, 4))
+                .setElevation(DensityUtils.dp2px(context, 4))
                 .build()
                 .show();
     }

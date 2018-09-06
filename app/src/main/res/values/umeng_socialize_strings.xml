@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="pull_to_refresh_tap_label" translatable="false">点击刷新</string>
     <string name="umeng_socialize_network_break_alert" translatable="false">请连接网络后再尝试！</string>
     <string name="umeng_socialize_comment" translatable="false">评论</string>
     <string name="umeng_socialize_comment_detail" translatable="false">评论详情</string>
@@ -64,6 +65,42 @@
     <string name="umeng_socialize_send_btn_str">发送</string>
     <string name="umeng_socialize_img_des"></string>
     <string name="umeng_socialize_share">分享</string>
-    <string name="com_facebook_loading">Loading...</string>
 
+    <string name="umeng_socialize_mail">邮件</string>
+    <string name="umeng_socialize_sms">短信</string>
+    <string name="umeng_socialize_sina">新浪</string>
+    <string name="umeng_socialize_text_yixin_key">易信</string>
+    <string name="umeng_socialize_text_yixincircle_key">易信朋友圈</string>
+
+    <string name="umeng_socialize_text_laiwangdynamic_key">来往动态</string>
+    <string name="umeng_socialize_text_evernote_key">印象笔记</string>
+    <string name="umeng_socialize_text_ydnote_key">有道云笔记</string>
+    <string name="umeng_socialize_text_facebook_key">facebook</string>
+    <string name="umeng_socialize_text_twitter_key">twitter</string>
+    <string name="umeng_socialize_text_instagram_key">instagram</string>
+    <string name="umeng_socialize_text_pinterest_key">pinterest</string>
+    <string name="umeng_socialize_text_pocket_key">pocket</string>
+    <string name="umeng_socialize_text_linkedin_key">Linkedin</string>
+    <string name="umeng_socialize_text_foursquare_key">Foursquare</string>
+    <string name="umeng_socialize_text_whatsapp_key">WhatsApp</string>
+    <string name="umeng_socialize_text_line_key">LINE</string>
+    <string name="umeng_socialize_text_flickr_key">Flickr</string>
+    <string name="umeng_socialize_text_tumblr_key">Tumblr</string>
+    <string name="umeng_socialize_text_alipay_key">支付宝</string>
+    <string name="umeng_socialize_text_kakao_key">Kakao Talk</string>
+    <string name="umeng_socialize_text_googleplus_key">GooglePlus</string>
+
+    <string name="umeng_socialize_female">女</string>
+    <string name="umeng_socialize_male">男</string>
+
+    <!-- 平台名称 -->
+    <string name="umeng_socialize_text_wenxin_fav">微信收藏</string>
+    <string name="umeng_socialize_text_weixin_fav_key">微信收藏</string>
+
+
+
+    <string name="umeng_socialize_text_more_key">更多</string>
+    <string name="umeng_socialize_text_dingding_key">钉钉</string>
+    <string name="umeng_socialize_text_vkontakte_key">VKontakte</string>
+    <string name="umeng_socialize_text_dropbox_key">DropBox</string>
 </resources>

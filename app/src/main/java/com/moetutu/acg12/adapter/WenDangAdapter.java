@@ -3,7 +3,6 @@ package com.moetutu.acg12.adapter;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.util.GlideUtils;
 import com.moetutu.acg12.util.HtmlAcgUtil;
@@ -19,7 +18,7 @@ public class WenDangAdapter extends BaseArrayRecyclerAdapter<String> {
     @Override
     public void onBindHoder(ViewHolder holder, String s, int position) {
         if (s == null) return;
-        SimpleDraweeView image = holder.obtainView(R.id.biaoqian_img);
+        ImageView image = holder.obtainView(R.id.biaoqian_img);
         Uri uri = null;
         if (HtmlAcgUtil.isHttps(s)) {
             uri = Uri.parse(s);
@@ -28,7 +27,6 @@ public class WenDangAdapter extends BaseArrayRecyclerAdapter<String> {
             GlideUtils.loadDetails(image.getContext(), s, image);
         }
         LogUtils.d("---------uri:"+uri.toString());
-        image.setAspectRatio(1.33f);
         image.setImageURI(uri);
     }
 

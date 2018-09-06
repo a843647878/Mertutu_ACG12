@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.moetutu.acg12.view.refresh.MaterialRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/myRefreshLayout"
     android:layout_width="match_parent"
@@ -16,4 +16,4 @@
         android:paddingLeft="2.5dp"
         android:paddingRight="2.5dp"/>
 
-</com.moetutu.acg12.view.refresh.MaterialRefreshLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:infiniteCard="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/activity_wendang"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/fake_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="?attr/appbg"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/acg_title_height"
+        android:layout_marginTop="@dimen/statusbar_view_height"
+        android:background="?attr/appbg">
+
+        <ImageView
+            android:id="@+id/acg_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:background="@mipmap/logofw"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/acg_name"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每日推荐"
+            android:textSize="16sp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+    <com.moetutu.acg12.view.card.InfiniteCardView
+        android:id="@+id/view"
+        android:layout_marginTop="68dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        infiniteCard:animDuration="1000"
+        infiniteCard:cardRatio="1"/>
+
+</FrameLayout>

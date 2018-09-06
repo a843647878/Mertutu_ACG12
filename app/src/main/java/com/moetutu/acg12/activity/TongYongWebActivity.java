@@ -32,7 +32,7 @@ public class TongYongWebActivity extends BaseActivity{
 		url = in.getStringExtra("url");
 		initView(this);
 	}
-	
+
 	@Override
 	public void initView(Activity activity) {
 		// TODO Auto-generated method stub

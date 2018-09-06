@@ -26,13 +26,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/card_image_view"
-                android:layout_width="fill_parent"
-                android:layout_height="260dp"
-                card_view:actualImageScaleType="focusCrop"
-                card_view:failureImage="@mipmap/loginicon"
-                card_view:retryImage="@mipmap/loginicon" />
+                android:layout_width="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:layout_height="260dp" />
 
             <TextView
                 android:id="@+id/card_pic_num"

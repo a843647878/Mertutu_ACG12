@@ -42,8 +42,6 @@ import retrofit2.Response;
  * 有问题  直接加载图片的  可能会出现oom
  */
 public class SplashActivity extends BaseActivity {
-    private boolean kaishi = true;
-    private ImageView welcomeImageView;
 
     private UserEntity user;
     private UserEntity data;
@@ -144,25 +142,42 @@ public class SplashActivity extends BaseActivity {
                 initData();
             }else {
                 // call after setContentView(R.layout.activity_sample);
-                SplashView.showSplashView(this, 3, R.mipmap.splash, new SplashView.OnSplashViewActionListener() {
-                    @Override
-                    public void onSplashImageClick(String actionUrl) {
-                        LogUtils.d("----------------->广告");
-                        T.showShort("点击广告进入的位置");
-                    }
-
-                    @Override
-                    public void onSplashViewDismiss(boolean initiativeDismiss) {
-                        LogUtils.d("----------------->关闭");
-                        MainActivity.launch(SplashActivity.this);
-                        finish();
-                    }
-                });
+//                SplashView.showSplashView(this, 3, R.mipmap.splash, new SplashView.OnSplashViewActionListener() {
+//                    @Override
+//                    public void onSplashImageClick(final String actionUrl) {
+//                        handler.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                LogUtils.d("----------------->广告");
+//                                T.showShort("点击广告进入的位置"+actionUrl);
+//                            }
+//                        });
+//
+//                    }
+//
+//                    @Override
+//                    public void onSplashViewDismiss(final boolean initiativeDismiss) {
+//                        handler.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                LogUtils.d("----------------->关闭");
+//                                T.showShort("关闭"+initiativeDismiss);
+//                                if (initiativeDismiss){
+//
+//                                }
+//                                MainActivity.launch(SplashActivity.this);
+//                                finish();
+//                            }
+//                        });
+//
+//                    }
+//
+//                });
 
                 // call this method anywhere to update splash view data
-                SplashView.updateSplashData(this, "https://static.acg12.com/uploads/2017/04/d24a509a57e82b556eaa7de868f8f38c.jpg", "https://static.acg12.com");
-//                handler.removeCallbacksAndMessages(null);
-//                handler.postDelayed(flashTask, DELAY_TIME);
+//                SplashView.updateSplashData(this, "https://static.acg12.com/uploads/2017/04/d24a509a57e82b556eaa7de868f8f38c.jpg", "https://static.acg12.com");
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(flashTask, DELAY_TIME);
             }
         }
     }

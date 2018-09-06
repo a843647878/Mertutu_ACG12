@@ -7,8 +7,6 @@
     
     
     <!-- 下拉刷新 -->
-  
-    <string name="pull_to_refresh_tap_label">Tap to refresh…</string>
     <string name="common_loading">-0- 加载中...</string>
     
     <!-- AppException错误提示信息   网络连接失败，请检查网络设置 -->

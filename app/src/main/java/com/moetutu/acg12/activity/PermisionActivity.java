@@ -2,15 +2,19 @@ package com.moetutu.acg12.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.moetutu.acg12.R;
+import com.moetutu.acg12.util.AppManager;
+
 
 /**
  * @author chengwanying
@@ -23,6 +27,8 @@ public class PermisionActivity extends AppCompatActivity {
     protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
     protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;
     protected static final int REQUEST_ACCESS_CAMERA = 103;
+    protected static final int REQUEST_ACCESS_FINE_LOCATION = 104;
+    protected static final int REQUEST_RECORD_AUDIO = 105;
 
     private AlertDialog mAlertDialog;
     protected Activity context;
@@ -31,6 +37,10 @@ public class PermisionActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+    }
+
+    public boolean containInstance(Class activity) {
+        return AppManager.getAppManager().getActivity(activity) != null;
     }
 
     /**
@@ -44,6 +54,39 @@ public class PermisionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 检查权限
+     *
+     * @param permission
+     * @return
+     */
+    protected boolean checkPermission(String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)// Permission was added in API Level 16
+        {
+            return ContextCompat.checkSelfPermission(this, permission)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
+    }
+
+    /**
+     * 检查权限
+     *
+     * @param permissions
+     * @return
+     */
+    protected boolean checkPermissions(String[] permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)// Permission was added in API Level 16
+        {
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(this, permissions[i])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * Requests given permission.
@@ -63,6 +106,10 @@ public class PermisionActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
         }
+    }
+
+    protected void reqPermission(final String[] permissions, final int requestCode) {
+        ActivityCompat.requestPermissions(this, permissions, requestCode);
     }
 
     /**
@@ -88,6 +135,7 @@ public class PermisionActivity extends AppCompatActivity {
         builder.setNegativeButton(negativeText, onNegativeButtonClickListener);
         mAlertDialog = builder.show();
     }
+
 
     /**
      * 是否销毁或者正在销毁

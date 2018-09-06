@@ -1,20 +1,19 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.moetutu.acg12"
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 26
         multiDexEnabled true
-        versionCode 44
-        versionName '1.1.2.3'
+        versionCode 52
+        versionName '1.1.4.0'
+        flavorDimensions "versionCode"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -60,15 +59,13 @@ android {
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
-                output.outputFile = new File(outputFile.parent, fileName)
-            }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "ACG12-${defaultConfig.versionName}.apk"
         }
     }
+
     //签名
     signingConfigs {
         debug {
@@ -140,12 +137,11 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.facebook.fresco:fresco:0.10.0'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:cardview-v7:25.1.0'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support:cardview-v7:26.+'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
@@ -153,12 +149,12 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
 
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.9'
     compile 'com.google.android.exoplayer:exoplayer:r1.4.1'
     compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
@@ -171,11 +167,10 @@ dependencies {
     compile project(':richtext')
     compile project(':emojilibrary')
 
+    compile 'cn.jiguang.sdk:jpush:3.0.9'  // 此处以JPush 3.0.0 版本为例例。
+    compile 'cn.jiguang.sdk:jcore:1.1.7'  // 此处以JCore 1.0.0 版本为例。
+    compile files('libs/umeng-analytics-v6.1.0.jar')
 
-    compile 'cn.jiguang.sdk:jpush:3.0.0'  // 此处以JPush 3.0.0 版本为例例。
-    compile 'cn.jiguang.sdk:jcore:1.0.0'  // 此处以JCore 1.0.0 版本为例。
-    compile files('libs/umeng-analytics-v5.2.4.jar')
-    compile files('libs/umeng_social_sdk.jar')
 
     compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.6.2'
@@ -186,9 +181,19 @@ dependencies {
 
     compile 'com.yalantis:ucrop:2.2.0'
 
-    apt 'com.bluelinelabs:logansquare-compiler:1.3.7'//LoganSquare解析
+    //稳定版
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
+
+
+    annotationProcessor 'com.bluelinelabs:logansquare-compiler:1.3.7'//LoganSquare解析
     compile 'com.bluelinelabs:logansquare:1.3.7'
     compile "com.github.aurae.retrofit2:converter-logansquare:1.4.1"
+
+    compile files('libs/umeng_social_api.jar')
+    compile files('libs/umeng_social_net.jar')
+    compile files('libs/umeng_social_tool.jar')
+    compile files('libs/SocialSDK_QQ_Simplify.jar')
 
 }
 // -----------------------------------------------------------@Assist

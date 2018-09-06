@@ -4,12 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.moetutu.acg12.R;
 import com.moetutu.acg12.entity.ArticleEntity;
+import com.moetutu.acg12.util.GlideUtils;
 
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.regex.Pattern;
 @SuppressLint("NewApi")
 public class CardItemView extends LinearLayout {
 
-    public SimpleDraweeView imageView;
+    public ImageView imageView;
     private TextView userNameTv;
     private TextView imageNumTv;
     private TextView likeNumTv;
@@ -41,7 +42,7 @@ public class CardItemView extends LinearLayout {
     public CardItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         inflate(context, R.layout.card_item, this);
-        imageView = (SimpleDraweeView) findViewById(R.id.card_image_view);
+        imageView = (ImageView) findViewById(R.id.card_image_view);
         userNameTv = (TextView) findViewById(R.id.card_user_name);
         imageNumTv = (TextView) findViewById(R.id.card_pic_num);
         likeNumTv = (TextView) findViewById(R.id.card_like);
@@ -49,8 +50,9 @@ public class CardItemView extends LinearLayout {
     }
 
     public void fillData(ArticleEntity itemData) {
-        Uri uri = Uri.parse(itemData.thumbnail.url);
-        imageView.setImageURI(uri);
+//        Uri uri = Uri.parse(itemData.thumbnail.url);
+        GlideUtils.loadDetails(imageView.getContext(),itemData.thumbnail.url,imageView);
+//        imageView.setImageURI(uri);
 
         userNameTv.setText(itemData.title);
         imageNumTv.setText(itemData.date.human);

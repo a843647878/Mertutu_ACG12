@@ -18,13 +18,17 @@ import android.widget.Toast;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.moetutu.acg12.BuildConfig;
 import com.moetutu.acg12.broadcast.GetBroadcast;
+import com.moetutu.acg12.dialog.AppUpdateDialog;
+import com.moetutu.acg12.entity.UpAppEntity;
 import com.moetutu.acg12.entity.UpdateApkInfo;
 import com.moetutu.acg12.http.RetrofitService;
 import com.moetutu.acg12.http.callback.SimpleCallBack;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
 import com.moetutu.acg12.interf.OnUpdateDialogNoticeListener;
 import com.moetutu.acg12.util.SnackbarUtils;
+import com.moetutu.acg12.util.T;
 import com.moetutu.acg12.util.ToastUtils;
 
 import java.io.File;
@@ -91,30 +95,32 @@ public class BaseAppUpdateActivity extends PermisionActivity implements OnUpdate
 
     @Override
     public synchronized void shouldUpdate(final boolean isForce) {
-//        if (apkInfo == null) {
-//            RetrofitService
-//                    .getInstance()
-//                    .getApiService()
-//                    .getAndroidInfo()
-//                    .enqueue(new SimpleCallBack<UpdateApkInfo>() {
-//                        @Override
-//                        public void onSuccess(Call<ResEntity<UpdateApkInfo>> call, Response<ResEntity<UpdateApkInfo>> response) {
-//                            if (response.body().data != null && !TextUtils.isEmpty(response.body().data.updateUrl)) {
-//                                apkInfo = response.body().data;
-//                                apkInfo.force = isForce ? 1 : 0;
-//                                showUpdateNoticeDialog(isForce);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void defNotify(String noticeStr) {
-//                            // super.defNotify(noticeStr);
-//                        }
-//                    });
-//        } else {
-//            showUpdateNoticeDialog(isForce);
-//        }
-
+            RetrofitService
+                    .getInstance("http://m.acg12.cn/and-update/")
+                    .getApiCacheRetryService()
+                    .GetVersion()
+                    .enqueue(new SimpleCallBack<UpAppEntity>() {
+                        @Override
+                        public void onSuccess(Call<ResEntity<UpAppEntity>> call, Response<ResEntity<UpAppEntity>> response) {
+                            if (response.body().data != null) {
+                            if (response.body().data.versionCode > BuildConfig.VERSION_CODE) {
+                                if (!isDestroyOrFinishing()) {
+                                    new AppUpdateDialog(
+                                            context,
+                                            REQUEST_STORAGE_WRITE_ACCESS_PERMISSION,
+                                            false,
+                                            response.body().data.url,
+                                            BuildConfig.VERSION_NAME,
+                                            response.body().data.instructions).show();
+                                }
+                            }else {
+                                if (isForce){
+                                    T.showShort("已是最新版本");
+                                }
+                            }
+                            }
+                        }
+                    });
     }
 
 

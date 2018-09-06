@@ -27,6 +27,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * ClassName RetrofitService
@@ -51,11 +52,15 @@ public class RetrofitService {
 
 
     public static RetrofitService getInstance() {
-        if (retrofitService == null) {
-            context = AppContext.getApplication();
-            presenter = new UserDbPresenter(context);
-            retrofitService = new RetrofitService();
-        }
+        context = AppContext.getApplication();
+        presenter = new UserDbPresenter(context);
+        retrofitService = new RetrofitService();
+        return retrofitService;
+    }
+
+    public static RetrofitService getInstance(String http) {
+        context = AppContext.getApplication();
+        retrofitService = new RetrofitService(http);
         return retrofitService;
     }
 
@@ -70,6 +75,10 @@ public class RetrofitService {
         return this;
     }
 
+    public RetrofitService(String http) {
+        initRetrofit(http);
+    }
+
 
     public RetrofitService() {
         initRetrofit();
@@ -79,11 +88,11 @@ public class RetrofitService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        restLoginInfo(user == null ? "" : user.getToken(), user == null ? (long)0 : user.getID());
+        restLoginInfo(user == null ? "" : user.getToken(), user == null ? (long) 0 : user.getID());
     }
 
     public String getToken() {
-        return token;
+        return this.token;
     }
 
     public long getId() {
@@ -101,6 +110,11 @@ public class RetrofitService {
     private void initRetrofit() {
         apiService = getRetrofit(getOkHttpClient(false, false)).create(ApiService.class);
         apiCacheRetryService = getRetrofit(getOkHttpClient(true, true)).create(ApiService.class);
+    }
+
+    private void initRetrofit(String http) {
+        apiService = getRetrofit(getOkHttpClient(false, false), http).create(ApiService.class);
+        apiCacheRetryService = getRetrofit(getOkHttpClient(true, true), http).create(ApiService.class);
     }
 
     public OkHttpClient getOkHttpClient(boolean cache, boolean retry) {
@@ -133,16 +147,17 @@ public class RetrofitService {
                 Request request = chain.request();
                 Request requestBuilder = request.newBuilder()
                         .addHeader("Cookie", SharedPreferrenceHelper.getCookie(context))
-                        .addHeader("token", getToken())
+                        .addHeader("token", TextUtils.isEmpty(getToken()) ? "" : getToken())
                         .addHeader("osVer", String.valueOf(Build.VERSION.SDK_INT))
                         .addHeader("osType", HConst.OS_TYPE)
                         .addHeader("appVer", BuildConfig.VERSION_NAME)
+                        .addHeader("Referer", "https://acg12.com/")
                         .build();
                 Response response = chain.proceed(requestBuilder);
                 String cookeHeader = response.header("Set-Cookie", "");
                 if (!TextUtils.isEmpty(cookeHeader)) {
-                    if (cookeHeader.length()>=SharedPreferrenceHelper.getCookie(context).length()){
-                        SharedPreferrenceHelper.setCookie(context,cookeHeader);
+                    if (cookeHeader.length() >= SharedPreferrenceHelper.getCookie(context).length()) {
+                        SharedPreferrenceHelper.setCookie(context, cookeHeader);
                     }
                 }
                 return response;
@@ -168,6 +183,20 @@ public class RetrofitService {
                 .build();
     }
 
+    /*
+    * 封装活性的Retrofit，可以自己传入地址
+    * */
+    public Retrofit getRetrofit(OkHttpClient okHttpClient, String http) {
+        return new Retrofit.Builder()
+                .baseUrl(http)
+                //.addConverterFactory(ProtoConverterFactory.create())//适合数据同步
+//                .addConverterFactory(GsonConverterFactory.create(JsonUtils.getGson()))
+                .addConverterFactory(LoganSquareConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
+    }
+
     /**
      * 网络缓存拦截器
      * 网络连接时请求服务器，否则从本地缓存中获取
@@ -177,26 +206,26 @@ public class RetrofitService {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            if(!NetWorkUtils.checkNetState(context)){//如果网络不可用
-                request=request.newBuilder()
+            if (!NetWorkUtils.checkNetState(context)) {//如果网络不可用
+                request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
                 LogUtils.d("没有网络链接");
-            }else{//网络可用
+            } else {//网络可用
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
                 LogUtils.d("网络可用请求拦截");
             }
             Response response = chain.proceed(request);
-            if(NetWorkUtils.checkNetState(context)){//如果网络可用
+            if (NetWorkUtils.checkNetState(context)) {//如果网络可用
                 LogUtils.d("网络可用请求拦截");
-                response= response.newBuilder()
+                response = response.newBuilder()
                         //覆盖服务器响应头的Cache-Control,用我们自己的,因为服务器响应回来的可能不支持缓存
                         .header("Cache-Control", "public,max-age=2")
                         .removeHeader("Pragma")
                         .build();
-            }else{
+            } else {
 //                    Log.d("OkHttp","网络不可用响应拦截");
 //                    int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
 //                    response= response.newBuilder()

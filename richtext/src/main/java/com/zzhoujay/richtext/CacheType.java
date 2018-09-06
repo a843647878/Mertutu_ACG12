@@ -2,10 +2,14 @@ package com.zzhoujay.richtext;
 
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Created by zhou on 2016/12/5.
  * CacheType
  */
+@Retention(RetentionPolicy.SOURCE)
 @IntDef({CacheType.NONE, CacheType.LAYOUT, CacheType.ALL})
 public @interface CacheType {
     int NONE = 0; // 不进行缓存

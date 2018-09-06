@@ -7,6 +7,7 @@ import com.moetutu.acg12.entity.CommentsList;
 import com.moetutu.acg12.entity.LoginInfo;
 import com.moetutu.acg12.entity.PostEntity;
 
+import com.moetutu.acg12.entity.UpAppEntity;
 import com.moetutu.acg12.entity.UserEntity;
 import com.moetutu.acg12.entity.eventmodel.UserEvent;
 import com.moetutu.acg12.http.httpmodel.ResEntity;
@@ -28,18 +29,18 @@ import retrofit2.http.Url;
 public interface ApiService {
 
     //登陆接口
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=userLogin")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=userLogin")
     @FormUrlEncoded
     Call<ResEntity<UserEvent>> login(@Field("token") String token, @Field("userEmail") String userEmail, @Field("userPwd")String userPwd);
 
 
     //获取令牌
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=getToken")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=getToken")
     @FormUrlEncoded
     Call<ResEntity<UserEntity>> getToken(@Field("appID") String appID, @Field("appSecure")String appSecure);
 
     // 按分类获取多篇文章
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=getPostsByCategory")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=getPostsByCategory")
     @FormUrlEncoded
     Call<ResEntity<PostEntity>> getPostsByCategory(@Field("token") String token,
                                       @Field("catId")String catId,
@@ -49,7 +50,7 @@ public interface ApiService {
                                       );
 
     // 获取多篇推荐文章
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=getRecommPosts")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=getRecommPosts")
     @FormUrlEncoded
     Call<ResEntity<PostEntity>> getRecommPosts(@Field("token") String token,
                                                    @Field("unsets")String unsets,
@@ -59,7 +60,7 @@ public interface ApiService {
 
 
     //按 ID 获取单篇文章
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=getPost")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=getPost")
     @FormUrlEncoded
     Call<ResEntity<PostEntity>> getPost (@Field("token") String token,
                                          @Field("postId")int postId,
@@ -67,7 +68,7 @@ public interface ApiService {
 
 
     //获取多条评论
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=getComments")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=getComments")
     @FormUrlEncoded
     Call<ResEntity<CommentsList>> getComments (@Field("token") String token,
                                                @Field("postId")int postId,
@@ -77,12 +78,16 @@ public interface ApiService {
 
 
     //新建一条评论评论
-    @POST("admin-ajax.php?action=3a83abb58190771625479890b3035831&type=newComment ")
+    @POST("admin-ajax.php?action=c0bb4c20c6136e2ea6bb77713fff6675&type=newComment")
     @FormUrlEncoded
     Call<ResEntity<CommentDateEntity>> newComment  (@Field("token") String token,
                                                     @Field("postId")int postId,
                                                     @Field("parentId")int parentId,
                                                     @Field("content")String content);
+
+    //获取更新接口
+    @POST(" ")
+    Call<ResEntity<UpAppEntity>> GetVersion();
 
 
 }
